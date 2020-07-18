@@ -1,0 +1,5 @@
+could,vmd,0
+might,vmd,0,n1
+ought,vmd,0,pi
+would,vmd,0
+should,vmd,0

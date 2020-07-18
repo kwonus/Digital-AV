@@ -1,0 +1,3 @@
+doth,vdz,0
+doeth,vdz,0
+chemosh,np1,32768,np1

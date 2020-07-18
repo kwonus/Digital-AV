@@ -1,0 +1,5 @@
+one,pi,0,crd,pig
+none,pi,0,pix,np1
+ought,pi,0,vmd
+somebody,pi,0
+something,pi,0

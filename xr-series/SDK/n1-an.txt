@@ -1,0 +1,4 @@
+home,n1-an,0,av-an
+inside,n1-an,0
+outside,n1-an,0
+straightway,n1-an,0,av,av-an

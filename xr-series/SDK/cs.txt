@@ -1,0 +1,17 @@
+an,cs,0,dt,zz,cc
+if,cs,0
+the,cs,0,dt,j,pno32,av
+lest,cs,0
+than,cs,0,av
+then,cs,0,av,np1,j
+least,cs,0,av-ds,ds
+while,cs,0,n1
+albeit,cs,0
+though,cs,0,j,c-acp
+unless,cs,0
+whiles,cs,0
+whilst,cs,0
+howbeit,cs,0,a-acp,j
+whereas,cs,0
+whether,cs,0,c-crq,j
+although,cs,0

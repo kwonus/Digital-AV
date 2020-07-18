@@ -1,0 +1,6 @@
+can,vmb,0
+may,vmb,0
+must,vmb,0
+will,vmb,0,n1
+shall,vmb,0
+shalt,vmb,0,vm2

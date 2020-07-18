@@ -1,0 +1,2 @@
+pleasure,np1-n,0,n1
+reproach,np1-n,0,n1,vvi,vvb

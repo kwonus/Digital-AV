@@ -1,0 +1,4 @@
+ben,np1,32769
+dan,np1,32769,n1,uh,np1
+lod,np1,32768
+resen,np1,32776

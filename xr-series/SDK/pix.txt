@@ -1,0 +1,4 @@
+none,pix,0,pi,np1
+naught,pix,0
+nought,pix,0
+nothing,pix,0

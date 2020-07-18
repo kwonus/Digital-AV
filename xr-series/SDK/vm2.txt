@@ -1,0 +1,4 @@
+wilt,vm2,0,vmd2
+canst,vm2,0
+shalt,vm2,0,vmb
+mayest,vm2,0

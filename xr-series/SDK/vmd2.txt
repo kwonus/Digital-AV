@@ -1,0 +1,6 @@
+wilt,vmd2,0,vm2
+couldest,vmd2,0
+mightest,vmd2,0
+oughtest,vmd2,0
+wouldest,vmd2,0
+shouldest,vmd2,0

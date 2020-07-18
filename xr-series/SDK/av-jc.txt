@@ -1,0 +1,11 @@
+lower,av-jc,0,jc,vvb
+worse,av-jc,0,jc,n1
+better,av-jc,0,jc,j,vvi
+closer,av-jc,0
+easier,av-jc,0,jc
+harder,av-jc,0,jc
+higher,av-jc,0,jc
+longer,av-jc,0,jc
+louder,av-jc,0
+nearer,av-jc,0
+further,av-jc,0,av-j,jc

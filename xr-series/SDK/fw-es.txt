@@ -1,0 +1,3 @@
+pe,fw-es,0
+socho,np1,8
+shocho,np1,0

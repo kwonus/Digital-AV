@@ -1,0 +1,4 @@
+an,cc,0,dt,cs,zz
+or,cc,0
+and,cc,0,np1,j,av-j
+nor,cc,0,ccx

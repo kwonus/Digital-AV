@@ -1,0 +1,4 @@
+elect,n-vvn,0,j-vvn,ng1,vvi,j,vvb
+slain,n-vvn,0,vvn,j-vvn,n1
+beloved,n-vvn,0,vvn,j-vvn,ng1-vvn
+oppressed,n-vvn,0,vvn,vvd,j-vvn

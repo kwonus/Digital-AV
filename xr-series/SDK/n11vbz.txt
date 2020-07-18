@@ -1,0 +1,5 @@
+man,n11vbz,0,n1,ng1
+lord,n11vbz,0,n1,ng1,vvn,n2
+shoe,n11vbz,0,n1
+work,n11vbz,0,n1,vvi,vvb
+vulture,n11vbz,0,n1

@@ -1,0 +1,5 @@
+unclean,j-u,0,j
+unstable,j-u,0,j
+unblameable,j-u,0
+unrighteous,j-u,0,j
+unchangeable,j-u,0

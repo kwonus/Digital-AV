@@ -1,0 +1,3 @@
+rather,av-c,0,av
+sooner,av-c,0
+oftener,av-c,0

@@ -1,0 +1,7 @@
+roman,np1,32769
+hebrew,njp,0
+italian,njp,0
+cyrenian,njp,0
+ephesian,njp,0
+christian,np1,1
+philistine,njp,0

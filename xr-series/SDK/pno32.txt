@@ -1,0 +1,4 @@
+am,pno32,0,vbm,vbr,dt
+the,pno32,0,dt,j,cs,av
+them,pno32,0,n1,av,pns32,dt,n2
+they,pno32,0,pns32,j

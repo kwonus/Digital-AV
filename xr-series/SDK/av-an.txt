@@ -1,0 +1,4 @@
+home,av-an,0,n1-an
+yesterday,av-an,0
+straightway,av-an,0,av,n1-an
+yesternight,av-an,0

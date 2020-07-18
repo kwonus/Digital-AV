@@ -1,0 +1,8 @@
+a,dt,0,av,j,pp-f,sy
+ai,np1,32768,fw-fr,n1
+am,dt,0,vbm,vbr,pno32
+an,dt,0,cs,zz,cc
+ye,dt,0,pn22,j
+the,dt,0,j,pno32,cs,av
+mine,dt,0,po11,png11,n1
+them,dt,0,pno32,n1,av,pns32,n2

@@ -1,0 +1,8 @@
+men,ng2,0,n2,np1
+goats,ng2,0,n2
+women,ng2,0,n2
+cubits,ng2,0,n2
+workmen,ng2,0,n2
+brethren,ng2,0,n2,n1
+children,ng2,0,n2,np1
+officers,ng2,0,n2

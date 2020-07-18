@@ -1,0 +1,10 @@
+all,av-d,0,d,n1,n2
+any,av-d,0,d,dg,n1
+both,av-d,0,d
+many,av-d,0,d,n1
+much,av-d,0,d
+either,av-d,0,d
+enough,av-d,0,d
+yonder,av-d,0,d
+malluch,np1,32769,n1
+neither,av-d,0,dx,av-dx,d

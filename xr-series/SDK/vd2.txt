@@ -1,0 +1,2 @@
+dost,vd2,0
+doest,vd2,0

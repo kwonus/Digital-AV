@@ -1,0 +1,14 @@
+goods,n2-j,0
+nobles,n2-j,0
+abjects,n2-j,0
+inwards,n2-j,0,n2
+ancients,n2-j,0
+dainties,n2-j,0
+gentiles,n2-j,0,np1,n2
+lentiles,n2-j,0
+mighties,n2-j,0
+worthies,n2-j,0
+delicates,n2-j,0
+ammonitess,n2-j,0
+canaanitess,n2-j,0
+jezreelitess,n2-j,0

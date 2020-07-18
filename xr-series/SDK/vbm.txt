@@ -1,0 +1,1 @@
+am,vbm,0,vbr,pno32,dt

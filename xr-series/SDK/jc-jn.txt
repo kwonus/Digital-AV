@@ -1,0 +1,4 @@
+elder,jc-jn,0,n-jn,jc,j-jn
+deeper,jc-jn,0
+whiter,jc-jn,0
+blacker,jc-jn,0

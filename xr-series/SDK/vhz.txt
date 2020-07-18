@@ -1,0 +1,4 @@
+hath,vhz,0
+ahimaaz,np1,32769,np1,n1
+ahuzzath,vhz,0
+mithredath,np1,32769,n1

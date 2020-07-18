@@ -1,0 +1,2 @@
+no,np1,32768,dx,av-dx,uh-dx,n1,zz
+not,xx,0,av,j,av-j

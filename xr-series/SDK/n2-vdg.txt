@@ -1,0 +1,2 @@
+doings,n2-vdg,0
+outgoings,n2-vdg,0,n2-vvg

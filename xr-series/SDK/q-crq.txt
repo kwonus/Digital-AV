@@ -1,0 +1,16 @@
+how,q-crq,0,c-crq,uh-crq,np1,j
+who,q-crq,0,r-crq,j
+why,q-crq,0,c-crq,uh-crq
+what,q-crq,0,r-crq
+when,q-crq,0,c-crq,r-crq,j
+whom,q-crq,0,ro-crq,r-crq,qo-crq,j
+where,q-crq,0,c-crq
+which,q-crq,0,r-crq,j,av-j,np1
+whose,q-crq,0,rg-crq,r-crq
+whence,q-crq,0,c-crq
+wherein,q-crq,0,c-crq
+whereto,q-crq,0,c-crq
+whither,q-crq,0,c-crq
+wherefore,q-crq,0,c-crq
+whatsoever,q-crq,0,r-crq,j
+whensoever,q-crq,0,c-crq

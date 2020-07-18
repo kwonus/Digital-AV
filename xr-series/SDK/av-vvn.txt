@@ -1,0 +1,4 @@
+drunken,av-vvn,0,j
+assuredly,av-vvn,0
+exceeding,av-vvn,0,j-vvg,av-vvg,vvg
+feignedly,av-vvn,0

@@ -1,0 +1,156 @@
+00000094 00000007 0D00 148	dt	a man, the man	7000	@	7	81505	a, am, an, ye, the
+00000036 000000AA 0F00 54	av	soon	37500	@	170	128905	a, at, do, it, up
+0000000A 000003EC 0A00 10	j	beautiful	49500	@	1004	272437	a, i, as, by, he
+80004206 00000002 0000 2147500550	pp-f	of	29000	@	2	43302	a, of
+00000279 00000002 0D00 633	sy	#, $, %	50	@	2	17684	a, i
+01074F9C 00000001 0060 17256348	pns11	I	14500	@	1	9355	i
+01073F9C 00000002 00A0 17252252	pno11	me	5000	@	2	14104	i, me
+000002A8 00000011 0800 680	uh	oh!	3000	@	17	4857	o, ah, ha, ho, lo
+000001DC 00000C52 4010 476	n1	child	14000	@	3154	336390	o, do, he, it, lo
+00003A1C 00000A51 4010 14876	np1	Paul	27	@	2641	95455	ai, ar, ed, er, ir
+0000584D 00000001 0020 22605	vbm	am	1200	@	1	972	am
+00005852 00000003 0020 22610	vbr	@	am:6, are:62, were:1392	@	3	4053	am, are, were
+01073FDD 00000004 80A0 17252317	pno32	them	4700	@	4	65081	am, the, them, they
+00000073 00000011 0C00 115	cs	if	6500	@	17	72702	an, if, the, lest, than
+00000063 00000004 0C00 99	cc	and, or	42500	@	4	56134	an, or, and, nor
+40018470 0000000F 0C00 1073841264	c-acp	since I last saw him	14000	@	15	13566	as, ere, for, once, save
+40080470 00000030 0400 1074267248	p-acp	to my brother	57000	@	48	59587	as, at, by, in, to
+40008470 00000020 0F00 1073775728	a-acp	I have not seen him since	9500	@	32	73216	as, by, in, of, to
+800006CA 0000010B 0F00 2147485386	av-j	quickly	15500	@	267	111514	as, he, in, and, but
+00005849 00000002 0020 22601	vbi	be	5600	@	2	7634	be, been
+00005842 00000001 0020 22594	vbb	are, be	3300	@	1	7165	be
+00005882 00000001 0020 22658	vdb	do	1600	@	1	1524	do
+00005889 00000002 0020 22665	vdi	to do	1000	@	2	2247	do, done
+00005AC9 000003E7 0020 23241	vvi	to know	36000	@	999	97029	go, add, ask, bar, beg
+00005AC2 000002CD 0020 23234	vvb	they live	17000	@	717	75974	go, add, arm, ask, bid
+01074FDC 00000002 0060 17256412	pns31	he, she	21000	@	2	11787	he, she
+0000585A 00000002 7020 22618	vbz	is	6900	@	2	7342	is, baketh
+00083BDC 00000002 0020 539612	pn31	it	10500	@	2	14817	it, him
+00083F9C 00000002 0028 540572	po11	my	6700	@	2	5393	my, mine
+81018470 00000003 0E00 2164360304	pc-acp	todo	19000	@	3	13782	to, their, there
+00005ACE 0000040C 0020 23246	vvn	known	26200	@	1036	60451	up, bid, cut, end, fed
+01073F9D 00000001 80A0 17252253	pno12	us	1100	@	1	1606	us
+000001DD 000005DF 8010 477	n2	children	35000	@	1503	33269	us, all, men, was, acts
+01074F9D 00000002 8060 17256349	pns12	we	2200	@	2	4471	us, we
+00083F9D 00000002 8028 540573	po12	our	1400	@	2	4074	we, our
+00083BBD 00000002 8020 539581	pn22	you	9000	@	2	8163	ye, you
+00000004 00000018 0D00 4	d	that man, much money	29500	@	24	10504	all, any, aul, few, own
+800006C4 00000009 0F00 2147485380	av-d	more slowly	2000	@	9	9105	all, any, both, many, much
+00000087 00000001 0D00 135	dg	use the latter's	7	@	1	1295	any
+000B0BB2 00000001 6020 723890	vb2r	@	art:65	@	1	618	art
+000740FC 00000055 4018 475388	npg1	Paul's letter	2600	@	85	7864	asa, eli, job, lot, adam
+00005AC4 0000031F 0020 23236	vvd	knew	33000	@	799	31632	ate, bit, cut, fed, gat
+000038FC 0000009A 4018 14588	ng1	child's	2500	@	154	27716	bed, cow, day, dog, eye
+80318470 00000001 0C00 2150728816	cc-acp	but	6500	@	1	4169	but
+000059A2 00000006 0020 22946	vmb	can, may, shall, will	8300	@	6	2283	can, may, must, will, shall
+40055ACE 00000088 0A00 1074092750	j-vvn	changed circumstances	2500	@	136	3618	cut, fed, hid, set, aged
+4000294E 00000042 0A00 1073752398	j-jn	the sky is blue	7000	@	66	3352	dew, due, ill, red, blew
+00005884 00000001 0020 22660	vdd	did	3100	@	1	1104	did
+00005ADA 0000028F 7020 23258	vvz	knows	7200	@	655	1385	die, eyes, lies, sins, teth
+4000394E 00000024 0010 1073756494	n-jn	a deep blue	2300	@	36	2560	due, ill, red, blue, calm
+00005904 00000002 0020 22788	vhd	had	6000	@	2	2102	had, miphkad
+0000590E 00000002 0020 22798	vhn	had	220	@	2	6201	had, have
+00005902 00000002 0020 22786	vhb	have	2500	@	2	6201	had, have
+01073FDC 00000002 00A0 17252316	pno31	him, her	12000	@	2	12746	her, him
+00083FDC 00000003 0028 540636	po31	its, her, his	19000	@	3	13023	her, his, its
+01071FDC 00000002 0028 17244124	png31	a cousin of his	200	@	2	8695	his, hers
+40088E51 00000010 C000 1074302545	q-crq	Who? What? How?	3000	@	16	3277	how, who, why, what, when
+40018E51 00000016 0C00 1073843793	c-crq	when she saw	6500	@	22	2263	how, why, when, where, whence
+81540E51 00000002 0800 2169769553	uh-crq	Why, there were but four	500	@	2	2263	how, why
+8000D94E 00000014 0F00 2147539278	av-jn	duly, right honourable	1100	@	20	1318	ill, deep, evil, half, other
+1DCE585A 00000005 4010 500062298	n11vbz	@	man:218, lord:946, shoe:1221, work:1424, vulture:7430	@	5	10880	man, lord, shoe, work, vulture
+000038FD 00000008 8018 14589	ng2	children's	350	@	8	1870	men, goats, women, cubits, workmen
+80005518 00000001 0800 2147505432	uh-x	@	nay:225	@	1	140	nay
+00000C78 00000001 0C00 3192	ccx	nor	1200	@	1	886	nor
+00000318 00000001 0A00 792	xx	not	7800	@	1	6728	not
+00000E44 00000026 0B00 3652	crd	2, two, ii	5700	@	38	5004	one, six, ten, two, five
+00000209 00000005 0020 521	pi	one, something	2200	@	5	2096	one, none, ought, somebody, something
+00004127 00000001 0028 16679	pig	the pairings of one's nail	35	@	1	2096	one
+00083FBC 00000002 8028 540604	po21	thy	1650	@	2	4891	thy, thine
+01074FBC 00000002 8060 17256380	pns21	thou	2000	@	2	9100	tou, thou
+000B0893 00000001 0020 723091	vbds	@	was:332	@	1	4741	was
+40090E51 00000009 0020 1074335313	r-crq	the girl who ran	10000	@	9	1014	who, what, when, whom, which
+8000550E 00000004 0800 2147505422	uh-n	Soldiers, adieu!	200	@	4	772	woe, amen, peace, farewell
+0000584E 00000001 0020 22606	vbn	been	1800	@	1	469	been
+00000153 0000002A 0A00 339	js	finest clothes	1500	@	42	2235	best, worst, basest, eldest, finest
+8000D953 00000002 0F00 2147539283	av-js	in you it best lies	150	@	2	2235	best, fastest
+0000588E 00000001 0020 22670	vdn	done	700	@	1	723	done
+0000589D 00000002 6020 22685	vd2	dost	150	@	2	193	dost, doest
+0000589A 00000002 7020 22682	vdz	does	800	@	2	427	doth, doeth
+8007754E 00000013 8010 2147972430	n2-jn	the subjects of his substitute	600	@	19	175	dues, deeps, evils, males, aliens
+80EEDAC7 00000039 8010 2163137223	n2-vvg	the desperate languishings	200	@	57	2685	dung, king, goings, priest, saying
+0000591D 00000001 6020 22813	vh2	thou hast	250	@	1	1152	hast
+0000591A 00000002 7020 22810	vhz	has, hath	1700	@	2	2563	hath, ahuzzath
+00005909 00000001 0020 22793	vhi	to have	2400	@	1	4099	have
+8000D82E 00000004 0F00 2147538990	av-an	go home	750	@	4	99	home, yesterday, straightway, yesternight
+8007702E 00000004 4010 2147971118	n1-an	my home	250	@	4	99	home, inside, outside, straightway
+00003E44 0000001C 0B00 15940	ord	fourth	2500	@	28	235	last, next, fifth, first, ninth
+00000083 00000002 0D00 131	dc	less money	850	@	2	1293	less, more
+8000D883 00000002 0F00 2147539075	av-dc	can lesser hide his love	1900	@	2	1293	less, more
+01071F9C 00000001 0028 17244060	png11	a book of mine	220	@	1	760	mine
+8000D893 00000002 0F00 2147539091	av-ds	most often	900	@	2	177	most, least
+00000093 00000003 0D00 147	ds	most money	450	@	3	177	most, least, fewest
+00004138 00000004 0020 16696	pix	none, nothing	1300	@	4	0	none, naught, nought, nothing
+0000413D 00000001 8020 16701	pi2	from wicked ones	50	@	1	0	ones
+01071F9D 00000001 8028 17244061	png12	this land of ours	35	@	1	0	ours
+00005AC7 000001FD 0020 23239	vvg	knowing	13700	@	509	0	sing, dying, going, lying, using
+00000E74 00000001 0C00 3700	cst	I saw that it was hopeless	14000	@	1	0	that
+01073FBC 00000001 80A0 17252284	pno21	thee	1200	@	1	0	thee
+01074FDD 00000002 8060 17256413	pns32	they	5600	@	2	0	them, they
+016113B3 00000001 6020 23139251	vbd2s	@	wast:1381	@	1	0	wast
+800AA036 00000001 0800 2148180022	uh-av	Well!	300	@	1	0	well
+000B0892 00000001 0020 723090	vbdr	@	were:1392	@	1	0	were
+016113B2 00000001 6020 23139250	vbd2r	@	wert:1393	@	1	0	wert
+81278E51 00000002 0000 2166853201	ro-crq	@	whom:1400, whomsoever:11618	@	2	0	whom, whomsoever
+81178E51 00000001 0000 2165804625	qo-crq	@	whom:1400	@	1	0	whom
+000059BD 00000004 6020 22973	vm2	@	wilt:1405, canst:1744, shalt:2749, mayest:4379	@	4	0	wilt, canst, shalt, mayest
+000B349D 00000006 6020 734365	vmd2	couldst, shouldst, wouldst; how gret scorn woldestow han	120	@	6	0	wilt, couldest, mightest, oughtest, wouldest
+00083FBD 00000001 8028 540605	po22	your	3000	@	1	0	your
+00000143 00000035 0A00 323	jc	handsomer	1500	@	53	0	baser, elder, finer, lower, purer
+00005847 00000001 0020 22599	vbg	being	1300	@	1	0	being
+000059A4 00000005 0020 22948	vmd	could, might, should, would	8300	@	5	0	could, might, ought, would, should
+000B109D 00000002 6020 725149	vdd2	didst	55	@	2	0	didst, diddest
+00005ADD 000000D2 6020 23261	vv2	thou knowest	480	@	210	0	diest, goest, liest, owest, seest
+00005887 00000001 0020 22663	vdg	doing	110	@	1	0	doing
+40055AC7 0000008D 0A00 1074092743	j-vvg	loving lord	2000	@	141	0	dying, lying, coping, crying, eating
+80050D4E 00000004 0A00 2147814734	jc-jn	yet she much whiter	70	@	4	0	elder, deeper, whiter, blacker
+40075ACE 00000004 0010 1074223822	n-vvn	the departed	50	@	4	0	elect, slain, beloved, oppressed
+40075AC7 0000007C 0010 1074223815	n-vvg	the running of the deer	1500	@	124	0	going, lying, coming, crying, earing
+80003BAA 0000000E 8010 2147498922	n2-j	give me particulars	200	@	14	0	goods, nobles, abjects, inwards, ancients
+00000150 00000012 0A00 336	jp	Athenian philosopher	800	@	18	0	greek, latin, jewish, median, syrian
+000B209D 00000001 6020 729245	vhd2	thou hadst	35	@	1	0	hadst
+8000D943 0000000B 0F00 2147539267	av-jc	he fared worse	850	@	11	0	lower, worse, better, closer, easier
+800006D8 00000001 0F00 2147485400	av-x	never	1300	@	1	0	never
+00083FDD 00000001 8028 540637	po32	their	3800	@	1	0	their
+01071FBC 00000001 8028 17244092	png21	this is thine	3	@	1	0	thine
+81238E51 00000001 0000 2166591057	rg-crq	@	whose:3098	@	1	0	whose
+01071FBD 00000001 8028 17244093	png22	this is yours	100	@	1	0	yours
+000B589D 00000056 6020 743581	vvd2	knewest	75	@	86	0	badest, camest, gavest, laidst, madest
+000B3458 00000001 0020 734296	vmbx	cannot; won't; I nyl nat lye	700	@	1	0	cannot
+80EED887 00000002 8010 2163136647	n2-vdg	'do' doings	50	@	2	0	doings, outgoings
+80054D4E 00000004 0A00 2147831118	js-jn	reddest hue	200	@	4	0	eldest, stonest, valuest, chiefest
+00E540FD 00000001 8018 15024381	njpg2	The Romans' courage	20	@	1	0	greeks
+00005907 00000001 0020 22791	vhg	having	730	@	1	0	having
+00003950 00000005 0010 14672	njp	a Roman	130	@	5	0	hebrew, italian, cyrenian, ephesian, philistine
+000863DC 00000003 00E0 549852	px31	herself, himself, itself	1300	@	3	0	itself, herself, himself
+0008639C 00000001 00E0 549788	px11	myself	350	@	1	0	myself
+C0E3F54E 00000001 8018 3236164942	ng2-jn	mortals' chiefest enemy	50	@	1	0	others
+800006C3 00000003 0F00 2147485379	av-c	sooner, rather	500	@	3	0	rather, sooner, oftener
+00072A1D 0000001E 8010 469533	njp2	The Romans	1	@	30	0	romans, libyans, lydians, stoicks, syrians
+01071FDD 00000001 8028 17244125	png32	this is theirs	30	@	1	0	theirs
+C0E3F14E 00000001 4018 3236163918	ng1-jn	our sovereign's fall	60	@	1	0	another
+DC7E5ACE 00000001 4018 3699268302	ng1-vvn	the late lamented's house	0	@	1	0	beloved
+00003A1D 00000046 8010 14877	np2	The Nevils are thy subjects	350	@	70	0	danites, hebrews, jambres, levites, oznites
+801B5ACE 00000004 0F00 2149276366	av-vvn	Stands Macbeth thus amazedly	85	@	4	0	drunken, assuredly, exceeding, feignedly
+00000098 00000001 0D00 152	dx	no money	2500	@	1	0	neither
+8000D898 00000001 0F00 2147539096	av-dx	no more	600	@	1	0	neither
+000863BC 00000001 80E0 549820	px21	thyself, yourself	250	@	1	0	thyself
+40000155 00000005 0A00 1073742165	j-u	@	unclean:7396, unstable:9226, unblameable:12103, unrighteous:12109, unchangeable:12364	@	5	0	unclean, unstable, unblameable, unrighteous, unchangeable
+800AA1D0 00000001 0800 2148180432	uh-np	@	bar-jesus:7670	@	1	0	bar-jesus
+00E540FC 00000001 4018 15024380	njpg1	The Roman's courage	8	@	1	0	egyptian
+801B5AC7 00000006 0F00 2149276359	av-vvg	lovingly	250	@	6	0	according, exceeding, sparingly, grudgingly, accordingly
+0008639D 00000001 80E0 549789	px12	ourselves	55	@	1	0	ourselves
+40AB59D5 00000001 0A00 1084971477	j-vvnu	@	unmarried:10636	@	1	0	unmarried
+000863DD 00000001 80E0 549853	px32	themselves	250	@	1	0	themselves
+000863BD 00000001 80E0 549821	px22	yourselves	30	@	1	0	yourselves
+40070E51 00000001 0010 1074204241	n-crq	@	wherewithal:12119	@	1	0	wherewithal

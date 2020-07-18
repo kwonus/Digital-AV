@@ -1,0 +1,9 @@
+who,r-crq,0,q-crq,j
+what,r-crq,0,q-crq
+when,r-crq,0,c-crq,q-crq,j
+whom,r-crq,0,ro-crq,qo-crq,q-crq,j
+which,r-crq,0,q-crq,j,av-j,np1
+whose,r-crq,0,rg-crq,q-crq
+whoso,r-crq,0,np1
+whosoever,r-crq,0,c-crq
+whatsoever,r-crq,0,q-crq,j

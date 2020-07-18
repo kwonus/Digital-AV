@@ -1,0 +1,2 @@
+us,pns12,0,pno12,n2
+we,pns12,0,n1,po12

@@ -1,0 +1,8 @@
+o,fw-fr,0,uh,sy,fw-la
+ai,np1,32768,dt,n1
+toi,np1,32769
+lois,np1,32770
+assir,np1,32768,np1
+hurai,np1,1
+senir,np1,32768
+shenir,np1,32768

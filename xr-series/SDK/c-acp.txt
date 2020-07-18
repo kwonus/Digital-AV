@@ -1,0 +1,15 @@
+as,c-acp,0,p-acp,a-acp,av-j,j
+ere,c-acp,0,p-acp
+for,c-acp,0,p-acp,j,av-j
+once,c-acp,0,a-acp
+save,c-acp,0,vvi,p-acp,vvb,j
+till,c-acp,0,p-acp
+after,c-acp,0,p-acp,a-acp,j
+since,c-acp,0,p-acp,a-acp
+until,c-acp,0,p-acp
+before,c-acp,0,p-acp,a-acp,n1
+except,c-acp,0,j,p-acp
+though,c-acp,0,cs,j
+because,c-acp,0,p-acp,j,av-j
+howsoever,c-acp,0
+notwithstanding,c-acp,0,a-acp,p-acp

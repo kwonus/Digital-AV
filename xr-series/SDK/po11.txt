@@ -1,0 +1,2 @@
+my,po11,0
+mine,po11,0,png11,n1,dt

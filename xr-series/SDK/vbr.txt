@@ -1,0 +1,4 @@
+am,vbr,0,vbm,pno32,dt
+ar,np1,32768
+are,vbr,0
+were,vbr,0,vbdr

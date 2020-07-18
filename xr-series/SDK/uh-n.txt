@@ -1,0 +1,4 @@
+woe,uh-n,0,n1,j
+amen,uh-n,0
+peace,uh-n,0,n1
+farewell,uh-n,0,n1

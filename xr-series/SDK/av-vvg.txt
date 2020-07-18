@@ -1,0 +1,6 @@
+according,av-vvg,0,vvg,p-acp,j
+exceeding,av-vvg,0,j-vvg,vvg,av-vvn
+sparingly,av-vvg,0
+grudgingly,av-vvg,0
+accordingly,av-vvg,0
+exceedingly,av-vvg,0
