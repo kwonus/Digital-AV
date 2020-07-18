@@ -4,7 +4,7 @@ The Digital AV is an software development kit (SDK) for the Authorized Version (
 
 Later the SDK was enhanced with additional features and released again as the 2018 edition.  The 2018 edition more than tripled the number of binary files.  Each file manifests additional features and capabilities.  The most recent release of the 2018 edition was 2020-07-15.
 
-The author has plans to release the 2020 edition of the SDK in the second half of 2020.  This repository provides advanced availability, packed with additional features, and still more binary files.   The first release of the 2020 edition was also on 2020-07-15.
+Older editions can be found in the ./previous folder.
 
 Each revision of the SDK can be found in this repository.  And within each folder, an SDK document can be found that describes the folder contents.
 
