@@ -1,0 +1,214 @@
+
+<html>
+<head>
+    <link rel="icon" href="http://www.AVText.org/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <title>EX1 | AV Text Ministries</title>
+    <style>
+        .vcr { font-family: calibri; font-size: 32px; }
+        .num { font-family: calibri; font-size: 36px; }
+        .inner {
+            display: table;
+            margin: 0 auto;
+            font-size: 36px;
+            text-align: center;
+        }
+        #av {
+            overflow : auto;
+            height   : 100%;
+            width    : 47%;
+            border   : 0px;
+        }
+        #avx {
+            overflow : auto;
+            height   : 100%;
+            width    : 47%;
+            border   : 0px;
+        }
+    </style>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            GoGet();
+        });
+        /*    	window.addEventListener('message', function(event) {
+                    if (~event.origin.indexOf('test1.html')) {
+                        $("#av").scrollTop = event.data;
+                    }
+                });*/
+        var urlAVX = "http://198.12.126.79:2020/";
+        var urlAV = "http://198.12.126.79:2121/";
+
+        var book="john";
+        var chapter=1;
+        var maxChapter=51;
+
+        function GoGet() {
+            var chap = document.getElementById('chapter');
+            chap.textContent = chapter.toString();
+            var cmax = document.getElementById('CMAX');
+            var cmin = document.getElementById('CMIN');
+
+            if (maxChapter != 1) {
+                cmin.textContent = "[1]";
+                cmax.textContent = "[" + maxChapter.toString() + "]";
+            } else {
+                cmin.textContent = " ";
+                cmax.textContent = " ";
+            }
+
+            $.ajax({
+                url: urlAVX + book + "/" + chapter.toString(),
+                cache: false,
+                success: function(result) {
+                    var idx = result.indexOf("<span");
+                    if (idx >= 0) {
+                        result = result.substring(idx);
+                        idx = result.indexOf("</body></html>")
+                        if (idx > 0)
+                            result = result.substring(0, idx);
+                        $("#avx").html = result;
+                    }
+                }
+            });
+
+            $.ajax({
+                url: urlAV + book + "/" + chapter.toString(),
+                cache: false,
+                success: function(result) {
+                    var idx = result.indexOf("<span");
+                    if (idx >= 0) {
+                        result = result.substring(idx);
+                        idx = result.indexOf("</body></html>")
+                        if (idx > 0)
+                            result = result.substring(0, idx);
+                        $("#avx").html = result;
+                    }
+                }
+            });
+        }
+
+        function BookChange() {
+            var combo = document.getElementById('ComboBoxBook');
+            var parts = combo.value.split(":")
+            book = parts[0];
+            var ch = parts[1];
+            chapter = 1;
+            maxChapter = parseInt(ch);
+            GoGet();
+        }
+        function f() {
+            if (chapter < maxChapter) {
+                ++chapter;
+                GoGet();
+            }
+        }
+        function ff() {
+            if (chapter < maxChapter) {
+                chapter = maxChapter;
+                GoGet();
+            }
+        }
+        function r() {
+            if (chapter > 1) {
+                --chapter;
+                GoGet();
+            }
+        }
+        function fr() {
+            if (chapter > 1) {
+                chapter = 1;
+                GoGet();
+            }
+        }
+
+    </script>
+</head>
+<body>
+<div id="avxcontent">
+    <div class="inner">
+        <select name="ComboBoxBook" class="inner" id="ComboBoxBook" size="1"
+                onchange="BookChange()">
+            <option value="genesis:50">Genesis</option>
+            <option value="exodus:40">Exodus</option>
+            <option value="leviticus:27">Leviticus</option>
+            <option value="numbers:36">Numbers</option>
+            <option value="deuteronomy:34">Deuteronomy</option>
+            <option value="joshua:24">Joshua</option>
+            <option value="judges:21">Judges</option>
+            <option value="ruth:4">Ruth</option>
+            <option value="1samuel:31">1 Samuel</option>
+            <option value="2samuel:24">2 Samuel</option>
+            <option value="1kings:22">1 Kings</option>
+            <option value="2kings:25">2 Kings</option>
+            <option value="1chronicles:29">1 Chronicles</option>
+            <option value="2chronicles:36">2 Chronicles</option>
+            <option value="ezra:10">Ezra</option>
+            <option value="nehemiah:13">Nehemiah</option>
+            <option value="esther:10">Esther</option>
+            <option value="job:42">Job</option>
+            <option value="psalms:150">Psalms</option>
+            <option value="proverbs:31">Proverbs</option>
+            <option value="ecclesiastes:12">Ecclesiastes</option>
+            <option value="sos:8">Song of Solomon</option>
+            <option value="isaiah:66">Isaiah</option>
+            <option value="jeremiah:52">Jeremiah</option>
+            <option value="lamentations:5">Lamentations</option>
+            <option value="ezekiel:48">Ezekiel</option>
+            <option value="daniel:12">Daniel</option>
+            <option value="hosea:14">Hosea</option>
+            <option value="joel:3">Joel</option>
+            <option value="amos:9">Amos</option>
+            <option value="obadiah:1">Obadiah</option>
+            <option value="jonah:4">Jonah</option>
+            <option value="micah:7">Micah</option>
+            <option value="nahum:3">Nahum</option>
+            <option value="habakkuk:3">Habakkuk</option>
+            <option value="zephaniah:3">Zephaniah</option>
+            <option value="haggai:2">Haggai</option>
+            <option value="zechariah:14">Zechariah</option>
+            <option value="malachi:4">Malachi</option>
+            <option value="matthew:28">Matthew</option>
+            <option value="mark:16">Mark</option>
+            <option value="luke:24">Luke</option>
+            <option selected="selected" value="john:21">John</option>
+            <option value="acts:28">Acts</option>
+            <option value="romans:16">Romans</option>
+            <option value="1corinthians:16">1 Corinthians</option>
+            <option value="2corinthians:13">2 Corinthians</option>
+            <option value="galatians:6">Galatians</option>
+            <option value="ephesians:6">Ephesians</option>
+            <option value="philippians:4">Philippians</option>
+            <option value="colossians:4">Colossians</option>
+            <option value="1thessalonians:5">1 Thessalonians</option>
+            <option value="2thessalonians:3">2 Thessalonians</option>
+            <option value="1timothy:6">1 Timothy</option>
+            <option value="2timothy:4">2 Timothy</option>
+            <option value="titus:3">Titus</option>
+            <option value="philemon:1">Philemon</option>
+            <option value="hebrews:13">Hebrews</option>
+            <option value="james:5">James</option>
+            <option value="1peter:5">1 Peter</option>
+            <option value="2peter:3">2 Peter</option>
+            <option value="1john:5">1 John</option>
+            <option value="2john:1">2 John</option>
+            <option value="3john:1">3 John</option>
+            <option value="jude:1">Jude</option>
+            <option value="revelation:22">Revelation</option>
+        </select>
+        <span class="vcr">
+            <a id="CMIN" onclick="fr();">[1]</a>
+            <a onclick="r();">&lt;&lt;</a>
+            <a id="chapter" class="num">1</a>
+            <a onclick="f();">&gt;&gt;</a>
+            <a id="CMAX" onclick="ff();">[51]</a>
+        </span>
+    </div>
+    <div id="avx" align="left">
+    </div>
+    <div id="av" align="right">
+    </div>
+    </span>
+</div>
+</body>
+</html>

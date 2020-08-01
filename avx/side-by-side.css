@@ -1,0 +1,53 @@
+
+        .vcr { font-family: calibri; font-size: 32px; }
+        .num { font-family: calibri; font-size: 36px; }
+        .inner {
+            display: table;
+            margin: 0 auto;
+            font-size: 36px;
+            text-align: center;
+        }
+        #av {
+            left     : 0;
+            font-family: calibri;
+            font-size: medium;
+            height: 100%;
+            width: 50%;
+        }
+        #avx {
+            left       : 50%;
+            font-family: calibri;
+            font-size: medium;
+            height: 100%;
+            width: 50%;
+        }
+		/* DivTable.com */
+		.divTable{
+			display: table;
+			width: 100%;
+		}
+		.divTableRow {
+			display: table-row;
+		}
+		.divTableHeading {
+			background-color: #EEE;
+			display: table-header-group;
+		}
+		.divTableCell, .divTableHead {
+			display: table-cell;
+			padding: 3px 10px;
+		}
+		.divTableHeading {
+			background-color: #EEE;
+			display: table-header-group;
+			font-weight: bold;
+		}
+		.divTableFoot {
+			background-color: #EEE;
+			display: table-footer-group;
+			font-weight: bold;
+		}
+		.divTableBody {
+			display: table-row-group;
+		}
+

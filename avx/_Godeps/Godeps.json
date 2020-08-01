@@ -1,0 +1,8 @@
+{
+	"ImportPath": "avtext",
+	"GoVersion": "go1.10",
+	"GodepVersion": "v79",
+	"Packages": [
+		"./..."
+	]
+}
