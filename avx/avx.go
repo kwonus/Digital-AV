@@ -1206,22 +1206,24 @@ func check(e error) {
 }
 func main() { // Arguments SDK_DIR  CSS_DIR
 	port := os.Getenv("PORT")
+	sdk := os.Getenv("AVSDK")
 
 	if port == "" {
 		port = ":2020"
 	} else {
 		port = ":" + port
 	}
-	if len(os.Args) >= 2 {
-		sdkDir = os.Args[1]
+	sdkDir = "."
+	cssDir = ""
+	if sdk != "" {
+		sdk = sdkDir
 		cssDir = sdkDir
-		port = ":" + sdkDir
-	} else {
-		sdkDir = "."
-		cssDir = ""
 	}
-	if len(os.Args) >= 3 {
-		cssDir = os.Args[2]
+	if len(os.Args) >= 2 {
+		port = ":" + os.Args[1]
+		if len(os.Args) >= 3 {
+			cssDir = os.Args[2]
+		}
 	}
 	fbk, err := os.Open(sdkDir + "/AV-Book.ix8")
 	check(err)
