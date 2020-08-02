@@ -33,13 +33,15 @@ const (
 	MODEjesus         = 0x01
 )
 const (
-	EndBit            = 0x1 // (0b0001____)
-	VerseTransition   = 0x3 // (0b0010____)
-	BeginingOfVerse   = 0x2 // (0b0010____)
-	EndOfVerse        = 0x3 // (0b0011____)
-	ChapterTransition = 0x7 // (0b0110____)
-	BeginingOfChapter = 0x6 // (0b0110____)
-	EndOfChapter      = 0x7 // (0b0111____)
+	EndBit            = 0x10 // (0b0001____)
+	VerseTransition   = 0x30 // (0b0010____)
+	BeginingOfVerse   = 0x20 // (0b0010____)
+	EndOfVerse        = 0x30 // (0b0011____)
+	ChapterTransition = 0x70 // (0b0110____)
+	BeginingOfChapter = 0x60 // (0b0110____)
+	EndOfChapter      = 0x70 // (0b0111____)
+	BeginingOfBook    = 0xE0 // (0b1110____)
+	EndOfBook         = 0xF0 // (0b1111____)
 )
 const (
 	Version = "#I611"
@@ -1075,9 +1077,18 @@ func getWord(text bibleText, modern bool, bk book, html bool, md bool, inc bool,
 			word = strings.ToUpper(word)
 		}
 		if caps == 0x8000 {
-			first := strings.ToUpper(word[0:1])
-			right := word[1:]
-			word = first + right
+			first := ""
+			if len(word) > 0 {
+				first = strings.ToUpper(word[0:1])
+			} else {
+				first = ""
+			}
+			if len(word) > 1 {
+				right := word[1:]
+				word = first + right
+			} else {
+				word = first
+			}
 		}
 	}
 	if html {
@@ -1328,12 +1339,10 @@ func main() { // Arguments PORT  CSS_DIR
 			pos := readUInt32(flx) // read and ignore POS segments
 			fivebitencoding.DecodePOS(pos)
 		}
-
 		if diff {
 			decor[key] = decoratePN(word, modern)
 			decorMD[key] = decorateMD(word, modern)
 		}
-		key++
 	}
 done:
 	maxKey = key - 1
