@@ -879,7 +879,17 @@ func getBooks(index *os.File) []book {
 		x1, err1 := index.Read(bkname)
 		check(err1)
 		if x1 == 16 {
-			bible[i].name = strings.TrimSpace(string(bkname[:]))
+			c := 0
+			for c = 0; c < 16; c++ {
+				if bkname[c] == byte(0) {
+					break
+				}
+			}
+			if c < 16 {
+				bible[i].name = strings.TrimSpace(string(bkname[:c]))
+			} else {
+				bible[i].name = strings.TrimSpace(string(bkname[:]))
+			}
 		} else {
 			bible[i].name = ""
 		}
@@ -887,7 +897,19 @@ func getBooks(index *os.File) []book {
 		x2, err2 := index.Read(bkabbr)
 		check(err2)
 		if x2 == 12 {
-			bible[i].abbreviations = strings.Split(strings.TrimSpace(string(bkabbr[:])), ",")
+			c := 0
+			for c = 0; c < 12; c++ {
+				if bkabbr[c] == byte(0) {
+					break
+				}
+			}
+			abbr := ""
+			if c < 12 {
+				abbr = strings.TrimSpace(string(bkabbr[:c]))
+			} else {
+				abbr = strings.TrimSpace(string(bkabbr[:]))
+			}
+			bible[i].abbreviations = strings.Split(strings.TrimSpace(abbr), ",")
 		} else {
 			bible[i].abbreviations = make([]string, 0, 0)
 		}
@@ -1204,24 +1226,26 @@ func check(e error) {
 		panic(e)
 	}
 }
-func main() { // Arguments SDK_DIR  CSS_DIR
+func main() { // Arguments PORT  CSS_DIR
 	port := os.Getenv("PORT")
+	sdk := os.Getenv("AVSDK")
 
 	if port == "" {
 		port = ":2020"
 	} else {
 		port = ":" + port
 	}
-	if len(os.Args) >= 2 {
-		sdkDir = os.Args[1]
+	sdkDir = "."
+	cssDir = ""
+	if sdk != "" {
+		sdk = sdkDir
 		cssDir = sdkDir
-		port = ":" + sdkDir
-	} else {
-		sdkDir = "."
-		cssDir = ""
 	}
-	if len(os.Args) >= 3 {
-		cssDir = os.Args[2]
+	if len(os.Args) >= 2 {
+		port = ":" + os.Args[1]
+		if len(os.Args) >= 3 {
+			cssDir = os.Args[2]
+		}
 	}
 	fbk, err := os.Open(sdkDir + "/AV-Book.ix8")
 	check(err)
