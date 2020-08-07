@@ -6,7 +6,7 @@
 8000D883 0F00 0002 0000050D av-dc	less	more
 8000D893 0F00 0002 000000B1 av-ds	most	least
 8000D898 0F00 0001 00000000 av-dx	neither
-800006CA 0F00 010B 0001B39A av-j	as	he	in	and	but
+800006CA 0F00 00FE 000022DF av-j	far	low	dead	even	fain
 8000D943 0F00 000B 00000000 av-jc	lower	worse	better	closer	easier
 8000D94E 0F00 0014 00000526 av-jn	ill	deep	evil	half	other
 8000D953 0F00 0002 000008BB av-js	best	fastest
@@ -27,7 +27,7 @@
 00000093 0D00 0003 000000B1 ds	most	least	fewest
 00000094 0D00 0007 00013E61 dt	a	am	an	ye	the
 00000098 0D00 0001 00000000 dx	neither
-0000000A 0A00 03ED 00042835 j	a	i	as	by	he
+0000000A 0A00 03BE 00006616 j	apt	bad	bay	dim	dry
 00000143 0A00 0035 00000000 jc	baser	elder	finer	lower	purer
 80050D4E 0A00 0004 00000000 jc-jn	elder	deeper	whiter	blacker
 4000294E 0A00 0042 00000D18 j-jn	dew	due	ill	red	blew
