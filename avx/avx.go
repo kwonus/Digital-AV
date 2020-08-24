@@ -43,9 +43,6 @@ const (
 	BeginingOfBook    = 0xE0 // (0b1110____)
 	EndOfBook         = 0xF0 // (0b1111____)
 )
-const (
-	Version = "#I611"
-)
 
 type book struct {
 	bookNum       byte
@@ -164,9 +161,11 @@ func decoratePN(original string, modern string) string {
 	endi := len(original) - 2
 
 	if (len(modern) >= 3) && (modern[0:3] == "you") && original[0] == 't' {
-		decoration = "<sub>t</sub>"
+		decoration = "<sub>1</sub>"
+	} else if original == "you" || original == "ye" {
+		decoration = "<sub>2</sub>"
 	} else if original == "art" || original == "wilt" {
-		decoration = "<sub>t</sub>"
+		decoration = "<sub>1</sub>"
 	} else if endi > 0 {
 		end := original[endi:]
 		if end == "th" {
@@ -329,7 +328,7 @@ func validate(w http.ResponseWriter, r *http.Request) {
 func slash(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	io.WriteString(w,
-		"<h2>This is the AVX experimental bible by AV Text Ministries.</h2><br><h3>Version: 2019.JB21</h3><br>"+
+		"<h2>This is the AVX experimental bible by AV Text Ministries.</h2><br><h3>Version: Z-Series-0.8</h3><br>"+
 			"See: <p><a href=\"https://avbible.net/news.html\">https://avbible.net/news.html</a>"+
 			" for information about this exciting new development!<br></p>")
 }
@@ -639,6 +638,7 @@ func showBook(book string, chapter byte, verse byte, w http.ResponseWriter, r *h
 	if cn > cm {
 		cn = cm
 	}
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	preamble := ""
 	if avx {
 		preamble = getScriptedHeaderAndBodyPrefix("avx", book, c, cp, cn, cm, current.bookNum, session)
