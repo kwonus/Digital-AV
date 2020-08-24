@@ -33,16 +33,15 @@ const (
 	MODEjesus         = 0x01
 )
 const (
-	EndBit            = 0x1 // (0b0001____)
-	VerseTransition   = 0x3 // (0b0010____)
-	BeginingOfVerse   = 0x2 // (0b0010____)
-	EndOfVerse        = 0x3 // (0b0011____)
-	ChapterTransition = 0x7 // (0b0110____)
-	BeginingOfChapter = 0x6 // (0b0110____)
-	EndOfChapter      = 0x7 // (0b0111____)
-)
-const (
-	Version = "#I611"
+	EndBit            = 0x10 // (0b0001____)
+	VerseTransition   = 0x30 // (0b0010____)
+	BeginingOfVerse   = 0x20 // (0b0010____)
+	EndOfVerse        = 0x30 // (0b0011____)
+	ChapterTransition = 0x70 // (0b0110____)
+	BeginingOfChapter = 0x60 // (0b0110____)
+	EndOfChapter      = 0x70 // (0b0111____)
+	BeginingOfBook    = 0xE0 // (0b1110____)
+	EndOfBook         = 0xF0 // (0b1111____)
 )
 
 type book struct {
@@ -162,9 +161,11 @@ func decoratePN(original string, modern string) string {
 	endi := len(original) - 2
 
 	if (len(modern) >= 3) && (modern[0:3] == "you") && original[0] == 't' {
-		decoration = "<sub>t</sub>"
+		decoration = "<sub>1</sub>"
+	} else if original == "you" || original == "ye" {
+		decoration = "<sub>2</sub>"
 	} else if original == "art" || original == "wilt" {
-		decoration = "<sub>t</sub>"
+		decoration = "<sub>1</sub>"
 	} else if endi > 0 {
 		end := original[endi:]
 		if end == "th" {
@@ -327,7 +328,7 @@ func validate(w http.ResponseWriter, r *http.Request) {
 func slash(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	io.WriteString(w,
-		"<h2>This is the AVX experimental bible by AV Text Ministries.</h2><br><h3>Version: 2019.JB21</h3><br>"+
+		"<h2>This is the AVX experimental bible by AV Text Ministries.</h2><br><h3>Version: Z-Series-0.8</h3><br>"+
 			"See: <p><a href=\"https://avbible.net/news.html\">https://avbible.net/news.html</a>"+
 			" for information about this exciting new development!<br></p>")
 }
@@ -637,6 +638,7 @@ func showBook(book string, chapter byte, verse byte, w http.ResponseWriter, r *h
 	if cn > cm {
 		cn = cm
 	}
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	preamble := ""
 	if avx {
 		preamble = getScriptedHeaderAndBodyPrefix("avx", book, c, cp, cn, cm, current.bookNum, session)
@@ -879,7 +881,17 @@ func getBooks(index *os.File) []book {
 		x1, err1 := index.Read(bkname)
 		check(err1)
 		if x1 == 16 {
-			bible[i].name = strings.TrimSpace(string(bkname[:]))
+			c := 0
+			for c = 0; c < 16; c++ {
+				if bkname[c] == byte(0) {
+					break
+				}
+			}
+			if c < 16 {
+				bible[i].name = strings.TrimSpace(string(bkname[:c]))
+			} else {
+				bible[i].name = strings.TrimSpace(string(bkname[:]))
+			}
 		} else {
 			bible[i].name = ""
 		}
@@ -887,7 +899,19 @@ func getBooks(index *os.File) []book {
 		x2, err2 := index.Read(bkabbr)
 		check(err2)
 		if x2 == 12 {
-			bible[i].abbreviations = strings.Split(strings.TrimSpace(string(bkabbr[:])), ",")
+			c := 0
+			for c = 0; c < 12; c++ {
+				if bkabbr[c] == byte(0) {
+					break
+				}
+			}
+			abbr := ""
+			if c < 12 {
+				abbr = strings.TrimSpace(string(bkabbr[:c]))
+			} else {
+				abbr = strings.TrimSpace(string(bkabbr[:]))
+			}
+			bible[i].abbreviations = strings.Split(strings.TrimSpace(abbr), ",")
 		} else {
 			bible[i].abbreviations = make([]string, 0, 0)
 		}
@@ -1053,9 +1077,18 @@ func getWord(text bibleText, modern bool, bk book, html bool, md bool, inc bool,
 			word = strings.ToUpper(word)
 		}
 		if caps == 0x8000 {
-			first := strings.ToUpper(word[0:1])
-			right := word[1:]
-			word = first + right
+			first := ""
+			if len(word) > 0 {
+				first = strings.ToUpper(word[0:1])
+			} else {
+				first = ""
+			}
+			if len(word) > 1 {
+				right := word[1:]
+				word = first + right
+			} else {
+				word = first
+			}
 		}
 	}
 	if html {
@@ -1204,7 +1237,7 @@ func check(e error) {
 		panic(e)
 	}
 }
-func main() { // Arguments SDK_DIR  CSS_DIR
+func main() { // Arguments PORT  CSS_DIR
 	port := os.Getenv("PORT")
 	sdk := os.Getenv("AVSDK")
 
@@ -1306,12 +1339,10 @@ func main() { // Arguments SDK_DIR  CSS_DIR
 			pos := readUInt32(flx) // read and ignore POS segments
 			fivebitencoding.DecodePOS(pos)
 		}
-
 		if diff {
 			decor[key] = decoratePN(word, modern)
 			decorMD[key] = decorateMD(word, modern)
 		}
-		key++
 	}
 done:
 	maxKey = key - 1

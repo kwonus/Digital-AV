@@ -1,12 +1,12 @@
 40008470 0F00 0020 00011E01 a-acp	as	by	in	of	to
-00000036 0F00 00AA 0001F789 av	a	at	do	it	up
+00000036 0F00 00A5 0001AF02 av	a	at	do	up	ago
 8000D82E 0F00 0004 00000063 av-an	home	yesterday	straightway	yesternight
 800006C3 0F00 0003 00000000 av-c	rather	sooner	oftener
 800006C4 0F00 0009 00002391 av-d	all	any	both	many	much
 8000D883 0F00 0002 0000050D av-dc	less	more
 8000D893 0F00 0002 000000B1 av-ds	most	least
 8000D898 0F00 0001 00000000 av-dx	neither
-800006CA 0F00 010B 0001B39A av-j	as	he	in	and	but
+800006CA 0F00 00FE 000022DF av-j	far	low	dead	even	fain
 8000D943 0F00 000B 00000000 av-jc	lower	worse	better	closer	easier
 8000D94E 0F00 0014 00000526 av-jn	ill	deep	evil	half	other
 8000D953 0F00 0002 000008BB av-js	best	fastest
@@ -18,16 +18,16 @@
 80318470 0C00 0001 00001049 cc-acp	but
 40018E51 CC00 0016 000008D7 c-crq	how	why	when	where	whence
 00000C78 0C00 0001 00000376 ccx	nor
-00000E44 0B00 0026 0000138C crd	one	six	ten	two	five
+00000E44 0B00 0025 00000B5C crd	six	ten	two	five	four
 00000073 0C00 0011 00011BFE cs	an	if	the	lest	than
 00000E74 0C00 0001 00000000 cst	that
 00000004 0D00 0018 00002908 d	all	any	aul	few	own
 00000083 0D00 0002 0000050D dc	less	more
 00000087 0D00 0001 0000050F dg	any
 00000093 0D00 0003 000000B1 ds	most	least	fewest
-00000094 0D00 0007 00013E61 dt	a	am	an	ye	the
+00000094 0D00 0004 000126DF dt	a	am	an	the
 00000098 0D00 0001 00000000 dx	neither
-0000000A 0A00 03ED 00042835 j	a	i	as	by	he
+0000000A 0A00 03BE 00006616 j	apt	bad	bay	dim	dry
 00000143 0A00 0035 00000000 jc	baser	elder	finer	lower	purer
 80050D4E 0A00 0004 00000000 jc-jn	elder	deeper	whiter	blacker
 4000294E 0A00 0042 00000D18 j-jn	dew	due	ill	red	blew
@@ -38,10 +38,10 @@
 40055AC7 0A00 008D 00000000 j-vvg	dying	lying	coping	crying	eating
 40055ACE 0A00 0088 00000E22 j-vvn	cut	fed	hid	set	aged
 40AB59D5 0A00 0001 00000000 j-vvnu	unmarried
-000001DC 4010 0C04 0003FF8F n1	do	it	of	ox	pe
+000001DC 4010 0BFB 0003BBFA n1	do	of	ox	pe	act
 1DCE585A 4010 0005 00002A80 n11vbz	man	lord	shoe	work	vulture
 8007702E 4010 0004 00000063 n1-an	home	inside	outside	straightway
-000001DD 8010 05DF 000081F5 n2	us	all	men	was	acts
+000001DD 8010 05DC 00007BAF n2	all	men	was	acts	ages
 80003BAA 8010 000E 00000000 n2-j	goods	nobles	abjects	inwards	ancients
 8007754E 8010 0013 000000AF n2-jn	dues	deeps	evils	males	aliens
 80EED887 8010 0002 00000000 n2-vdg	doings	outgoings
@@ -57,38 +57,37 @@ C0E3F54E 8018 0001 00000000 ng2-jn	others
 00072A1D 8010 001E 00000000 njp2	romans	libyans	lydians	stoicks	syrians
 00E540FC 4018 0001 00000000 njpg1	egyptian
 00E540FD 8018 0001 00000000 njpg2	greeks
-00003A1C 4030 0A56 00017306 np1	ai	ar	ed	er	ir
+00003A1C 4030 0A57 00019692 np1	ai	ar	ed	er	ir
 00003A1D 8010 0046 00000000 np2	danites	hebrews	jambres	levites	oznites
 000740FC 4038 0055 00001EB8 npg1	asa	eli	job	lot	adam
 40075AC7 0010 007C 00000000 n-vvg	going	lying	coming	crying	earing
 40075ACE 0010 0004 00000000 n-vvn	elect	slain	beloved	oppressed
-00003E44 0B00 001C 000000EB ord	last	next	fifth	first	ninth
+00003E44 0B00 001D 00000314 ord	ten	last	next	fifth	first
 40080470 00E0 0030 0000E8C3 p-acp	as	at	by	in	to
-81018470 3E00 0003 000035D6 pc-acp	to	their	there
-00000209 3020 0005 00000830 pi	one	none	ought	somebody	something
+81018470 3E00 0002 000035D6 pc-acp	to	there
+00000209 3020 0003 00000000 pi	ought	somebody	something
 0000413D B020 0001 00000000 pi2	ones
 00004127 3028 0001 00000830 pig	one
 00004138 3020 0004 00000000 pix	none	naught	nought	nothing
 00083BBD 20C0 0002 00001FE3 pn22	ye	you
-00083BDC 30C0 0002 000039E1 pn31	it	him
-01071F9C 40C8 0001 000002F8 png11	mine
+00083BDC 30C0 0001 00001915 pn31	it
 01071F9D 80C8 0001 00000000 png12	ours
 01071FBC 60C8 0001 00000000 png21	thine
 01071FBD A0C8 0001 00000000 png22	yours
-01071FDC 70C8 0002 000021F7 png31	his	hers
+01071FDC 70C8 0001 00000084 png31	hers
 01071FDD B0C8 0001 00000000 png32	theirs
-01073F9C 40C0 0002 00003718 pno11	i	me
+01073F9C 40C0 0001 0000128D pno11	me
 01073F9D 80C0 0001 00000646 pno12	us
 01073FBC 60C0 0001 00000000 pno21	thee
-01073FDC 70C0 0002 000031CA pno31	her	him
-01073FDD B0C0 0004 0000FE39 pno32	am	the	them	they
+01073FDC 70C0 0001 000020CC pno31	him
+01073FDD B0C0 0001 00000000 pno32	them
 01074F9C 4080 0001 0000248B pns11	i
-01074F9D 8080 0002 00001177 pns12	us	we
-01074FBC 4080 0002 0000238C pns21	tou	thou
+01074F9D 8080 0001 00000B31 pns12	we
+01074FBC 4080 0001 00000000 pns21	thou
 01074FDC 7080 0002 00002E0B pns31	he	she
-01074FDD B080 0002 00000000 pns32	them	they
+01074FDD B080 0001 00000000 pns32	they
 00083F9C 4028 0002 00001511 po11	my	mine
-00083F9D 8028 0002 00000FEA po12	we	our
+00083F9D 8028 0001 000004B9 po12	our
 00083FBC 6028 0002 0000131B po21	thy	thine
 00083FBD A028 0001 00000000 po22	your
 00083FDC 7028 0003 000032DF po31	her	his	its
@@ -142,7 +141,7 @@ C0E3F54E 8018 0001 00000000 ng2-jn	others
 000059BD 6100 0004 00000000 vm2	wilt	canst	shalt	mayest
 000059A2 0100 0006 000008EB vmb	can	may	must	will	shall
 000B3458 0100 0001 00000000 vmbx	cannot
-000059A4 0100 0005 00000000 vmd	could	might	ought	would	should
+000059A4 0100 0004 00000000 vmd	could	might	would	should
 000B349D 0100 0006 00000000 vmd2	wilt	couldest	mightest	oughtest	wouldest
 00005ADD 0100 00D2 00000000 vv2	diest	goest	liest	owest	seest
 00005AC2 0100 02CD 000128C5 vvb	go	add	arm	ask	bid

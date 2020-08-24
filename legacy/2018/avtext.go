@@ -812,7 +812,7 @@ func main() {	// Arguments SDK_DIR  CSS_DIR
 	if len(os.Args) >= 3 {
 		cssDir = os.Args[2]
 	}
-	fbk, err := os.Open(sdkDir + "/AV-Book.IX4")
+	fbk, err := os.Open(sdkDir + "/AV-Book.IXI")
 	check(err)
 	books = getBooks(fbk)
 	fbk.Close();
