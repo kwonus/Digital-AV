@@ -1,0 +1,478 @@
+AV Bible -- Copyright (c) 1996-2011         Kevin Wonus
+
+mailto:kevin@wonus.com
+
+
+HISTORY:
+
+-------------------------------------------------------
+Build 66 - Version 7.0.2011.66 - 4 Aug 2011   (AV-2011)
+-------------------------------------------------------
+Build 66 retores functionality of the "Names" browser.
+
+PLEASE NOTE:
+AV 2011 no longer provides the Microsoft Word plugin
+as was provided in previous AV Bible releases.  Install
+AV 2007 if you need integration with Microsoft Word:
+Version 7 and Version 5.4 can both be installed on the
+same machine.  Watch the RTBible.com web site as they
+anticipate releasing a plugin for Word 2007/2010 built
+upon the same texts of the AV SDK 2011.
+
+-------------------------------------------------------
+Build 65 - Version 7.0.2011.65 - 3 Aug 2011   (AV-2011)
+-------------------------------------------------------
+Build 65 is the first production release of AV Bible
+built with the newly released AV SDK.  The resulting
+text is an acurate representation of the original 1611
+text.  Build 65 is also the first version built using
+Delphi 2009 (previous releases were built using Delphi
+2006).  The transition to AV-2011 is a major facelift
+from AV-2007:  the facelift is not merely asthetic as
+it provides much simplified searching when compared to
+earlier releases.
+
+Unfortunately, this release sees the departure of the
+Microsoft Word plugin.  Install version 5.4 if you need
+integration with Microsoft Word.  Version 7 and Version
+5.4 can both be installed on the same machine.  Watch
+the RTBible.com web site as they anticipate releasing a
+plugin for Word 2007/2010 built upon the AV SDK 2011.
+
+-------------------------------------------------------
+Build 64 - Version 7.0.2011.64 - 30 July 2011 (AV-2011)
+-------------------------------------------------------
+First Beta release of AV Bible version 7/2011.
+
+-------------------------------------------------------
+SDK - Version 2011 - 27 December 2010          (AV-SDK)
+-------------------------------------------------------
+AV SDK 2011 sample sources posted on the web.
+
+-------------------------------------------------------
+SDK - Version 2011 Preview - 15 February 2010  (AV-SDK)
+-------------------------------------------------------
+Preview of AV SDK 2011 documents posted on the web.
+
+-------------------------------------------------------
+Build 62 - Version 5.4 - 11 February 2010     (AV-2007)
+-------------------------------------------------------
+This is the final refresh of AV-2007 version of the
+AV Bible.
+
+-------------------------------------------------------
+SDK - Version 2008 - 1 January 2008            (AV-SDK)
+-------------------------------------------------------
+Initial release of the AV Bible SDK.
+
+-------------------------------------------------------
+Build 61 - Version 5.3 - 19 April 2007        (AV-2007)
+-------------------------------------------------------
+Added information about Word 2007 on Vista. Cosmetic
+facelift of the graphics to remove 2005 from all over
+the graphical images. Added the ability to call insert
+dialog from search form when used from within MS-Word.
+Also improved first launch of the search form.
+
+-------------------------------------------------------
+Build 60 - Version 5.2 - 12 December 2005     (AV-2005)
+-------------------------------------------------------
+Added upgrade information to the Help system. Also
+added "Autorun" to the CD version.
+
+-------------------------------------------------------
+Build 59 - Version 5.2 - 1 December 2005      (AV-2005)
+-------------------------------------------------------
+Fixed left/right button processing on each tab. Also,
+fixed incorrect processing of history and saved studies.
+This is the 2005 "Christmas Release" of the AV Bible.
+
+-------------------------------------------------------
+Build 58 - Version 5.15 - 28 November 2005    (AV-2005)
+-------------------------------------------------------
+Fixed layout and processing logic of advanced searches.
+The basic search form has also been resized. The 5.2
+release also has a service pack that can streamline the
+upgrade from build 52 through 57.
+
+-------------------------------------------------------
+Build 57 - Version 5.11 - 24 November 2005    (AV-2005)
+-------------------------------------------------------
+Updated instruction related to support for Microsoft
+Word. Also fixed a few typos in the instructions.
+This was first release of boxed CDROMs using LightScribe
+labels. This release has been re-classified "Beta II"
+
+-------------------------------------------------------
+Build 56 - Version 5.1 - 21 November 2005     (AV-2005)
+-------------------------------------------------------
+Installation file provides more configuration options.
+Some graphical icons have been updated, including the
+artwork for setup, splash screen, and the help pages.
+
+Special Thanks to David Antenne for supplying the
+updated graphics. This is Beta I for updated graphics.
+
+-------------------------------------------------------
+Build 55 - Version 5.05 - 9 October 2005      (AV-2005)
+-------------------------------------------------------
+Fixed some links in the help system, so that they point
+to the correct external URLs.
+
+-------------------------------------------------------
+Build 54 - Version 5.04 - 25 September 2005   (AV-2005)
+-------------------------------------------------------
+AV-2005 now handles multiple search conditions again
+(Build 53 was only permitting a single search list).
+
+-------------------------------------------------------
+Build 53 - Version 5.03 - 22 September 2005   (AV-2005)
+-------------------------------------------------------
+AV-2005 now permits logoff w/o manually exiting.
+Also improved search processing, so that user does not
+always have to type space (" ") to refresh the search
+list. Minor setup improvements also are included.
+
+-------------------------------------------------------
+Build 52r2 - Version 5.02 REV2 - 21 July 2005 (AV-2005)
+-------------------------------------------------------
+Remaining publishing errors fixed.
+
+-------------------------------------------------------
+Build 52 - Version 5.02 REV1 - 21 July 2005   (AV-2005)
+-------------------------------------------------------
+Some publishing errors fixed. Search form is improved.
+
+-------------------------------------------------------
+Build 51 - Version 5.01 - 2 April 2005        (AV-2005)
+-------------------------------------------------------
+Verses were being truncated.
+That has been fixed.
+
+-------------------------------------------------------
+Build 50 - Version 5.0 - 27 March 2005        (AV-2005)
+-------------------------------------------------------
+Major facelift. Bugs fixed. Now built with Delhi 2005
+
+-------------------------------------------------------
+Build 49 - Version 4.01 - 10 September 2004   (AV-2004)
+-------------------------------------------------------
+Fixed the AV-Server. Production ready.
+
+-------------------------------------------------------
+Build 48 - Version 4.0 - 10 August 2004       (AV-2004)
+-------------------------------------------------------
+Fixed the Help system of AV-2004. Search form now
+identifies words that are not in the bible. AV-2004
+also has improved installation notes to assist you
+in upgrades from previous versions.
+
+-------------------------------------------------------
+Build 47 - Version 4.0::RC3 - 8 August 2004   (AV-2004)
+-------------------------------------------------------
+See notes about 45i below. This release corrects some
+minor installation issues found in build 45i. Help
+system was broken. Also known as build 45g.
+
+-------------------------------------------------------
+Build 46 - Version 4.0::RC2 - 6 August 2004   (AV-2004)
+-------------------------------------------------------
+See notes about 45i below. This release corrects some
+minor installation issues found in build 45i. Also
+known as build 45ii.
+
+-------------------------------------------------------
+Build 45i - Version 4.0::RC1 - 4 August 2004  (AV-2004)
+-------------------------------------------------------
+Total overhaul of the AV text engine. Original design
+dated back to the original AV-1996 implementation. The
+new library is file-based. This file-based structure
+provides an easier migration for Mac OS X support.
+Numerous bugs were fixed from the earlier 3.0 release:
+The 3.0 release never really met production standards.
+The 4.0 release (RC1) is now a solid release candidate.
+
+-------------------------------------------------------
+Build 44 - Version 3.0 - 25 March 2004        (AV-2004)
+-------------------------------------------------------
+Major Revision to search engine, better memory manager
+Numerous bugs. No longer supported. Upgrade to Version
+4.0 or revert to AV-2000.
+
+-------------------------------------------------------
+Build 43 - Version 2.3.5::GRC6 - 25 July 2003 (AV-2003)
+-------------------------------------------------------
+Minor face-lift for the Large-Print icons. Also
+corrected typos in some included help files.
+
+-------------------------------------------------------
+Build 42 - Version 2.3.5::GRC5 - 23 July 2003 (AV-2003)
+-------------------------------------------------------
+Corrected bugs in the saving of program options and
+updated the church directory (CDROM & Internet versions).
+Also upgraded the floppy-disk installation program to
+"inno" 3.06 (the same as used by the CDROM & Internet
+installations, but with higher compression using bzip).
+
+-------------------------------------------------------
+Build 41 - Version 2.3.4::GRC4 - 11 July 2003 (AV-2003)
+-------------------------------------------------------
+Minor improvement to the Help System. Added link to
+the license file from the help system. Golden-Release
+candidate 4 (GRC4). This release has passed basic
+acceptance testing on Windows-2000, Windows-98, and XP.
+Fixed bug in names (especially those starting with the
+letter 'S'). Also now allows random access to books
+from the list view (by clicking on the bible). Also
+fixed a couple of pop-up hints on a few buttons.
+
+-------------------------------------------------------
+Build 40c - Version 2.3.2c - 2 July 2003      (AV-2003)
+-------------------------------------------------------
+HTTP Access was not available in Windows 95/98 of build
+40. That capability has been restored in build 40c.
+
+-------------------------------------------------------
+Build 40 - Version 2.3.2b - 1 July 2003       (AV-2003)
+-------------------------------------------------------
+HTTP Access was not available in Windows 2000 of build
+39. That capability has been restored in build 40.
+
+-------------------------------------------------------
+Build 39 - Version 2.3.2 - 30 June 2003       (AV-2003)
+-------------------------------------------------------
+Fixed the missing Genesis bug on new installations.
+Also XP is automatically detected now and XP compatible
+settings are automatically selected. Currently, the XP
+edition of AV-2003 does not support HTTP access. There
+will likely be a build 40 prior to GRC3 for this reason.
+
+-------------------------------------------------------
+Build 38 - Version 2.3.1 - 24 June 2003       (AV-2003)
+-------------------------------------------------------
+2 John would not render correctly (1 John 1 was being
+displayed instead). Also fixed the MS-Word integration:
+inserting the last chapter of a book now inserts the
+entire chapter (instead of just verse 1). Finally, in
+MS-Word: Inserting verses now takes ranges (Lev 1:3-9)
+Build 38 is Golden Release Candidate 2 (GRC2).
+
+-------------------------------------------------------
+Build 37 - Version 2.3 - 17 June 2003         (AV-2003)
+-------------------------------------------------------
+Minor cosmetic UI fixes. Also fixed a bug in the help
+system. Build 37 is Golden Release Candidate 1 (GRC1).
+
+-------------------------------------------------------
+Build 36 - Version 2.2 - 21 May 2003          (AV-2003)
+-------------------------------------------------------
+Cleaned up some of the help documentaion. Also improved
+the AV MDK, by adding the "Floppy Disk Creator" GUI.
+
+-------------------------------------------------------
+Build 35 - Version 2.1.5 - 22 January 2003    (AV-2003)
+-------------------------------------------------------
+Cleaned up some of the help documentaion. Also improved
+the AV MDK, by adding the "Floppy Disk Creator" GUI.
+
+-------------------------------------------------------
+Build 34 - Version 2.1.4 - 18 January 2003    (AV-2003)
+-------------------------------------------------------
+Improvements in the tab to expose "Sensitivity"
+and Strongs numbers. The best release yet, but probably
+is not the final release candidate of AV-2003.
+
+-------------------------------------------------------
+Build 33.X04 - Version 1.7.4 - 10 August 2004 (AV-2000)
+-------------------------------------------------------
+Minor installation refresh.
+
+-------------------------------------------------------
+Build 33.X2K - Version 1.7 - 17 January 2003  (AV-2000)
+-------------------------------------------------------
+Back by popular demand; this is a refresh release of
+AV-2000, but based on the AV-2002 texts. AV-2000 is
+better suited for older machines with less processing
+power and/or with less memory. AV-2000 also integrates
+more seamlessly with Word-95. Default registry values
+have been changed so as to not collide with AV-2003
+installations on the same machine.
+
+-------------------------------------------------------
+Build 33b - Version 2.1.2 - 2 January 2003    (AV-2002)
+-------------------------------------------------------
+No functional changes in AV-2002 program files, but the
+Floppy installation and the Media Distribution Kit (MDK)
+were missing the third floppy disk. AV-2002 is once
+again a two(2) diskette set.
+
+-------------------------------------------------------
+Build 33 - Version 2.1.1 - 29 December 2002   (AV-2002)
+-------------------------------------------------------
+Restored the publish bible text by right-clicking as per
+instructions. Not sure which version of AV-2002 that
+this feature had disappeared in, but it is restored in
+build 33.
+
+-------------------------------------------------------
+Build 32 - Version 2.1 - 27 December 2002     (AV-2002)
+-------------------------------------------------------
+Restored the ability to search on Hebrew words in the
+Old Testament. Also updated the appearance of all tree
+controls throughout the application.
+
+-------------------------------------------------------
+Build 31 - Version 2-RC3 - 22 December 2002   (AV-2002)
+-------------------------------------------------------
+Fixed Problems related to Windows XP and Office XP.
+Fixed severe problems with MS-Word Integration. XP must
+"Use HTML Files" instead of the new embedded HTTP server.
+Never released on the Web: limited CDROM distribution
+only (Merry Christmas Edition 2002).
+
+-------------------------------------------------------
+Build 30 - Version 2-RC2 - 14 December 2002   (AV-2002)
+-------------------------------------------------------
+Fixed some quirky behavior of RC1, especially in the
+Search Form.
+
+-------------------------------------------------------
+Build 29 - Version 2-RC1 - 4 December 2002    (AV-2002)
+-------------------------------------------------------
+The 2.0 release is the first version of the AV Bible
+programs that does not require the 30 megabytes of HTML
+files to be resident on the hard disk. This new design
+deploys an AV Bible Server (accessible from any browser
+on port 1611; e.g. http://mycomputer:1611/) along with
+the updated version. This software uses the same KJV
+"SWORD" texts as first deployed in build 28. These
+texts are derived (and therefore substantially similar)
+to the texts of the "Online Bible".
+
+Builds 28 and above are built with Delphi 6.0 Personal,
+while the bible data is still built with Visual C++ 6.0.
+The author highly recommends that you replace any AV-2000
+and AV-1999 installations with this latest release.
+
+NOTE:
+Version 2.0 includes a directory of Independent Baptist
+Churches. The program author has noticed that only
+Baptist churches (but not all Baptist churches) believe
+that the King James Bible is God's Word to mankind in
+the English Language (1 Thessalonians 2:13). The
+directory is not part of AV-2002, but a bible-believer
+belongs in a bible-believing church. The directory of
+churches is provided for those who may be searching for
+a bible-believing church.
+
+-------------------------------------------------------
+Build 28 - Version 1.6 - 29 September 2002    (AV-2002)
+-------------------------------------------------------
+Build 28 was a limited release. The main purpose of the
+1.6 release is to supply updates to errors found in the
+AV-2000 texts. A bible-believer in Texas discovered an
+error anytime counselor appeared in the text. The new,
+updated texts are derived from the "SWORD" project. The
+project is hosted on the web at:
+http://www.crosswire.org/sword/
+and
+http://sourceforge.net/projects/sword/
+
+The "SWORD" bible program identified on the sites sited
+above is not incorporated into AV-2002. AV-2002 only
+uses the KJV text from that "open-source" (community)
+development effort.
+
+-------------------------------------------------------
+Build 27 - Version 1.5.v - 2 September 2001   (AV-2000)
+-------------------------------------------------------
+Copyright refresh. Added CDROM Edition. The Internet
+Edition now includes "AV-Intructions.doc" (as does the
+new CDROM Edition). The CDROM distribution includes
+the AV-MDK so that redistribution of AV-2000 on the
+2-disk floppy set is facilitated. AV-MDK is not part
+of the default installation. Its setup program must be
+invoked explicity if you wish to redistribute AV-2000
+on 1.44mb floppies. Finally, the Setup program is
+produced by Inno 2.0.13 (instead of Inno 1.3.x).
+
+NOTE: There was never an AV-2001 edition as updates
+performed during that year were mostly cosmetic
+and/or related to redistribution of AV-2000.
+
+-------------------------------------------------------
+Builds 23-26 - Version 1.5.i* - 6-10 Feb 2000 (AV-2000)
+-------------------------------------------------------
+1.5.i: Fixed quirky behavior on the search screen when
+turning off search via the check-box. Added the AV-2000
+upgrade edition to the product family.
+
+1.5.ii: Fixed reloading of last known search criteria.
+
+1.5.iii: History mechanism has been refined.
+
+1.5.iv: Minor revisions to release/readme notes.
+
+-------------------------------------------------------
+Build 22 - Version 1.5 - 2 February 2000      (AV-2000)
+-------------------------------------------------------
+Fixed bugs relating to inserting verses by book names
+such as Joshua and Judges has been fixed. This bug was
+most noticable in the MS-Word integration.
+
+-------------------------------------------------------
+Builds 20,21 - Version 1.2x - 22-25 January 2000
+-------------------------------------------------------
+Improved user interface. Added the ability to browse
+proper names. Fixed some problems with browsing proper
+names.
+
+-------------------------------------------------------
+Build 19 - Version 1.11 - 21 January 2000
+-------------------------------------------------------
+Build 18's reliance upon Delphi 5 was premature. Build
+19-27 reverted to the Delphi 3 compiler. Build 19 added
+the ability to publish RTF documents (comapatible with
+Microsoft Word).
+
+-------------------------------------------------------
+Build 18 - Version 1.1 - 15 January 2000
+-------------------------------------------------------
+A major bug was discovered by an AV-1999 user. AV-1999
+Build 17 and earlier did not allow you to view chapters
+greater than 99. Sounds like a Y2K bug and though it
+was not, it was similar. Build 18 is also the first
+version compiled under Delphi 5 (previous releases were
+compiled with Delphi 3).
+
+-------------------------------------------------------
+Build 17                                      (AV-1999)
+-------------------------------------------------------
+Face lift for colors. Let me know if you like the old
+colors better. Build 17 was mainly done to clean up
+the documentation about Word97 support. Build 17 also
+introduced the Microsoft Word "Integration Assistant".
+This menu item assists you in integrating AV 1999 into
+Word95, Word97, or Word2000. After integration, you
+can search for bible text right from inside of MS-Word.
+Build 17 also brought in a much improved AV MDK (Media
+Distribution Kit) as separate installable product.
+
+-------------------------------------------------------
+Build 16.xi                                   (AV-1999)
+-------------------------------------------------------
+This was supposed to be the last build before moving
+onto to work on AV-2000. Added support for Word97.
+
+-------------------------------------------------------
+Build 16k                                     (AV-1999)
+-------------------------------------------------------
+Stable build, but could not be integrated with MS-Word.
+
+NOTE:
+There were numerous more builds dating all the the way
+back to 1996 but cataloging of releases did not begin
+until build 16k.
+
+ 
+© 2008-2011 Kevin Wonus
