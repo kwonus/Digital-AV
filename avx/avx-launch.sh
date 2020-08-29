@@ -1,5 +1,5 @@
 
-for p in 1611 1612 1613 1614 1615 1616 1617
+for p in 1611 1612 1613 1614
 do
-	PORT=$p ./avx-web
+	PORT=$p ./avx & disown
 done

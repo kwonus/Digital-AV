@@ -14,7 +14,7 @@ import (
 	"strconv"
 	"strings"
 
-	"./fivebitencoding"
+	"avtext.org/fivebitencoding"
 )
 
 const (
