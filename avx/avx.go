@@ -329,7 +329,7 @@ func slash(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	io.WriteString(w,
 		"<h2>This is the AVX experimental bible by AV Text Ministries.</h2><br><h3>Version: Z-Series-0.8</h3><br>"+
-			"See: <p><a href=\"https://avbible.net/news.html\">https://avbible.net/news.html</a>"+
+			"See: <p><a href=\"/news.html\">https://avbible.net/news.html</a>"+
 			" for information about this exciting new development!<br></p>")
 }
 func help(w http.ResponseWriter, r *http.Request) {
@@ -497,7 +497,7 @@ func getScriptedHeaderAndBodyPrefix(root string, book string, c int, iprev int, 
 		"<head>\n" +
 		"<title>AV Text Ministries - " + book + " " + cmax + "</title>\n" +
 		"<link rel=\"icon\" href=\"favicon.ico\" type=\"image/x-icon\">" +
-		"<link rel=\"stylesheet\" type=\"text/css\" href=\"https://avbible.net/xform/side-by-side.css\">"
+		"<link rel=\"stylesheet\" type=\"text/css\" href=\"/xform/side-by-side.css\">"
 
 	if len(cssDir) > 0 {
 		header += "<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/AV-Baseline.css\" media=\"screen\" />"
@@ -506,7 +506,7 @@ func getScriptedHeaderAndBodyPrefix(root string, book string, c int, iprev int, 
 		}
 	}
 	header += ("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js\"></script>" +
-		"<script src=\"https://avbible.net/xform/" + root + ".js\"></script>" +
+		"<script src=\"/" + root + ".js\"></script>" +
 		"<script>\n" +
 		"document.domain = \"avbible.net\";" +
 		"\n</script>" +

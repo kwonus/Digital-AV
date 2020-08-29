@@ -48,8 +48,8 @@
                 cmin.textContent = " ";
                 cmax.textContent = " ";
             }
-            var url1 = "/avx/" + book + "/" + chapter.toString();
-            var url2 = "/av/" + book + "/" + chapter.toString();
+            var url1 = "http://127.0.0.1:2020/avx/" + book + "/" + chapter.toString();
+            var url2 = "http://127.0.0.1:2020/av/" + book + "/" + chapter.toString();
             $.ajax(url1, {
                 success: function(data) {
                     var content = data.toString();

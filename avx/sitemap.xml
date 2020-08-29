@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
-		<loc>http://www.avbible.net/news.html</loc>
+		<loc>http://avbible.net/news.html</loc>
 		<lastmod>2020-08-23</lastmod>
 	</url>
 	<url>
-		<loc>http://www.avbible.net/xform/index.html</loc>
+		<loc>http://avbible.net/xform/index.html</loc>
 		<lastmod>2020-08-23</lastmod>
 	</url>
 	<url>
-		<loc>http://www.avbible.net/downloads.html</loc>
+		<loc>http://avbible.net/downloads.html</loc>
 		<lastmod>2020-08-23</lastmod>
 	</url>
 </urlset>

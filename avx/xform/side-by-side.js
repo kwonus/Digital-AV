@@ -1,5 +1,5 @@
 function GoGet(book, chapter, maxChapter) {
-    document.location = "https://avbible.net/side-by-side/" + book + "/" + chapter.toString();
+    document.location = "/side-by-side/" + book + "/" + chapter.toString();
 }
 
 function BookChange() {

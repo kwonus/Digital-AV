@@ -1,5 +1,5 @@
 function GoGet(book, chapter, maxChapter) {
-    document.location = "https://avbible.net/kjv/" + book + "/" + chapter.toString();
+    document.location = "/kjv/" + book + "/" + chapter.toString();
 }
 
 function BookChange() {

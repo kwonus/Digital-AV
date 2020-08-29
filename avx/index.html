@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" href="http://www.avbible.net/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="http://avbible.net/favicon.ico" type="image/x-icon">
     <title>AV Text Ministries - Authorized Version Transformation / Experimental v1 (AVX/EX1)</title>
     <style>
         .vcr { font-family: calibri; font-size: 32px; }
@@ -48,8 +48,8 @@
             }
             var avx = document.getElementById('avx');
             var av = document.getElementById('av');
-            avx.src = "http://avbible.net/" + book + "/" + chapter.toString();
-            av.src = "https://avbible.net/" + book + "/" + chapter.toString();
+            avx.src = "/avx/" + book + "/" + chapter.toString();
+            av.src = "/av/" + book + "/" + chapter.toString();
         }
 
         function BookChange() {
