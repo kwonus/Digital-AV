@@ -2,7 +2,7 @@
 
 The Digital AV is a software development kit (SDK) for the Authorized Version (AV) of the King James Bible. It was first digitally released in 2008, but after a handful of bug fixes and minor revisions it became known as the 2011 edition.  The original SDK was just three binary files and a document that described the binary record layouts.  The final release of 2011 edition was 2017-08-15
 
-Later the SDK was enhanced with additional features and released again as the 2018 edition.  The 2018 edition more than tripled the number of binary files.  Each file manifests additional features and capabilities.  The most recent release of the 2018 edition was 2020-07-15.
+Later the SDK was enhanced with additional features and released again as the 2018 edition.  The 2018 edition more than tripled the number of binary files.  Each file manifests additional features and capabilities.  The most recent release of the 2018 edition was 2020-08-17.
 
 The latest edition of the SDK is being called the Z-series edition.  Packed with additional features, and still more binary files, the public can be found here.  Please give us feedback if you're using it and you discover any anomalies. Please note that files in the Z-series/pos folder are not formally part of the SDK; and are therefore not described on Digital-AV.pdf (The text files in that pos folder are used to generate some of the binary files that compose the SDK)
 
