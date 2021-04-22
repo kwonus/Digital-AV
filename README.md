@@ -12,6 +12,8 @@ Some of the folders contain sample source code, but the SDK is primarily a set o
 
 https://github.com/kwonus/Digital-AV/blob/master/z-series/Digital-AV.pdf
 
+A reference implementation, in C++ using the latest SDK, can be found in the companion repositories called AVXLib / AVXTest.
+
 Finally, all of the text in each of these digital editions remains faithful to the original AV Bible and the orthography is consistent with the 1769 edition.
 
 The project home is http://Digital-AV.org
