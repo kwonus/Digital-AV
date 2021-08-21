@@ -14,6 +14,9 @@ https://github.com/kwonus/Digital-AV/blob/master/z-series/Digital-AV.pdf
 
 A reference implementation, in C++ using the latest SDK, can be found in the companion repositories called AVXLib / AVXTest.
 
+***Privacy Policy:***
+While AV-Bible reads data from the AppData/Digital-AV folder, it ONLY reads files that it first downloaded on first execution from the Digital-AV SDK and files and AV-Bible program settings..  AV-Bible access no other files on the user's file-system.  In short, AV-Bible does not invade your privacy, neither does it read any data that it it did not first write.  In fact, AV-Bible never even records what it searches on; and it certainly never sends any data to any servers.  It runs stealthily entirely on your Windows desktop.
+
 Finally, all of the text in each of these digital editions remains faithful to the original AV Bible and the orthography is consistent with the 1769 edition.
 
 The project home is http://Digital-AV.org
