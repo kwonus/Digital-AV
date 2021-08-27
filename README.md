@@ -16,7 +16,4 @@ A reference implementation, in C++ using the latest SDK, can be found in the com
 
 Finally, all of the text in each of these digital editions remains faithful to the original AV Bible and the orthography is consistent with the 1769 edition.
 
-***Privacy Policy:***<br/>
-While AV-Bible reads data from the AppData/Digital-AV folder, it ONLY reads files that it first downloaded. On first execution, AV-Bible downloads the KJV files as compact encoded binaries from Digital-AV.org.  It needs these files for search & display of the bible text. The only other access to your local system is to store and retrieve AV-Bible program settings. AV-Bible accesses no other files on the user's file-system.  In short, AV-Bible does not invade your privacy, neither does it read any data that it it did not first write.  In fact, AV-Bible never even records what you search on; and it certainly never sends any data to any servers.  It runs entirely stealthily on your Windows desktop.
-
 The project home is http://Digital-AV.org
