@@ -1,0 +1,12 @@
+
+namespace AVSDK.FlatBuf;
+
+table AVWordClass {
+    wordclass: uint16;
+    pos: [uint32];
+}
+
+table AVWordClasses {
+    instance: [AVWordClass] (required);
+}
+root_type AVWordClasses;

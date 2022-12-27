@@ -1,0 +1,18 @@
+
+namespace AVSDK.FlatBuf;
+
+enum OOV: uint16 { // trailing 3 bits
+    marker = 0x8000,
+    length = 0x0F00,
+    index  = 0x00FF
+}
+
+table AVLemmaOOV {
+    key:  uint16;
+    word: string (required);
+}
+
+table AVLemmaItemsOOV {
+    oov: [AVLemmaOOV] (required);
+}
+root_type AVLemmaItemsOOV;

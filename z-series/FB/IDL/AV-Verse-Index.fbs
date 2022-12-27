@@ -1,0 +1,15 @@
+
+namespace AVSDK.FlatBuf;
+
+table AVVerse
+{
+    book:     uint8;
+    chapter:  uint8;
+    verse:    uint8;
+    word_cnt: uint8;
+}
+
+table AVVerseIndex {
+    index: [AVVerse] (required);
+}
+root_type AVVerseIndex;

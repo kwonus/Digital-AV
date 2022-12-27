@@ -1,0 +1,99 @@
+
+namespace AVSDK.FlatBuf;
+
+enum WordKeyBits : uint16 {
+    CAPS = 0xC, // leading 2 bits
+    CAPS_FirstLetter = 0x8000,
+    CAPS_AllLetters = 0x4000,
+    WordKey = 0x3FFF // trailing 14 bits
+ }
+
+ enum Puncutation: uint8 {
+    Clause = 0xE0,
+    Exclamatory = 0x80,
+    Interrogative = 0xC0,
+ 	Declarative = 0xE0,
+ 	Dash = 0xA0,
+ 	Semicolon = 0x20,
+    Comma = 0x40,
+    Colon = 0x60,
+    Possessive = 0x10,
+    CloseParen = 0x0C,
+ 	Parenthetical = 0x04,
+    Italics = 0x02,
+ 	Jesus = 0x01
+}
+
+enum PersonNumber: uint16 { // leading 4-bits
+    PersonBits = 0x3000,
+    NumberBits = 0xC000,
+    Indefinite = 0x0000,
+    Person1st  = 0x1000,
+    Person2nd  = 0x2000,
+    Person3rd  = 0x3000,
+    Singular   = 0x4000,
+    Plural     = 0x8000,
+    WH         = 0xC000
+}
+
+enum WordClass: uint16 { // trailing 12 bits
+    NounOrPronoun = 0x030,
+    Noun = 0x010,
+    Noun_nknownGender = 0x010,
+    ProperNoun = 0x030,
+    Pronoun = 0x020,
+    Pronoun_Neuter = 0x021,
+    Pronoun_Masculine = 0x022,
+    Pronoun_NonFeminine = 0x023,
+    Pronoun_Feminine = 0x024,
+    PronounOrNoun_Genitive = 0x008,
+    Pronoun_Nominative = 0x060,
+    Pronoun_Objective = 0x0A0,
+    Pronoun_Reflexive = 0x0E0,
+    Pronoun_NoCase_NoGender = 0x020,
+    Verb = 0x100,
+    To = 0x200,
+    Preposition = 0x400,
+    Interjection = 0x800,
+    Adjective = 0xA00,
+    Numeric = 0xB00,
+    Conjunction = 0xC00,
+    Determiner = 0xD00,
+    Particle = 0xE00,
+    Adverb = 0xF00
+}
+
+enum Transitions: uint8 { // leading 5 bits
+    EndBit = 0x10,
+    BeginningOfVerse = 0x20,
+    EndOfVerse = 0x30,
+    BeginningOfChapter = 0x60,
+    EndOfChapter = 0x70,
+    BeginningOfBook = 0xE0,
+    EndOfBook = 0xF0,
+    BeginningOfBible = 0xE8,
+    EndOfBible = 0xF8
+}
+
+enum Segments: uint8 { // trailing 3 bits
+    HardSegmentEnd = 0x04, // . ? !
+    CoreSegmentEnd = 0x02, // :
+    SoftSegmentEnd = 0x01, // , ; ( ) --
+    RealSegmentEnd = 0x06  // . ? ! :
+}
+
+table AVWrit {
+    strongs:   uint64;
+    verse_idx: uint16;
+    word:      uint16;
+    punc:      uint8;
+    trans:     uint8;
+    pnwc:      uint16;
+    pos:       uint32;
+    lemma:     uint16;
+}
+
+table AVWritten {
+    writ: [AVWrit] (required);
+}
+root_type AVWritten;

@@ -1,0 +1,15 @@
+
+namespace AVSDK.FlatBuf;
+
+table AVLemma
+{
+    pos:        uint32;
+    word_key:   uint16;
+    word_class: uint16;
+    lemma:     [uint16] (required);
+}
+
+table AVLemmata {
+    record: [AVLemma] (required);
+}
+root_type AVLemmata;
