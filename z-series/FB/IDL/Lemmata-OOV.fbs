@@ -1,0 +1,19 @@
+attribute "fs_serializer";
+
+namespace AVX.FlatBuf;
+
+enum OOV: uint16 { // trailing 3 bits
+    marker = 0x8000,
+    length = 0x0F00,
+    index  = 0x00FF
+}
+
+table AVXLemmaOOV (fs_serializer) {
+    key:  uint16;
+    word: string (required);
+}
+
+table AVXLemmataOOV (fs_serializer) {
+    oov: [AVXLemmaOOV] (required);
+}
+root_type AVXLemmataOOV;

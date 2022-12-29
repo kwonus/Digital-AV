@@ -1,0 +1,15 @@
+attribute "fs_serializer";
+
+namespace AVX.FlatBuf;
+
+table AVXLemma (fs_serializer) {
+    pos:        uint32;
+    word_key:   uint16;
+    word_class: uint16;
+    lemma:     [uint16] (required);
+}
+
+table AVXLemmata (fs_serializer) {
+    record: [AVXLemma] (required);
+}
+root_type AVXLemmata;

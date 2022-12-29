@@ -1,0 +1,14 @@
+attribute "fs_serializer";
+
+namespace AVX.FlatBuf;
+
+struct AVXChapter {
+    writ_idx:    uint32;
+    verse_idx:   uint16;
+    word_cnt:    uint16;
+}
+
+table AVXChapterIndex (fs_serializer) {
+    index: [AVXChapter] (required);
+}
+root_type AVXChapterIndex;

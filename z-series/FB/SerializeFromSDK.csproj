@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <FlatSharpSchema Include="IDL\Book-Index.fbs" />
+	  <FlatSharpSchema Include="IDL\Chapter-Index.fbs" />
+	  <FlatSharpSchema Include="IDL\Verse-Index.fbs" />
+	  <FlatSharpSchema Include="IDL\Lexicon.fbs" />
+	  <FlatSharpSchema Include="IDL\Lemmata.fbs" />
+	  <FlatSharpSchema Include="IDL\Lemmata-OOV.fbs" />
+	  <FlatSharpSchema Include="IDL\WordClasses.fbs" />
+	  <FlatSharpSchema Include="IDL\Names.fbs" />
+	  <FlatSharpSchema Include="IDL\Written.fbs" />
+	  <Compile Remove="examples\**" />
+	  <Compile Remove="FlatSharp\**" />
+    <EmbeddedResource Remove="examples\**" />
+    <EmbeddedResource Remove="FlatSharp\**" />
+    <None Remove="examples\**" />
+    <None Remove="FlatSharp\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="IDL\idlgen.sh" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FlatSharp.Compiler" Version="7.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="FlatSharp.Runtime" Version="7.0.2" />
+  </ItemGroup>
+
+</Project>

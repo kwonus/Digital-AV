@@ -1,0 +1,13 @@
+attribute "fs_serializer";
+
+namespace AVX.FlatBuf;
+
+table AVXName (fs_serializer) {
+    word_key:  uint16;
+    meaning:  [string] (required);
+}
+
+table AVXNames (fs_serializer) {
+    record: [AVXName] (required);
+}
+root_type AVXNames;

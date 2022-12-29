@@ -1,0 +1,15 @@
+attribute "fs_serializer";
+
+namespace AVX.FlatBuf;
+
+struct AVXVerse {
+    book:     uint8;
+    chapter:  uint8;
+    verse:    uint8;
+    word_cnt: uint8;
+}
+
+table AVXVerseIndex (fs_serializer) {
+    index: [AVXVerse] (required);
+}
+root_type AVXVerseIndex;

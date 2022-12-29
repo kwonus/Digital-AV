@@ -1,0 +1,17 @@
+
+attribute "fs_serializer";
+
+namespace AVX.FlatBuf;
+
+table AVXBook (fs_serializer) {
+    num:            uint8   (key);
+    chapter_cnt:    uint8;
+    chapter_idx:    uint16;
+    name:           string  (required);
+    abbreviations: [string] (required);
+}
+
+table AVXBookIndex (fs_serializer) {
+    index: [AVXBook] (required);
+}
+root_type AVXBookIndex;
