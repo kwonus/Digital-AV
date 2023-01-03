@@ -1,26 +1,63 @@
-﻿namespace DigitalAV.Migration
+﻿using System.Runtime.Intrinsics.X86;
+
+namespace DigitalAV.Migration
 {
     using AVX.FlatBuf;
     using FlatSharp;
+
     using System;
+    using System.Data;
     using System.IO;
+    using System.Runtime.CompilerServices;
+    using System.Security.Cryptography;
     using System.Text;
 
     public class ConsoleApp
     {
+        private HashAlgorithm? hasher;
+
         private string output;
         private string outputExtent;
         private string baseSDK;
+        private BinaryWriter? bom;
+        private BinaryWriter? bomMD5;
+        private List<string> bomLines;
+
+        private const string Version = "-Z31";
         internal ConsoleApp()
         {
             this.output = @"C:\src\Digital-AV\z-series\FB\content\";
-            this.outputExtent = ".avx";
+            this.outputExtent = ".bin";
             this.baseSDK = @"C:\src\Digital-AV\z-series\";
+            this.hasher = HashAlgorithm.Create(HashAlgorithmName.MD5.ToString());
+            try
+            {
+                string file = this.baseSDK + "AV-Inventory" + Version + ".bom";
+                var stream = new FileStream(file, FileMode.Create);
+                this.bom = new BinaryWriter(stream, Encoding.ASCII);
+            }
+            catch
+            {
+                this.bom = null;
+            }
+            try
+            {
+                string file = this.baseSDK + "AV-Inventory" + Version + ".md5";
+                var stream = new FileStream(file, FileMode.Create);
+                this.bomMD5 = new BinaryWriter(stream, Encoding.ASCII);
+            }
+            catch
+            {
+                this.bomMD5 = null;
+            }
+            this.bomLines = new();
         }
 
         public static void Main()
         {
             var app = new ConsoleApp();
+
+            Console.WriteLine("Create FlatBuffers binary content files.");
             app.XBook(     "Book",       "Book-Index");
             app.XChapter(  "Chapter",    "Chapter-Index");
             app.XVerse(    "Verse",      "Verse-Index");
@@ -28,10 +65,11 @@
             app.XLemmaOOV( "Lemma-OOV",  "Lemmata-OOV");
             app.XLexicon(  "Lexicon",    "Lexicon");
             app.XNames(    "Names",      "Names");
-            app.XWordClass("WordClass",  "WordClasses");
+            app.XWordClass("WordClass",  "Word-Classes");
             app.XWrit(     "Writ",       "Written");
 
-            Console.WriteLine("Hello, FlatSharp!");
+            Console.WriteLine("Calculate and create the BOM.");
+            app.SaveInventory();
         }
         private string IX(string itype)
         {
@@ -69,13 +107,81 @@
                 bwriter.Write(content);
             }
         }
+        private void StoreInventoryLine(string file)
+        {
+            var buffer = File.ReadAllBytes(file);
+            var length = buffer.Length.ToString();
+            var hash = this.hasher.ComputeHash(buffer);
+            string hashStr = hash != null ? BytesToHex(hash) : "ERROR";
+            for (int len = length.Length; len < 8; len++)
+                length = " " + length;
+
+            string line = hashStr + " " + length + " " + Path.GetFileName(file);
+
+            this.bomLines.Add(line);
+        }
+        private static string BytesToHex(byte[] bytes)
+        {
+            StringBuilder hex = new();
+
+            foreach (byte b in bytes)
+            {
+                var digits = new byte[] { (byte)(b / 0x10), (byte)(b % 0x10) };
+
+                foreach (var digit in digits)
+                {
+                    if (digit <= 9)
+                    {
+                        hex.Append(digit.ToString());
+                    }
+                    else
+                    {
+                        char abcdef = (char)((digit - 0xA) + (byte)'A');
+                        hex.Append(abcdef.ToString());
+                    }
+                }
+            }
+            return hex.ToString();
+        }
+
+        private void SaveInventory()
+        {
+            int n = 0;
+            int len = this.bomLines.Count;
+            string output = "";
+            foreach (var line in this.bomLines)
+            {
+                output += (++n < len) ? line + "\n" : line;
+            }
+            var bomBytes = new byte[output.Length];
+            for (int i = 0; i < output.Length; i++)
+            {
+                bomBytes[i] = (byte)(output[i]);
+            }
+            if (this.bom != null)
+            {
+                this.bom.Write(bomBytes);
+                this.bom.Close();
+            }
+            var hash = this.hasher != null ? this.hasher.ComputeHash(bomBytes) : null;
+            var md5 = hash != null ? BytesToHex(hash) : "ERROR";
+            var md5Bytes = new byte[md5.Length];
+            for (int i = 0; i < md5.Length; i++)
+            {
+                md5Bytes[i] = (byte)(md5[i]);
+            }
+            if (this.bomMD5 != null)
+            {
+                this.bomMD5.Write(md5Bytes);
+                this.bomMD5.Close();
+            }
+        }
         private void XBook(string itype, string otype)
         {
             var index = new AVXBookIndex() { Index = new List<AVXBook>() };
             string file = IX(itype);
 
             var fstream = new StreamReader(file);
-
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
                 byte bookNum = 0;
@@ -106,6 +212,7 @@
             int bytesWritten = AVXBookIndex.Serializer.Write(content, index);
 
             SaveContent(otype, content);
+            StoreInventoryLine(file);
         }
         private void XChapter(string itype, string otype)
         {
@@ -132,6 +239,7 @@
             int bytesWritten = AVXChapterIndex.Serializer.Write(content, index);
 
             SaveContent(otype, content);
+            StoreInventoryLine(file);
         }
         private void XVerse(string itype, string otype)
         {
@@ -161,6 +269,7 @@
             int bytesWritten = AVXVerseIndex.Serializer.Write(content, index);
 
             SaveContent("Verse-Index", content);
+            StoreInventoryLine(file);
         }
         private void XLemma(string itype, string otype)
         {
@@ -189,6 +298,7 @@
             int bytesWritten = AVXLemmata.Serializer.Write(content, records);
 
             SaveContent(otype, content);
+            StoreInventoryLine(file);
         }
         private void XLemmaOOV(string itype, string otype)
         {
@@ -223,6 +333,7 @@
             int bytesWritten = AVXLemmataOOV.Serializer.Write(content, records);
 
             SaveContent(otype, content);
+            StoreInventoryLine(file);
         }
         private void XNames(string itype, string otype)
         {
@@ -249,8 +360,9 @@
             int bytesWritten = AVXNames.Serializer.Write(content, records);
 
             SaveContent(otype, content);
+            StoreInventoryLine(file);
         }
-   
+
         private void XLexicon(string itype, string otype)
         {
             int line = 1;
@@ -297,6 +409,7 @@
             int bytesWritten = AVXLexicon.Serializer.Write(content, records);
 
             SaveContent(otype, content);
+            StoreInventoryLine(file);
         }
         private void XWordClass(string itype, string otype)
         {
@@ -324,6 +437,7 @@
             int bytesWritten = AVXWordClasses.Serializer.Write(content, records);
 
             SaveContent(otype, content);
+            StoreInventoryLine(file);
         }
         private void XWrit(string itype, string otype)
         {
@@ -357,6 +471,7 @@
             int bytesWritten = AVXWritten.Serializer.Write(content, items);
 
             SaveContent(otype, content);
+            StoreInventoryLine(file);
         }
     }
 }
