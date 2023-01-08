@@ -5,7 +5,7 @@ namespace DigitalAV.Migration
 {
     using AVX.FlatBuf;
     using FlatSharp;
-
+    using SerializeFromSDK;
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -19,17 +19,20 @@ namespace DigitalAV.Migration
     {
         private HashAlgorithm? hasher;
 
+        private string csrc;
         private string output;
         private string outputExtent;
         private string baseSDK;
         private BinaryWriter? bom;
         private BinaryWriter? bomMD5;
         private List<string> bomLines;
+        private Dictionary<string, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize)> bomDetails;
         private Dictionary<string, UInt32> RecordCounts;
 
         private const string Version = "-Z31";
         internal ConsoleApp()
         {
+            this.csrc = @"C:\src\Digital-AV\z-series\foundations\cpp";
             this.output = @"C:\src\Digital-AV\z-series\FB\content\";
             this.outputExtent = ".bin";
             this.baseSDK = @"C:\src\Digital-AV\z-series\";
@@ -55,6 +58,7 @@ namespace DigitalAV.Migration
                 this.bomMD5 = null;
             }
             this.bomLines = new();
+            this.bomDetails = new();
             this.RecordCounts = new();
         }
 
@@ -76,7 +80,7 @@ namespace DigitalAV.Migration
             app.XWrit32("Writ-32");
 
             Console.WriteLine("Calculate and create the BOM.");
-            app.SaveInventory();
+            app.SaveInventoryAndGenerate();
         }
         private string IX(string itype)
         {
@@ -108,7 +112,7 @@ namespace DigitalAV.Migration
             }
             return 0;
         }
-        private string ReadByteString(BinaryReader breader, UInt16 maxLen = 24)
+        public static string ReadByteString(BinaryReader breader, UInt16 maxLen = 24)
         {
             var buffer = new char[maxLen];
 
@@ -134,7 +138,7 @@ namespace DigitalAV.Migration
             if (recordCount > 0)
                 this.RecordCounts[itype] = recordCount;
         }
-        private void AddInventoryRecord(string fname, string hash, string len, string cnt, string size)
+        private void AddInventoryRecord(string fname, string fpath, string otype, string hash, UInt32 len, UInt32 cnt, UInt32 size)
         {
             if (this.bomLines.Count == 0)
             {
@@ -146,6 +150,7 @@ namespace DigitalAV.Migration
             }
             string record = PadRight(fname, 16) + " " + PadRight(hash, 32) + " " + PadLeft(len.ToString(), 3) + " " + PadLeft(cnt.ToString(), 7) + " " + PadLeft(size.ToString(), 8);
             this.bomLines.Add(record);
+            this.bomDetails[fname] = (hash, fpath, otype, len, cnt, size);
         }
         private static string PadLeft(string input, int cnt, char padding = ' ')
         {
@@ -161,7 +166,7 @@ namespace DigitalAV.Migration
                 output += padding;
             return output;
         }
-        private void StoreInventoryLine(string file)
+        private void StoreInventoryLine(string file, string otype)
         {
             string ifile = Path.GetFileName(file);
             string itype = Path.GetFileNameWithoutExtension(file).Substring(3);
@@ -174,7 +179,7 @@ namespace DigitalAV.Migration
             var hash = this.hasher.ComputeHash(buffer);
             string hashStr = hash != null ? BytesToHex(hash) : "ERROR";
 
-            this.AddInventoryRecord(Path.GetFileName(file), hashStr, rlen.ToString(), rcnt.ToString(), size.ToString());
+            this.AddInventoryRecord(Path.GetFileName(file), file, otype, hashStr, rlen, (UInt32) rcnt, (UInt32) size);
         }
         private static string BytesToHex(byte[] bytes)
         {
@@ -200,7 +205,7 @@ namespace DigitalAV.Migration
             return hex.ToString();
         }
 
-        private void SaveInventory()
+        private void SaveInventoryAndGenerate()
         {
             int n = 0;
             int len = this.bomLines.Count;
@@ -231,6 +236,9 @@ namespace DigitalAV.Migration
                 this.bomMD5.Write(md5Bytes);
                 this.bomMD5.Close();
             }
+
+            var srcgen = new CSrcGen(this.baseSDK, this.csrc, this.bomDetails);
+            srcgen.Generate();
         }
         private void XBook(string itype, string otype)
         {
@@ -255,7 +263,7 @@ namespace DigitalAV.Migration
                     for (int i = 0; i < bname.Length && bname[i] != 0; i++)
                         name.Append(bname[i]);
                     for (int i = 0; i < babbr.Length && babbr[i] != 0; i++)
-                        abbr.Append(bname[i]);
+                        abbr.Append(babbr[i]);
 
                     var abbreviations = abbr.ToString().Split(',', StringSplitOptions.RemoveEmptyEntries);
 
@@ -268,7 +276,7 @@ namespace DigitalAV.Migration
             int bytesWritten = AVXBookIndex.Serializer.Write(content, index);
 
             SaveContent(otype, content, itype);
-            StoreInventoryLine(file);
+            StoreInventoryLine(file, otype);
         }
         private void XChapter(string itype, string otype)
         {
@@ -295,7 +303,7 @@ namespace DigitalAV.Migration
             int bytesWritten = AVXChapterIndex.Serializer.Write(content, index);
 
             SaveContent(otype, content, itype);
-            StoreInventoryLine(file);
+            StoreInventoryLine(file, otype);
         }
         private void XVerse(string itype, string otype)
         {
@@ -309,11 +317,10 @@ namespace DigitalAV.Migration
                 UInt32 recordIdx = 0;
                 do
                 {
-                    var item = breader.ReadUInt32();
-                    var book = (byte)(item / 0x1000000);
-                    var chapter = (byte)((item / 0x10000) & 0xFF);
-                    var verse = (byte)((item / 0x100) & 0xFF);
-                    var wordCnt = (byte)(item % 0x100);
+                    var book = breader.ReadByte();
+                    var chapter = breader.ReadByte();
+                    var verse = breader.ReadByte();
+                    var wordCnt = breader.ReadByte();
 
                     var entry = new AVXVerse() { Book = book, Chapter = chapter, Verse = verse, WordCnt = wordCnt };
                     index.Index.Add(entry);
@@ -325,7 +332,7 @@ namespace DigitalAV.Migration
             int bytesWritten = AVXVerseIndex.Serializer.Write(content, index);
 
             SaveContent("Verse-Index", content, itype);
-            StoreInventoryLine(file);
+            StoreInventoryLine(file, otype);
         }
         private void XLemma(string itype, string otype)
         {
@@ -356,7 +363,7 @@ namespace DigitalAV.Migration
             int bytesWritten = AVXLemmata.Serializer.Write(content, records);
 
             SaveContent(otype, content, itype, cnt);
-            StoreInventoryLine(file);
+            StoreInventoryLine(file, otype);
         }
         private void XLemmaOOV(string itype, string otype)
         {
@@ -393,7 +400,7 @@ namespace DigitalAV.Migration
             int bytesWritten = AVXLemmataOOV.Serializer.Write(content, records);
 
             SaveContent(otype, content, itype, cnt);
-            StoreInventoryLine(file);
+            StoreInventoryLine(file, otype);
         }
         private void XNames(string itype, string otype)
         {
@@ -422,12 +429,11 @@ namespace DigitalAV.Migration
             int bytesWritten = AVXNames.Serializer.Write(content, records);
 
             SaveContent(otype, content, itype, cnt);
-            StoreInventoryLine(file);
+            StoreInventoryLine(file, otype);
         }
 
         private void XLexicon(string itype, string otype)
         {
-            int line = 1;
             var records = new AVXLexicon() { Lex = new List<AVXLexItem>() };
             string file = DXI(itype);
 
@@ -438,11 +444,11 @@ namespace DigitalAV.Migration
             {
                 while (breader.BaseStream.Position < breader.BaseStream.Length)
                 {
-                    cnt ++;
                     var entities = breader.ReadUInt16();
                     int posCnt = breader.ReadUInt16();
-                    if (posCnt == 0x3117 && line >= 0x3117)
+                    if (posCnt == 0x3117 && cnt >= 0x3117)
                         break;
+                    cnt ++;
                     UInt32[] pos = new UInt32[posCnt];
                     for (int p = 0; p < posCnt; p++)
                         pos[p] = breader.ReadUInt32();
@@ -465,7 +471,6 @@ namespace DigitalAV.Migration
                         else
                             records.Lex.Add(new AVXLexItem() { Search = search, Entities = entities, Pos = pos });
                     }
-                    line++;
                 }
             }
             var maxBytesNeeded = AVXLexicon.Serializer.GetMaxSize(records);
@@ -473,7 +478,7 @@ namespace DigitalAV.Migration
             int bytesWritten = AVXLexicon.Serializer.Write(content, records);
 
             SaveContent(otype, content, itype, cnt);
-            StoreInventoryLine(file);
+            StoreInventoryLine(file, otype);
         }
         private void XWordClass(string itype, string otype)
         {
@@ -503,7 +508,7 @@ namespace DigitalAV.Migration
             int bytesWritten = AVXWordClasses.Serializer.Write(content, records);
 
             SaveContent(otype, content, itype, cnt);
-            StoreInventoryLine(file);
+            StoreInventoryLine(file, otype);
         }
         private void XWrit(string itype, string otype)
         {
@@ -537,17 +542,17 @@ namespace DigitalAV.Migration
             int bytesWritten = AVXWritten.Serializer.Write(content, items);
 
             SaveContent(otype, content, itype);
-            StoreInventoryLine(file);
+            StoreInventoryLine(file, otype);
         }
         private void XWrit128(string itype)
         {
             string file = DX(itype);
-            StoreInventoryLine(file);
+            StoreInventoryLine(file, "");
         }
         private void XWrit32(string itype)
         {
             string file = DX(itype);
-            StoreInventoryLine(file);
+            StoreInventoryLine(file, "");
         }
     }
 }
