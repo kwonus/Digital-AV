@@ -19,6 +19,7 @@ namespace DigitalAV.Migration
     {
         private HashAlgorithm? hasher;
 
+        private string rsrc;
         private string csrc;
         private string output;
         private string outputExtent;
@@ -33,6 +34,7 @@ namespace DigitalAV.Migration
         internal ConsoleApp()
         {
             this.csrc = @"C:\src\Digital-AV\z-series\foundations\cpp";
+            this.rsrc = @"C:\src\Digital-AV\z-series\foundations\rust\src\avx";
             this.output = @"C:\src\Digital-AV\z-series\FB\content\";
             this.outputExtent = ".bin";
             this.baseSDK = @"C:\src\Digital-AV\z-series\";
@@ -237,8 +239,11 @@ namespace DigitalAV.Migration
                 this.bomMD5.Close();
             }
 
-            var srcgen = new CSrcGen(this.baseSDK, this.csrc, this.bomDetails);
-            srcgen.Generate();
+            var cpp = new CSrcGen(this.baseSDK, this.csrc, this.bomDetails);
+            cpp.Generate();
+
+            var rust = new RustSrcGen(this.baseSDK, this.rsrc, this.bomDetails);
+            rust.Generate();
         }
         private void XBook(string itype, string otype)
         {

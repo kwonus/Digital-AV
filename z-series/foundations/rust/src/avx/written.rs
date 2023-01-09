@@ -1,23 +1,17 @@
-// > > > Generated-Code -- Header > > > //
-// This file was partially code generated. Some edits to this module will be lost.
-// Be sure NOT to add/change code within Generate-Code directives.
-// For example, these comments are wrapped in a pair Generated-Code directives.
-// < < < Generated-Code -- Header < < < //
+// This file is NOT code-generated, but it should be validated against current SDK docs
 
-// > > > Generated-Code -- Metadata > > > //
-static AVXWrit_Rust_Edition    :u16 = 23107;
-static AVXWrit_SDK_ZEdition    :u16 = 23104;
+static AVXWritten_Rust_Edition    :u16 = 23108;
+static AVXWritten_SDK_ZEdition    :u16 = 23107;
 
-static AVXAVXWrit: &'static str     = "AV-Writ.ix"; // from AV-Inventory-Z31.bom
-static AVXAVXWrit_RecordLen  :usize =         22;   // from AV-Inventory-Z31.bom
-static AVXBookIndex_RecordCnt:usize =    789_651;   // from AV-Inventory-Z31.bom
-static AVXAVXWrit_FileLen    :usize = 17_372_322;   // from AV-Inventory-Z31.bom
-// < < < Generated-Code -- Metadata < < < //
+static AVXWritten_File: &'static str   = "AV-Writ.dx";
+static AVXWritten_RecordLen     :usize =       22;
+static AVXWritten_RecordCnt     :usize =   789651;
+static AVXWritten_FileLen       :usize = 17372322;
 
 static WordKeyBits_CAPS                  :u16 = 0xC000; // leading 2 bits
 static WordKeyBits_CAPS_FirstLetter      :u16 = 0x8000;
 static WordKeyBits_CAPS_AllLetters       :u16 = 0x4000;
-static WordKeyBits_WordKey               :u16 = 0x3FFF // trailing 14 bits
+static WordKeyBits_WordKey               :u16 = 0x3FFF; // trailing 14 bits
 
 static Puncutation_Clause                 :u8 =   0xE0;
 static Puncutation_Exclamatory            :u8 =   0x80;
@@ -110,17 +104,4 @@ impl Default for AVXWrit {
             lemma: 0,
         }
     }
-}
-
-// > > > Generated-Code -- Initialization > > > //
-
-// < < < Generated-Code -- Initialization < < < //
-
-pub const fn get_writ(sdkdir: string) -> [AVXWrit; 789_651] {
-    let mut writ: [AVBook; 789_651] = Default::default();
-
-    for w in writ.iter().enumerate() {
-        let w::word = 1;
-    }
-    return writ;
 }

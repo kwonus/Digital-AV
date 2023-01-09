@@ -19,11 +19,11 @@ namespace SerializeFromSDK
         private string sdk;
         private Dictionary<string, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize)> inventory;
 
-        public CSrcGen(string sdk, string csrc, Dictionary<string, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize)> inventory)
+        public CSrcGen(string sdk, string src, Dictionary<string, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize)> inventory)
         {
             this.inventory= inventory;
             this.sdk = sdk;
-            this.output = csrc;
+            this.output = src;
         }
         public bool Generate()
         {
@@ -61,7 +61,8 @@ namespace SerializeFromSDK
 
             TextWriter writer = File.CreateText(Path.Combine(this.output, outname + ".c"));
             writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.Write("static const " + outname + "[" + vartype + "_RecordCnt] = {");
+            writer.Write("static const " + outname + "[1+" + vartype + "_RecordCnt] = {");
+            writer.Write("\t{  0,   0,    0, \"\", { \"\" } },");
 
             var fstream = new StreamReader(bom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
@@ -126,7 +127,6 @@ namespace SerializeFromSDK
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
                 string delimiter = "\n";
-                byte bookNum = 0;
                 for (int x = 1; x <= bom.rcnt; x++)
                 {
                     writer.Write(delimiter);
@@ -162,7 +162,6 @@ namespace SerializeFromSDK
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
                 string delimiter = "\n";
-                byte bookNum = 0;
                 for (int x = 1; x <= bom.rcnt; x++)
                 {
                     writer.Write(delimiter);
@@ -446,7 +445,6 @@ namespace SerializeFromSDK
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
                 string delimiter = "\n";
-                byte bookNum = 0;
                 for (int x = 1; x <= bom.rcnt; x++)
                 {
                     writer.Write(delimiter);

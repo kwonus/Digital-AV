@@ -1,5 +1,5 @@
 #include "book_index.h"
-static const book_index[AVXBookIndex_RecordCnt] = {
+static const book_index[1+AVXBookIndex_RecordCnt] = {	{  0,   0,    0, "", { "" } },
 	{  1,  50,    0, "Genesis", { "Ge" } },
 	{  2,  40,   50, "Exodus", { "Ex" } },
 	{  3,  27,   90, "Leviticus", { "Le" } },
