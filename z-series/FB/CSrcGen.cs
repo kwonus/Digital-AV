@@ -61,8 +61,7 @@ namespace SerializeFromSDK
 
             TextWriter writer = File.CreateText(Path.Combine(this.output, outname + ".c"));
             writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.WriteLine("static const " + outname + "[1+" + vartype + "_RecordCnt] = {");
-            writer.Write("\t{  0,   0,    0, \"\", { \"\" } },");
+            writer.Write("static const " + outname + "[1+" + vartype + "_RecordCnt] = {");
 
             var fstream = new StreamReader(bom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))

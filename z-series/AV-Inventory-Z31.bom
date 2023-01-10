@@ -1,6 +1,6 @@
 filename         hash                            rlen    rcnt     size
 ---------------- -------------------------------- --- ------- --------
-AV-Book.ix       DAA21C30BA3713ECAF3746DE028879B3  48      61     2948
+AV-Book.ix       DAA21C30BA3713ECAF3746DE028879B3  44      67     2948
 AV-Chapter.ix    BDE15818272ACDB3EE16DF7F9D136F53  10    1189    11890
 AV-Verse.ix      12D57CF0F718D16BE798B7D1E38C0BC5   4   31102   124408
 AV-Lemma.dxi     B64F907ABC54470F2D227D8AC5703E33   0   15171   182344

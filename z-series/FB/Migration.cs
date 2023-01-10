@@ -108,7 +108,7 @@ namespace DigitalAV.Migration
             else switch (itype.ToLower())
             {
                 case "av-writ.dx":    return 22;
-                case "av-book.ix":    return 48;
+                case "av-book.ix":    return 44;
                 case "av-chapter.ix": return 10;
                 case "av-verse.ix":   return  4;
             }
@@ -251,7 +251,7 @@ namespace DigitalAV.Migration
             cpp.Generate();
 
             var rust = new RustSrcGen(this.baseSDK, this.rsrc, this.bomDetails);
-            rust.GenerateZ14();
+            rust.Generate();
         }
         private void XBook(string itype, string otype)
         {
@@ -264,15 +264,15 @@ namespace DigitalAV.Migration
                 byte bookNum = 0;
                 do
                 {
-                    bookNum        = breader.ReadByte();
-                    var chapterCnt = breader.ReadByte();
-                    var chapterIdx = breader.ReadUInt16();
-                    var verseCnt   = breader.ReadUInt16();
-                    var verseIdx   = breader.ReadUInt16();
-                    var writCnt    = breader.ReadUInt32();
-                    var writIdx    = breader.ReadUInt32();
-                    var bname      = breader.ReadBytes(16);
-                    var babbr      = breader.ReadBytes(12);
+                    bookNum        = breader.ReadByte();        // 1
+                    var chapterCnt = breader.ReadByte();        // 1 =  2
+                    var chapterIdx = breader.ReadUInt16();      // 2 =  4
+                    var verseCnt   = breader.ReadUInt16();      // 2 =  6
+                    var verseIdx   = breader.ReadUInt16();      // 2 =  8
+                    var writCnt    = breader.ReadUInt32();      // 4 = 12
+                    var writIdx    = breader.ReadUInt32();      // 4 = 16
+                    var bname      = breader.ReadBytes(16);     //16 = 32
+                    var babbr      = breader.ReadBytes(12);     //12 = 44
 
                     var name = new StringBuilder();
                     var abbr = new StringBuilder();

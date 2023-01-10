@@ -217,8 +217,8 @@ namespace SerializeFromSDK
                         writer.WriteLine(INIT[BEGIN]);
                         switch (select)
                         {
-                            case "Book":        this.XBookZ14(     writer, "AVXBook",      bom); break;
-                            case "Chapter":     this.XChapterZ14(  writer, "AVXChapter",   bom); break;
+                            case "Book":        this.XBook(     writer, "AVXBook",      bom); break;
+                            case "Chapter":     this.XChapter(  writer, "AVXChapter",   bom); break;
                             case "Verse":       this.XVerse(    writer, "AVXVerse",     bom); break;
                             case "Lemma":       this.XLemma(    writer, "AVXLemma",     bom); break;
                             case "Lemma-OOV":   this.XLemmaOOV( writer, "AVXLemmaOOV",  bom); break;
@@ -240,7 +240,7 @@ namespace SerializeFromSDK
         {
             var outname = bom.otype.Replace('-', '_').ToLower();
 
-            writer.WriteLine("static " + "books" + ": [" + rtype + "; " + (bom.rcnt+1).ToString() + "] = [");
+            writer.WriteLine("static " + "books" + ": [" + rtype + "; " + "67" + "] = [");
             writer.WriteLine("\t" + rtype + "{ num:  0, chapter_cnt:   0, chapter_idx:    0, verse_cnt:       0, verse_idx:       0, writ_cnt:        31, writ_idx:        31, name: \"Z31.9\", abbreviations: [  \"\", \"\", \"\" ] },");
             this.BookIndex[0].chapter_cnt = 0;
             this.BookIndex[0].chapter_idx = 0;
@@ -373,12 +373,12 @@ namespace SerializeFromSDK
         {
             var outname = bom.otype.Replace('-', '_').ToLower();
 
-            writer.WriteLine("static " + "books" + ": [" + rtype + "; " + (bom.rcnt + 1).ToString() + "] = [");
+            writer.WriteLine("static " + "books" + ": [" + rtype + "; " + 67.ToString() + "] = [");
 
             var fstream = new StreamReader(bom.fpath);    // we still base input on the Z14 release, until we are certain that there are no bugs
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
-                for (int x = 0; x <= bom.rcnt; x++)
+                for (int x = 0; x <= 66; x++)
                 {
                     var bookNum    = breader.ReadByte();
                     var chapterCnt = breader.ReadByte();
