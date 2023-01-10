@@ -82,9 +82,9 @@ static AVXBookIndex_Rust_Edition    :u16 = 23108;
 static AVXBookIndex_SDK_ZEdition    :u16 = 23107;
 
 static AVXBookIndex_File: &'static str = "AV-Book.ix";
-static AVXBookIndex_RecordLen   :usize =       32;
-static AVXBookIndex_RecordCnt   :usize =       66;
-static AVXBookIndex_FileLen     :usize =     2112;
+static AVXBookIndex_RecordLen   :usize =       48;
+static AVXBookIndex_RecordCnt   :usize =       61;
+static AVXBookIndex_FileLen     :usize =     2948;
 // < < < Generated-Code -- Metadata < < < //
 
 struct AVXBook {                                  // from Digital-AV.pdf
@@ -100,7 +100,7 @@ struct AVXBook {                                  // from Digital-AV.pdf
 }
 
 // > > > Generated-Code -- Initialization > > > //
-static books: [AVXBook; 67] = [
+static books: [AVXBook; 62] = [
 	AVXBook{ num:  0, chapter_cnt:   0, chapter_idx:    0, verse_cnt:       0, verse_idx:       0, writ_cnt:        31, writ_idx:        31, name: "Z31.9", abbreviations: [  "", "", "" ] },
 	AVXBook{ num:  1, chapter_cnt:  50, chapter_idx:    0, verse_cnt:    1533, verse_idx:       0, writ_cnt:     38262, writ_idx:         0, name: "Genesis", abbreviations: [  "Ge", "", "" ] },
 	AVXBook{ num:  2, chapter_cnt:  40, chapter_idx:   50, verse_cnt:    1213, verse_idx:    1533, writ_cnt:     32685, writ_idx:     38262, name: "Exodus", abbreviations: [  "Ex", "", "" ] },

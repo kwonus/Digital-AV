@@ -219,7 +219,7 @@ namespace SerializeFromSDK
                         {
                             case "Book":        this.XBookZ14(     writer, "AVXBook",      bom); break;
                             case "Chapter":     this.XChapterZ14(  writer, "AVXChapter",   bom); break;
-                            case "Verse":       this.XVerseZ14(    writer, "AVXVerse",     bom); break;
+                            case "Verse":       this.XVerse(    writer, "AVXVerse",     bom); break;
                             case "Lemma":       this.XLemma(    writer, "AVXLemma",     bom); break;
                             case "Lemma-OOV":   this.XLemmaOOV( writer, "AVXLemmaOOV",  bom); break;
                             case "Lexicon":     this.XLexicon(  writer, "AVXLexItem",   bom); break;
@@ -255,7 +255,7 @@ namespace SerializeFromSDK
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
                 byte bookNum = 0;
-                for (int x = 1; x <= bom.rcnt; x++)
+                for (int x = 1; x <= 66; x++)
                 {
                     bookNum = breader.ReadByte();
                     var chapterCnt = breader.ReadByte();

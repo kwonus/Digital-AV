@@ -1,6 +1,6 @@
 #include "lexicon.h"
 static const lexicon[AVXLexicon_RecordCnt] = {
-	{ 0x0000, 1, { 0x00000000 }, "", NULL, NULL }, // We add a zeroth record to the C array to simplify indexing by word_key; lexicon[1] should return "a" record; [0] is an illegal word_key for the lexicon
+	{ 0xFFFF, 3, { 0x00003118, 0x0000001F, 0x00000009 }, NULL, NULL, NULL },
 	{ 0x0000, 3, { 0x00000036, 0x00000094, 0x80004206 }, "a", NULL, NULL },
 	{ 0x0000, 1, { 0x01074F9C }, "i", NULL, NULL },
 	{ 0x0000, 1, { 0x000002A8 }, "o", NULL, "oh" },

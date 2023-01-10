@@ -9,9 +9,9 @@ static AVXChapterIndex_Rust_Edition    :u16 = 23108;
 static AVXChapterIndex_SDK_ZEdition    :u16 = 23107;
 
 static AVXChapterIndex_File: &'static str = "AV-Chapter.ix";
-static AVXChapterIndex_RecordLen   :usize =        8;
+static AVXChapterIndex_RecordLen   :usize =       10;
 static AVXChapterIndex_RecordCnt   :usize =     1189;
-static AVXChapterIndex_FileLen     :usize =     9512;
+static AVXChapterIndex_FileLen     :usize =    11890;
 // < < < Generated-Code -- Metadata < < < //
 
 struct AVXChapter {
