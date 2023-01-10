@@ -91,10 +91,10 @@ struct AVXBook {                                  // from Digital-AV.pdf
     num:            uint8,
     chapter_cnt:    uint8,
     chapter_idx:    uint16,
-	verse_cnt:		uint16,
+	verse_cnt:		uint16,			// uint32 in binary-file baseline SDL asset,
 	verse_idx:		uint16,
 	writ_idx:		uint32,
-	writ_cnt:		uint32,
+	writ_cnt:		uint16,			// uint32 in binary-file baseline SDK asset,
     name:           string,
     abbreviations:  [string; 3],
 }

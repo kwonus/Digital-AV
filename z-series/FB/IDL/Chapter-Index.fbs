@@ -4,8 +4,9 @@ namespace AVX.FlatBuf;
 
 struct AVXChapter {
     writ_idx:    uint32;
+    writ_cnt:    uint16;
     verse_idx:   uint16;
-    word_cnt:    uint16;
+    verse_cnt:   uint16;
 }
 
 table AVXChapterIndex (fs_serializer) {

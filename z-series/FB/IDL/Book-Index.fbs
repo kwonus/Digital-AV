@@ -7,6 +7,10 @@ table AVXBook (fs_serializer) {
     num:            uint8   (key);
     chapter_cnt:    uint8;
     chapter_idx:    uint16;
+    verse_cnt:      uint16;
+    verse_idx:      uint16;
+    writ_cnt:       uint32;  
+    writ_idx:       uint32;
     name:           string  (required);
     abbreviations: [string] (required);
 }

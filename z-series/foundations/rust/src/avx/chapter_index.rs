@@ -18,7 +18,7 @@ struct AVXChapter {
     writ_idx:    uint32,
 	writ_cnt:    uint16,
     verse_idx:   uint16,
-	verse_cnt:   uint16,
+	verse_cnt:   uint8,		// uint16 in binary-file baseline SDK asset
 }
 
 impl Default for AVXChapter {

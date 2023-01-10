@@ -8,6 +8,10 @@ typedef struct avx_book {                            // from Digital-AV.pdf
     uint8   num;
     uint8   chapter_cnt;
     uint16  chapter_idx;
+    uint16  verseCnt;
+    uint16  verseIdx;
+    uint16  writCnt;
+    uint32  writIdx;
     char    name[17];
     int     abbreviationCnt;
     char  **abbreviations;

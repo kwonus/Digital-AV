@@ -36,8 +36,8 @@ namespace SerializeFromSDK
             UInt16 chapter_idx,
             UInt16 verse_cnt,
             UInt16 verse_idx,
+            UInt32 writ_cnt,    
             UInt32 writ_idx,
-            UInt32 writ_cnt,
             string? name,
             string?[] abbreviations
         )[] BookIndex = new (byte, UInt16, UInt16, UInt16, UInt32, UInt32, string?, string?[])[67];
@@ -218,7 +218,7 @@ namespace SerializeFromSDK
             this.BookIndex[0].name = "Z31.9";
             this.BookIndex[0].abbreviations = new string[0];
 
-            var fstream = new StreamReader(bom.fpath);
+            var fstream = new StreamReader(bom.fpath.Replace(".ix", "-Z14.ix"));    // we still base input on the Z14 release, until we are certain that there are no bugs
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
                 byte bookNum = 0;
@@ -342,7 +342,7 @@ namespace SerializeFromSDK
 
             writer.WriteLine("static " + outname + ": [" + rtype + "; " + bom.rcnt.ToString() + "] = [");
 
-            var fstream = new StreamReader(bom.fpath);
+            var fstream = new StreamReader(bom.fpath.Replace(".ix", "-Z14.ix"));    // we still base input on the Z14 release, until we are certain that there are no bugs
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
                 for (int x = 0; x < bom.rcnt; x++)
@@ -562,7 +562,7 @@ namespace SerializeFromSDK
             bwriter.Write((byte) 0);
 
             var buffer = new char[24];
-            var fstream = new StreamReader(bom.fpath);
+            var fstream = new StreamReader(bom.fpath.Replace(".dxi", "-Z14.dxi"));    // we still base input on the Z14 release, until we are certain that there are no bugs
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
                 for (int x = 1; x <= bom.rcnt; x++)

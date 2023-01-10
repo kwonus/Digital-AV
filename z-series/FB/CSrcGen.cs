@@ -75,11 +75,15 @@ namespace SerializeFromSDK
                     if (delimiter.Length < 2)
                         delimiter = ",\n";
 
-                    bookNum = breader.ReadByte();
+                    bookNum        = breader.ReadByte();
                     var chapterCnt = breader.ReadByte();
                     var chapterIdx = breader.ReadUInt16();
-                    var bname = breader.ReadBytes(16);
-                    var babbr = breader.ReadBytes(12);
+                    var verseCnt   = breader.ReadUInt16();
+                    var verseIdx   = breader.ReadUInt16();
+                    var writCnt    = breader.ReadUInt32();
+                    var writIdx    = breader.ReadUInt32();
+                    var bname      = breader.ReadBytes(16);
+                    var babbr      = breader.ReadBytes(12);
 
                     var name = new StringBuilder();
                     var abbr = new StringBuilder();
@@ -97,6 +101,10 @@ namespace SerializeFromSDK
                     writer.Write(Pad(bookNum, 2) + ", ");
                     writer.Write(Pad(chapterCnt, 3) + ", ");
                     writer.Write(Pad(chapterIdx, 4) + ", ");
+                    writer.Write(Pad(verseCnt, 5) + ", ");
+                    writer.Write(Pad(verseIdx, 6) + ", ");
+                    writer.Write(Pad(writCnt, 7) + ", ");
+                    writer.Write(Pad(writIdx, 8) + ", ");
                     writer.Write("\"" + name.ToString() + "\", ");
 
                     var insideDelimiter = "{ ";
@@ -134,14 +142,16 @@ namespace SerializeFromSDK
                         delimiter = ",\n";
 
                     var writIdx = breader.ReadUInt32();
+                    var writCnt = breader.ReadUInt16();
                     var verseIdx = breader.ReadUInt16();
-                    var wordCnt = breader.ReadUInt16();
+                    var verseCnt = breader.ReadUInt16();
 
                     writer.Write("\t{ ");
 
                     writer.Write(Pad(writIdx, 6) + ", ");
+                    writer.Write(Pad(writCnt, 4) + ", ");
                     writer.Write(Pad(verseIdx, 5) + ", ");
-                    writer.Write(Pad(wordCnt, 4));
+                    writer.Write(Pad(verseCnt, 4));
 
                     writer.Write(" }");
                 }
