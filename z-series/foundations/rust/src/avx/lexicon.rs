@@ -1,7 +1,7 @@
 // > > > Generated-Code -- Header > > > //
 // This file was partially code generated. Some edits to this module will be lost.
-// Be sure NOT to add/change code within Generate-Code directives.
-// For example, these comments are wrapped in a pair Generated-Code directives.
+// Be sure NOT to add/change code within Generated-Code directives.
+// For example, these comments are wrapped in a pair Generated-Coded directives.
 // < < < Generated-Code -- Header < < < //
 
 // > > > Generated-Code -- Metadata > > > //
@@ -36,7 +36,7 @@ struct AVXLexItem {
 
 // > > > Generated-Code -- Initialization > > > //
 static lexicon: [AVXLexItem; 12568] = [
-	AVXLexItem { entities: 0x0000, search: "",  display: "", modern: "", pos: [ 0x00000000, ] },
+	AVXLexItem { entities: 0xFFFF, search: "",  display: "", modern: "", pos: [ 12567, 31, 9 ] },
 	AVXLexItem { entities: 0x0000, search: "a", display: "", modern: "", pos: [ 0x00000036, 0x00000094, 0x80004206, ]  },
 	AVXLexItem { entities: 0x0000, search: "i", display: "", modern: "", pos: [ 0x01074F9C, ]  },
 	AVXLexItem { entities: 0x0000, search: "o", display: "", modern: "oh", pos: [ 0x000002A8, ]  },
