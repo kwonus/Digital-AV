@@ -69,7 +69,7 @@ namespace SerializeFromSDK
             {
                 string delimiter = "\n";
                 byte bookNum = 0;
-                for (int x = 1; x <= bom.rcnt; x++)
+                for (int x = 0; x <= 66; x++)
                 {
                     writer.Write(delimiter);
                     if (delimiter.Length < 2)
