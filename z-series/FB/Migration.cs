@@ -36,7 +36,7 @@ namespace DigitalAV.Migration
             this.csrc = @"C:\src\Digital-AV\z-series\foundations\cpp";
             this.rsrc = @"C:\src\Digital-AV\z-series\foundations\rust\src\avx";
             this.output = @"C:\src\Digital-AV\z-series\FB\content\";
-            this.outputExtent = ".bin";
+            this.outputExtent = ".data";
             this.baseSDK = @"C:\src\Digital-AV\z-series\";
             this.hasher = HashAlgorithm.Create(HashAlgorithmName.MD5.ToString());
             try

@@ -387,6 +387,14 @@ namespace SerializeFromSDK
                     var verseIdx   = breader.ReadUInt16();
                     var writCnt    = breader.ReadUInt32();
                     var writIdx    = breader.ReadUInt32();
+
+                    this.BookIndex[x].chapter_cnt = chapterCnt;
+                    this.BookIndex[x].chapter_idx = chapterIdx;
+                    this.BookIndex[x].verse_cnt   = verseCnt;
+                    this.BookIndex[x].verse_idx   = verseIdx;
+                    this.BookIndex[x].writ_cnt    = writCnt;
+                    this.BookIndex[x].writ_idx    = writIdx;
+
                     var bname      = breader.ReadBytes(16);
                     var babbr      = breader.ReadBytes(12);
 
