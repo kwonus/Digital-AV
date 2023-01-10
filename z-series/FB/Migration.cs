@@ -126,7 +126,15 @@ namespace DigitalAV.Migration
             if (c != 0) for (c = breader.ReadByte(); c != 0; c = breader.ReadByte()) // discard ... this should not happen ... check in debugger
                     Console.WriteLine("Bad stuff!!!");
 
-            return new string(buffer, 0, i);
+            return i > 0 ? new string(buffer, 0, i) : string.Empty;
+        }
+        public static void WriteByteString(BinaryWriter bwriter, string token)
+        {
+            for (int i = 0; i < token.Length; i++)
+            {
+                bwriter.Write((byte)token[i]);
+            }
+            bwriter.Write((byte)0);
         }
         private void SaveContent(string otype, byte[] content, string itype, UInt32 recordCount = 0)
         {
@@ -243,7 +251,7 @@ namespace DigitalAV.Migration
             cpp.Generate();
 
             var rust = new RustSrcGen(this.baseSDK, this.rsrc, this.bomDetails);
-            rust.Generate();
+            rust.GenerateZ14();
         }
         private void XBook(string itype, string otype)
         {
@@ -278,7 +286,7 @@ namespace DigitalAV.Migration
 
                     var book = new AVXBook() { Num = bookNum, ChapterCnt = chapterCnt, ChapterIdx = chapterIdx, VerseCnt = chapterCnt, VerseIdx = chapterIdx, WritCnt = chapterCnt, WritIdx = chapterIdx, Name = name.ToString(), Abbreviations = abbreviations };
 
-                }   while (bookNum <= 66);
+                }   while (bookNum < 66);
             }
             var maxBytesNeeded = AVXBookIndex.Serializer.GetMaxSize(index);
             byte[] content = new byte[maxBytesNeeded];
@@ -463,8 +471,18 @@ namespace DigitalAV.Migration
                     {
                         pos[p] = breader.ReadUInt32();
 
-                        if (rec == 0 && p == 0)
-                            recordCount = pos[p];
+                        if (rec == 0)
+                        {
+                            if (entities == 0xFFFF)
+                            {
+                                if (p == 0)
+                                    recordCount = pos[p];
+                            }
+                            else
+                            {
+                                recordCount = 12567;
+                            }
+                        }
                     }
                     var search = ReadByteString(breader);
                     var display = ReadByteString(breader);

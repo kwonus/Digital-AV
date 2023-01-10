@@ -36,8 +36,8 @@ namespace SerializeFromSDK
             UInt16 chapter_idx,
             UInt16 verse_cnt,
             UInt16 verse_idx,
-            UInt32 writ_cnt,    
             UInt32 writ_idx,
+            UInt32 writ_cnt,
             string? name,
             string?[] abbreviations
         )[] BookIndex = new (byte, UInt16, UInt16, UInt16, UInt32, UInt32, string?, string?[])[67];
@@ -48,7 +48,7 @@ namespace SerializeFromSDK
             this.sdk = sdk;
             this.output = src;
         }
-        public bool Generate()
+        public bool GenerateZ14()
         {
             Console.WriteLine("Create source initializers for Rust.");
 
@@ -88,9 +88,42 @@ namespace SerializeFromSDK
             var writBom = this.inventory[saveWritItem];
             var fstream = new StreamReader(writBom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
-            { 
+            {
                 for (byte i = 1; i <= 66; i++)
                     this.XWrit(breader, i, "AVXWrit", writBom);
+            }
+            return true;
+        }
+        public bool Generate()
+        {
+            Console.WriteLine("Create source initializers for Rust.");
+
+            string saveWritItem = "";
+            foreach (var item in inventory.Keys)
+            {
+                var record = this.inventory[item];
+                var select = Path.GetFileNameWithoutExtension(item).Substring(3);
+
+                switch (select)
+                {
+                    case "Book":      this.XAny(select, record);; break;
+                    case "Chapter":   this.XAny(select, record); break;
+                    case "Verse":     this.XAny(select, record); break;
+                    case "Lemma":     this.XAny(select, record); break;
+                    case "Lemma-OOV": this.XAny(select, record); break;
+                    case "Lexicon":   this.XAny(select, record); break;
+                    case "Names":     this.XAny(select, record); break;
+                    case "WordClass": this.XAny(select, record); break;
+                    case "Writ":      saveWritItem = item;       break;
+                }
+            }
+            // XWrit differs from processing of other files
+            var wbom = this.inventory[saveWritItem];
+            var fstream = new StreamReader(wbom.fpath);
+            using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
+            {
+                for (byte i = 1; i <= 66; i++)
+                    this.XWrit(breader, i, "AVXWrit", wbom);
             }
             return true;
         }
@@ -123,9 +156,9 @@ namespace SerializeFromSDK
             var vartype = "AVX" + bom.otype[0].ToString().ToUpper() + bom.otype.Substring(1).Replace("-", "");
 
             var fname = Path.GetFileName(bom.fpath);
-            var path = Path.Combine(this.output, outname + ".rs");
-            var old  = Path.Combine(this.output, outname + "-Z31.rs");
-            var temp = Path.Combine(this.output, outname + "-temp.rs");
+            var path  = Path.Combine(this.output, outname + ".rs");
+            var old   = Path.Combine(this.output, outname + "-Z31.rs");
+            var temp  = Path.Combine(this.output, outname + "-temp.rs");
             var lines = File.ReadAllLines(path);
 
             TextWriter writer = File.CreateText(temp);
@@ -184,9 +217,9 @@ namespace SerializeFromSDK
                         writer.WriteLine(INIT[BEGIN]);
                         switch (select)
                         {
-                            case "Book":        this.XBook(     writer, "AVXBook",      bom); break;
-                            case "Chapter":     this.XChapter(  writer, "AVXChapter",   bom); break;
-                            case "Verse":       this.XVerse(    writer, "AVXVerse",     bom); break;
+                            case "Book":        this.XBookZ14(     writer, "AVXBook",      bom); break;
+                            case "Chapter":     this.XChapterZ14(  writer, "AVXChapter",   bom); break;
+                            case "Verse":       this.XVerseZ14(    writer, "AVXVerse",     bom); break;
                             case "Lemma":       this.XLemma(    writer, "AVXLemma",     bom); break;
                             case "Lemma-OOV":   this.XLemmaOOV( writer, "AVXLemmaOOV",  bom); break;
                             case "Lexicon":     this.XLexicon(  writer, "AVXLexItem",   bom); break;
@@ -203,7 +236,7 @@ namespace SerializeFromSDK
             File.Delete(old);
             File.Replace(temp, path, null/*, old */);
         }
-        private void XBook(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XBookZ14(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {
             var outname = bom.otype.Replace('-', '_').ToLower();
 
@@ -336,7 +369,67 @@ namespace SerializeFromSDK
                 }
             }
         }
-        private void XChapter(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XBook(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        {
+            var outname = bom.otype.Replace('-', '_').ToLower();
+
+            writer.WriteLine("static " + "books" + ": [" + rtype + "; " + (bom.rcnt + 1).ToString() + "] = [");
+
+            var fstream = new StreamReader(bom.fpath);    // we still base input on the Z14 release, until we are certain that there are no bugs
+            using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
+            {
+                for (int x = 0; x <= bom.rcnt; x++)
+                {
+                    var bookNum    = breader.ReadByte();
+                    var chapterCnt = breader.ReadByte();
+                    var chapterIdx = breader.ReadUInt16();
+                    var verseCnt   = breader.ReadUInt16();
+                    var verseIdx   = breader.ReadUInt16();
+                    var writCnt    = breader.ReadUInt32();
+                    var writIdx    = breader.ReadUInt32();
+                    var bname      = breader.ReadBytes(16);
+                    var babbr      = breader.ReadBytes(12);
+
+                    var name = new StringBuilder();
+                    var abbr = new StringBuilder();
+
+                    for (int i = 0; i < bname.Length && bname[i] != 0; i++)
+                        name.Append((char)bname[i]);
+                    for (int i = 0; i < babbr.Length && babbr[i] != 0; i++)
+                        abbr.Append((char)babbr[i]);
+
+                    writer.Write("\t" + rtype + "{ ");
+
+                    writer.Write("num: " + Pad(bookNum, 2) + ", ");
+                    writer.Write("chapter_cnt: " + Pad(chapterCnt, 3) + ", ");
+                    writer.Write("chapter_idx: " + Pad(chapterIdx, 4) + ", ");
+                    writer.Write("verse_cnt: " + Pad(verseCnt, 7) + ", ");
+                    writer.Write("verse_idx: " + Pad(verseIdx, 7) + ", ");
+                    writer.Write("writ_cnt: " + Pad(writCnt, 9) + ", ");
+                    writer.Write("writ_idx: " + Pad(writIdx, 9) + ", ");
+                    writer.Write("name: \"" + name.ToString() + "\", ");
+
+                    var abbreviations = abbr.ToString().Split(',', StringSplitOptions.RemoveEmptyEntries);
+                    writer.Write("abbreviations: [ ");
+                    int a = 0;
+                    foreach (var ab in abbreviations)
+                    {
+                        if (++a > 3)
+                            break;
+                        writer.Write("\"" + ab + "\", ");
+                    }
+                    for (/**/; a < 3; a++)
+                    {
+                        writer.Write("\"\", ");
+                    }
+                    writer.Write("]");
+
+                    writer.WriteLine(" },");
+                }
+            }
+            writer.WriteLine("];");
+        }
+        private void XChapterZ14(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {
             var outname = bom.otype.Replace('-', '_').ToLower();
 
@@ -403,6 +496,57 @@ namespace SerializeFromSDK
                     bwriter.Write(record.verse_cnt);
                 }
             }
+        }
+        private void XChapter(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        {
+            var outname = bom.otype.Replace('-', '_').ToLower();
+
+            writer.WriteLine("static " + outname + ": [" + rtype + "; " + bom.rcnt.ToString() + "] = [");
+
+            var fstream = new StreamReader(bom.fpath);    // we still base input on the Z14 release, until we are certain that there are no bugs
+            using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
+            {
+                for (int x = 0; x < bom.rcnt; x++)
+                {
+                    var writIdx  = breader.ReadUInt32();
+                    var writCnt  = breader.ReadUInt16();
+                    var verseIdx = breader.ReadUInt16();
+                    var verseCnt = breader.ReadUInt16();
+
+                    byte b = VerseIndex[verseIdx].book;
+                    byte c = VerseIndex[verseIdx].chapter;
+                    UInt32 w = 0;
+                    for (UInt16 verse = verseIdx; verse < VerseIndex.Length; verse++)
+                    {
+                        if (c == VerseIndex[verse].chapter && b == VerseIndex[verse].book)
+                        {
+                            ChapterIndex[x].verse_cnt++;
+                            w += VerseIndex[verse].word_cnt;
+
+                            // Sanity-Check
+                            if (w > 0xFFFF)
+                                break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    // Sanity-Check
+                    if (ChapterIndex[x].word_cnt != w)
+                        break;
+
+                    writer.Write("\t" + rtype + "{ ");
+
+                    writer.Write("writ_idx: "  + Pad(writIdx,  6) + ", ");
+                    writer.Write("writ_cnt: "  + Pad(writCnt,  4) + ", ");
+                    writer.Write("verse_idx: " + Pad(verseIdx, 5) + ", ");
+                    writer.Write("verse_cnt: " + Pad(verseCnt, 4) + ", ");
+
+                    writer.WriteLine("},");
+                }
+            }
+            writer.WriteLine("];");
         }
         private void XVerse(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {
@@ -542,19 +686,19 @@ namespace SerializeFromSDK
             writer.WriteLine("];");
         }
 
-        private void XLexicon(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XLexiconZ14(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {
             // Update SDK file fo Z31
-            var ostream = new StreamWriter(bom.fpath.Replace(".dxi", "-Z31.dxi"), false, Encoding.ASCII);
+            var ostream = new StreamWriter(bom.fpath, false, Encoding.ASCII);
             var bwriter = new System.IO.BinaryWriter(ostream.BaseStream);
 
             var outname = bom.otype.Replace('-', '_').ToLower();
 
             writer.WriteLine("static " + outname + ": [" + rtype + "; " + (bom.rcnt + 1).ToString() + "] = [");
-            writer.WriteLine("\t" + rtype + " { entities: 0xFFFF, search: \"\",  display: \"\", modern: \"\", pos: [ 12567, 31, 9 ] },");
+            writer.WriteLine("\t" + rtype + " { entities: 0xFFFF, search: \"\",  display: \"\", modern: \"\", pos: [ 12568, 31, 9 ] },");
             bwriter.Write((UInt16)0xFFFF);
             bwriter.Write((UInt16)3);
-            bwriter.Write((UInt32)(bom.rcnt + 1));
+            bwriter.Write((UInt32)(12568));
             bwriter.Write((UInt32)31);
             bwriter.Write((UInt32) 9);
             bwriter.Write((byte) 0);
@@ -568,14 +712,88 @@ namespace SerializeFromSDK
                 for (int x = 1; x <= bom.rcnt; x++)
                 {
                     var entities = breader.ReadUInt16();
-                    int posCnt = breader.ReadUInt16();
+                    bwriter.Write(entities);
+                    var posCnt = breader.ReadUInt16();
+                     if (posCnt == 0x3117 && x >= 0x3117 + 1)
+                        break;
+                    bwriter.Write(posCnt);
+
+                    UInt32[] pos = new UInt32[posCnt];
+                    for (int p = 0; p < posCnt; p++)
+                    {
+                        var val = breader.ReadUInt32();
+                        bwriter.Write(val);
+                        pos[p] = val;
+                    }
+                    var search  = ConsoleApp.ReadByteString(breader);
+                    var display = ConsoleApp.ReadByteString(breader);
+                    var modern  = ConsoleApp.ReadByteString(breader);
+                    ConsoleApp.WriteByteString(bwriter, search);
+                    ConsoleApp.WriteByteString(bwriter, display);
+                    ConsoleApp.WriteByteString(bwriter, modern);
+
+                    writer.Write("\t" + rtype + " { ");
+
+                    writer.Write("entities: 0x" + entities.ToString("X04") + ", search: ");
+                    if (!string.IsNullOrEmpty(search))
+                        writer.Write("\"" + search + "\", ");
+                    else
+                        writer.Write("\"\", ");
+
+                    writer.Write("display: ");
+                    if (!string.IsNullOrEmpty(display))
+                        writer.Write("\"" + display + "\", ");
+                    else
+                        writer.Write("\"\", ");
+
+                    writer.Write("modern: ");
+                    if (!string.IsNullOrEmpty(modern))
+                        writer.Write("\"" + modern + "\", ");
+                    else
+                        writer.Write("\"\", ");
+
+                    writer.Write("pos: [ ");
+                    int cnt = 0;
+                    foreach (var p in pos)
+                    {
+                        writer.Write("0x" + p.ToString("X08") + ", ");
+                        cnt++;
+                    }
+                    if (cnt == 0)
+                    {
+                        writer.Write("0x" + 0.ToString("X08") + ", ");
+                    }
+                    writer.Write("] ");
+
+                    writer.WriteLine(" },");
+                }
+                writer.WriteLine("];");
+            }
+            bwriter.Close();
+        }
+        private void XLexicon(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        {
+            var outname = bom.otype.Replace('-', '_').ToLower();
+
+            writer.WriteLine("static " + outname + ": [" + rtype + "; " + (bom.rcnt + 1).ToString() + "] = [");
+
+            var buffer = new char[24];
+            var fstream = new StreamReader(bom.fpath);    // we still base input on the Z14 release, until we are certain that there are no bugs
+            using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
+            {
+                for (int x = 1; x <= bom.rcnt; x++)
+                {
+                    var entities = breader.ReadUInt16();
+                    var posCnt = breader.ReadUInt16();
                     if (posCnt == 0x3117 && x >= 0x3117 + 1)
                         break;
 
                     UInt32[] pos = new UInt32[posCnt];
                     for (int p = 0; p < posCnt; p++)
-                        pos[p] = breader.ReadUInt32();
-
+                    {
+                        var val = breader.ReadUInt32();
+                        pos[p] = val;
+                    }
                     var search = ConsoleApp.ReadByteString(breader);
                     var display = ConsoleApp.ReadByteString(breader);
                     var modern = ConsoleApp.ReadByteString(breader);
@@ -617,7 +835,6 @@ namespace SerializeFromSDK
                 }
                 writer.WriteLine("];");
             }
-            bwriter.Close();
         }
         private void XWordClass(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {

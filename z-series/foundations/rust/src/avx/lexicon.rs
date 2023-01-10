@@ -11,7 +11,7 @@ static AVXLexicon_SDK_ZEdition    :u16 = 23107;
 static AVXLexicon_File: &'static str = "AV-Lexicon.dxi";
 static AVXLexicon_RecordLen   :usize =        0;
 static AVXLexicon_RecordCnt   :usize =    12568;
-static AVXLexicon_FileLen     :usize =   246260;
+static AVXLexicon_FileLen     :usize =   246262;
 // < < < Generated-Code -- Metadata < < < //
 
 // Entities: uint16
@@ -36,7 +36,7 @@ struct AVXLexItem {
 
 // > > > Generated-Code -- Initialization > > > //
 static lexicon: [AVXLexItem; 12569] = [
-	AVXLexItem { entities: 0xFFFF, search: "",  display: "", modern: "", pos: [ 12568, 31, 9 ] },
+	AVXLexItem { entities: 0xFFFF, search: "", display: "", modern: "", pos: [ 0x00003118, 0x0000001F, 0x00000009, ]  },
 	AVXLexItem { entities: 0x0000, search: "a", display: "", modern: "", pos: [ 0x00000036, 0x00000094, 0x80004206, ]  },
 	AVXLexItem { entities: 0x0000, search: "i", display: "", modern: "", pos: [ 0x01074F9C, ]  },
 	AVXLexItem { entities: 0x0000, search: "o", display: "", modern: "oh", pos: [ 0x000002A8, ]  },

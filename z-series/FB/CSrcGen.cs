@@ -35,15 +35,15 @@ namespace SerializeFromSDK
 
                 switch (select)
                 {
-                    case "Book":        this.XBook(record); break;
-                    case "Chapter":     this.XChapter(record); break;
-                    case "Verse":       this.XVerse(record); break;
-                    case "Lemma":       this.XLemma(record); break;
+                    case "Book":        this.XBook(record);     break;
+                    case "Chapter":     this.XChapter(record);  break;
+                    case "Verse":       this.XVerse(record);    break;
+                    case "Lemma":       this.XLemma(record);    break;
                     case "Lemma-OOV":   this.XLemmaOOV(record); break;
-                    case "Lexicon":     this.XLexicon(record); break;
-                    case "Names":       this.XNames(record); break;
-                    case "WordClass":   this.XWordClass(record); break;
-                    case "Writ":        this.XWrit(record); break;
+                    case "Lexicon":     this.XLexicon(record);  break;
+                    case "Names":       this.XNames(record);    break;
+                    case "WordClass":   this.XWordClass(record);break;
+                    case "Writ":        this.XWrit(record);     break;
                 }
             }
             return true;
@@ -61,7 +61,7 @@ namespace SerializeFromSDK
 
             TextWriter writer = File.CreateText(Path.Combine(this.output, outname + ".c"));
             writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.Write("static const " + outname + "[1+" + vartype + "_RecordCnt] = {");
+            writer.WriteLine("static const " + outname + "[1+" + vartype + "_RecordCnt] = {");
             writer.Write("\t{  0,   0,    0, \"\", { \"\" } },");
 
             var fstream = new StreamReader(bom.fpath);
@@ -335,14 +335,13 @@ namespace SerializeFromSDK
             writer.WriteLine("#include \"" + outname + ".h\"");
             writer.Write("static const " + outname + "[" + vartype + "_RecordCnt] = {");
 
-            writer.Write("\n\t{ 0x0000, 1, { 0x00000000 }, \"\", NULL, NULL }, // We add a zeroth record to the C array to simplify indexing by word_key; " + outname + "[1] should return \"a\" record; [0] is an illegal word_key for the lexicon");
-
             var buffer = new char[24];
             var fstream = new StreamReader(bom.fpath);
+            UInt32 recordCount;
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
                 string delimiter = "\n";
-                for (int x = 1; x <= bom.rcnt; x++)
+                for (int x = 0; x < bom.rcnt; x++)
                 {
                     writer.Write(delimiter);
                     if (delimiter.Length < 2)
@@ -350,12 +349,25 @@ namespace SerializeFromSDK
 
                     var entities = breader.ReadUInt16();
                     int posCnt = breader.ReadUInt16();
-                    if (posCnt == 0x3117 && x >= 0x3117+1)
-                        break;
 
                     UInt32[] pos = new UInt32[posCnt];
                     for (int p = 0; p < posCnt; p++)
+                    {
                         pos[p] = breader.ReadUInt32();
+
+                        if (x == 0)
+                        {
+                            if (entities == 0xFFFF)
+                            {
+                                if (p == 0)
+                                    recordCount = pos[p];
+                            }
+                            else
+                            {
+                                recordCount = 12567;
+                            }
+                        }
+                    }
 
                     var search =  ConsoleApp.ReadByteString(breader);
                     var display = ConsoleApp.ReadByteString(breader);
