@@ -1,26 +1,26 @@
 cmake_minimum_required(VERSION 3.24)
-project(cpp C)
+project(cpp)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_CPP_STANDARD 20)
 
 include_directories(.)
 
 add_executable(cpp
-        book_index.c
+        book_index.cpp
         book_index.h
-        chapter_index.c
+        chapter_index.cpp
         chapter_index.h
-        lemmata.c
+        lemmata.cpp
         lemmata.h
-        lemmata_oov.c
+        lemmata_oov.cpp
         lemmata_oov.h
-        lexicon.c
+        lexicon.cpp
         lexicon.h
-        names.c
+        names.cpp
         names.h
-        verse_index.c
+        verse_index.cpp
         verse_index.h
-        word_classes.c
+        word_classes.cpp
         word_classes.h
-        written.c
+        written.cpp
         written.h avxgen.h)

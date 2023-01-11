@@ -15,12 +15,23 @@ const uint16 Entity_animals       =   0x40;
 const uint16 Entity_gemstones     =   0x80;
 const uint16 Entity_measurements  =  0x100;
 
-typedef struct avx_lexicon {
-    uint16  entities;
-    UInt16  count;
-    UInt32 *pos;
-    char   *search;
-    char   *display;
-    char   *modern;
-}   AVXLexicon;
+class AVXLexicon
+{
+public:
+    class AVXLexItem {
+    public:
+        const uint16  entities;
+        const uint16  count;
+        const uint32* pos;
+        const char* search;
+        const char* display;
+        const char* modern;
+    };
+
+    AVXLexicon()
+    {
+        ;
+    }
+    static AVXLexItem const items[AV_Lexicon_RecordCnt];
+};
 

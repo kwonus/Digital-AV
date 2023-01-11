@@ -892,7 +892,7 @@ namespace SerializeFromSDK
             writer.WriteLine("static " + vartype + "_Rust_Edition    :u16 = 23108;");
             writer.WriteLine("static " + vartype + "_SDK_ZEdition    :u16 = 23107;");
             writer.WriteLine();
-            writer.WriteLine("use avxlib::avx::book_index::AVXWrit;");
+            writer.WriteLine("use avx::AVXWrit;");
             writer.WriteLine();
 
             writer.WriteLine("static " + outname + ": [" + rtype + "; " + this.BookIndex[book].writ_cnt.ToString() + "] = [");

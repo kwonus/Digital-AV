@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace SerializeFromSDK
 {
@@ -54,14 +55,28 @@ namespace SerializeFromSDK
             var fmt = "{0," + width.ToString() + "}";
             return string.Format(fmt, val);
         }
-        private void XBook((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+
+        private TextWriter XInitialize((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {
-            var vartype = "AVX" + bom.otype[0].ToString().ToUpper() + bom.otype.Substring(1).Replace("-", "");
+            var vartype = "AVX" + bom.otype[0].ToString().ToUpper() + bom.otype.Substring(1).Replace("-", "").Replace("Index", "");
+            if (vartype.EndsWith("Names"))
+                vartype = vartype.Substring(0, vartype.Length-1);
+            if (vartype.EndsWith("es"))
+                vartype = vartype.Substring(0, vartype.Length-2);
+            else if (vartype.EndsWith("ten"))
+                vartype = vartype.Substring(0, vartype.Length-3);
+
             var outname = bom.otype.Replace('-', '_').ToLower();
 
             TextWriter writer = File.CreateText(Path.Combine(this.output, outname + ".c"));
             writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.Write("static const " + outname + "[1+" + vartype + "_RecordCnt] = {");
+            writer.Write("static const " + vartype + " " + outname + "[] = {");
+
+            return writer;
+        }
+        private void XBook((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        {
+            TextWriter writer = XInitialize(bom);
 
             var fstream = new StreamReader(bom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
@@ -96,7 +111,6 @@ namespace SerializeFromSDK
 
                     writer.Write("\t{ ");
 
-
                     writer.Write(Pad(bookNum, 2) + ", ");
                     writer.Write(Pad(chapterCnt, 3) + ", ");
                     writer.Write(Pad(chapterIdx, 4) + ", ");
@@ -105,7 +119,7 @@ namespace SerializeFromSDK
                     writer.Write(Pad(writCnt, 7) + ", ");
                     writer.Write(Pad(writIdx, 8) + ", ");
                     writer.Write("\"" + name.ToString() + "\", ");
-
+                    writer.Write(Pad(abbreviations.Length > 0 ? abbreviations.Length : 1, 2) + ", ");
                     var insideDelimiter = "{ ";
                     foreach (var ab in abbreviations)
                     {
@@ -113,7 +127,10 @@ namespace SerializeFromSDK
                         insideDelimiter = ", ";
                         writer.Write("\"" + ab + "\"");
                     }
-                    writer.Write(" }");
+                    if (abbreviations.Length > 0)
+                        writer.Write(" }");
+                    else
+                        writer.Write("{ \"\" }");
 
                     writer.Write(" }");
                 }
@@ -123,12 +140,7 @@ namespace SerializeFromSDK
         }
         private void XChapter((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {
-            var vartype = "AVX" + bom.otype[0].ToString().ToUpper() + bom.otype.Substring(1).Replace("-", "");
-            var outname = bom.otype.Replace('-', '_').ToLower();
-
-            TextWriter writer = File.CreateText(Path.Combine(this.output, outname + ".c"));
-            writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.Write("static const " + outname + "[" + vartype + "_RecordCnt] = {");
+            TextWriter writer = XInitialize(bom);
 
             var fstream = new StreamReader(bom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
@@ -160,12 +172,7 @@ namespace SerializeFromSDK
         }
         private void XVerse((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {
-            var vartype = "AVX" + bom.otype[0].ToString().ToUpper() + bom.otype.Substring(1).Replace("-", "");
-            var outname = bom.otype.Replace('-', '_').ToLower();
-
-            TextWriter writer = File.CreateText(Path.Combine(this.output, outname + ".c"));
-            writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.Write("static const " + outname + "[" + vartype + "_RecordCnt] = {");
+            TextWriter writer = XInitialize(bom);
 
             var fstream = new StreamReader(bom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
@@ -196,12 +203,7 @@ namespace SerializeFromSDK
         }
         private void XLemma((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {
-            var vartype = "AVX" + bom.otype[0].ToString().ToUpper() + bom.otype.Substring(1).Replace("-", "");
-            var outname = bom.otype.Replace('-', '_').ToLower();
-
-            TextWriter writer = File.CreateText(Path.Combine(this.output, outname + ".c"));
-            writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.Write("static const " + outname + "[" + vartype + "_RecordCnt] = {");
+            TextWriter writer = XInitialize(bom);
 
             var fstream = new StreamReader(bom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
@@ -241,12 +243,7 @@ namespace SerializeFromSDK
         }
         private void XLemmaOOV((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {
-            var vartype = "AVX" + bom.otype[0].ToString().ToUpper() + bom.otype.Substring(1).Replace("-", "");
-            var outname = bom.otype.Replace('-', '_').ToLower();
-
-            TextWriter writer = File.CreateText(Path.Combine(this.output, outname + ".c"));
-            writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.Write("static const " + outname + "[" + vartype + "_RecordCnt] = {");
+            TextWriter writer = XInitialize(bom);
 
             var buffer = new char[24];
             var fstream = new StreamReader(bom.fpath);
@@ -284,12 +281,7 @@ namespace SerializeFromSDK
         }
         private void XNames((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {
-            var vartype = "AVX" + bom.otype[0].ToString().ToUpper() + bom.otype.Substring(1).Replace("-", "");
-            var outname = bom.otype.Replace('-', '_').ToLower();
-
-            TextWriter writer = File.CreateText(Path.Combine(this.output, outname + ".c"));
-            writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.Write("static const " + outname + "[" + vartype + "_RecordCnt] = {");
+            TextWriter writer = XInitialize(bom);
 
             var buffer = new char[24];
             var fstream = new StreamReader(bom.fpath);
@@ -327,12 +319,7 @@ namespace SerializeFromSDK
 
         private void XLexicon((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {
-            var vartype = "AVX" + bom.otype[0].ToString().ToUpper() + bom.otype.Substring(1).Replace("-", "");
-            var outname = bom.otype.Replace('-', '_').ToLower();
-
-            TextWriter writer = File.CreateText(Path.Combine(this.output, outname + ".c"));
-            writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.Write("static const " + outname + "[" + vartype + "_RecordCnt] = {");
+            TextWriter writer = XInitialize(bom);
 
             var buffer = new char[24];
             var fstream = new StreamReader(bom.fpath);
@@ -413,12 +400,7 @@ namespace SerializeFromSDK
         }
         private void XWordClass((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {
-            var vartype = "AVX" + bom.otype[0].ToString().ToUpper() + bom.otype.Substring(1).Replace("-", "");
-            var outname = bom.otype.Replace('-', '_').ToLower();
-
-            TextWriter writer = File.CreateText(Path.Combine(this.output, outname + ".c"));
-            writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.Write("static const " + outname + "[" + vartype + "_RecordCnt] = {");
+            TextWriter writer = XInitialize(bom);
 
             var buffer = new char[24];
             var fstream = new StreamReader(bom.fpath);
@@ -455,12 +437,7 @@ namespace SerializeFromSDK
         }
         private void XWrit((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {
-            var vartype = "AVX" + bom.otype[0].ToString().ToUpper() + bom.otype.Substring(1).Replace("-", "");
-            var outname = bom.otype.Replace('-', '_').ToLower();
-
-            TextWriter writer = File.CreateText(Path.Combine(this.output, outname + ".c"));
-            writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.Write("static const " + outname + "[" + vartype + "_RecordCnt] = {");
+            TextWriter writer = XInitialize(bom);
 
             var fstream = new StreamReader(bom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))

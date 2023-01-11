@@ -7,7 +7,7 @@ const uint32 AVXWritten_FileLen     = 17372322;     // from AV-Inventory-Z31.bom
 const uint16 WordKeyBits_CAPS                   = 0xC000; // leading 2 bits
 const uint16 WordKeyBits_CAPS_FirstLetter       = 0x8000;
 const uint16 WordKeyBits_CAPS_AllLetters        = 0x4000;
-const uint16 WordKeyBits_WordKey                = 0x3FFF // trailing 14 bits
+const uint16 WordKeyBits_WordKey                = 0x3FFF; // trailing 14 bits
 
 const uint8 Puncutation_Clause                  =   0xE0;
 const uint8 Puncutation_Exclamatory             =   0x80;
@@ -71,18 +71,28 @@ const uint16 WordClass_Adverb                   =  0xF00;
  const uint8 Transitions_EndOfBible             =   0xF8;
 
 // Segments: uint8 -- trailing 3 bits
-const uint8 Segments_HardSegmentEnd             =   0x04, // . ? !
-const uint8 Segments_CoreSegmentEnd             =   0x02, // :
-const uint8 Segments_SoftSegmentEnd             =   0x01, // , ; ( ) --
-const uint8 Segments_RealSegmentEnd             =   0x06  // . ? ! :
+const uint8 Segments_HardSegmentEnd             =   0x04; // . ? !
+const uint8 Segments_CoreSegmentEnd             =   0x02; // :
+const uint8 Segments_SoftSegmentEnd             =   0x01; // , ; ( ) --
+const uint8 Segments_RealSegmentEnd             =   0x06; // . ? ! :
 
-typedef struct avx_writ {                            // from Digital-AV.pdf
-    uint16 strongs[4];
-    uint16 verse_idx;
-    uint16 word;
-    uint8  punc;
-    uint8  trans;
-    uint16 pnwc;
-    uint32 pos;
-    uint16 lemma;
-}   AVXWrit;
+class AVXWritten
+{
+public:
+    class AVXWrit {
+        const uint16 strongs[4];
+        const uint16 verse_idx;
+        const uint16 word;
+        const uint8  punc;
+        const uint8  trans;
+        const uint16 pnwc;
+        const uint32 pos;
+        const uint16 lemma;
+    };
+
+    AVXWritten()
+    {
+        ;
+    }
+    static AVXWrit const written[AVXWritten_RecordCnt];
+};
