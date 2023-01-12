@@ -1,5 +1,5 @@
 #include "word_classes.h"
-static AVXWordClasses::AVXWordClass classes[] = {
+static const AVXWordClasses::AVXWordClass classes[] = {
 	{ 0x0000, 1, { 0x00000000 } },
 	{ 0x0010, 4, { 0x00003950, 0x4000394E, 0x40075ACE, 0x40075AC7 } },
 	{ 0x00E0, 1, { 0x40080470 } },

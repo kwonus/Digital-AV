@@ -1,4 +1,6 @@
 #include <avxgen.h>
+#include <vector>
+
 const char AVXLexicon_File[] = "AV-Lexicon.dxi"; // from AV-Inventory-Z31.bom
 const uint32 AV_Lexicon_RecordCnt =  12567; // from AV-Inventory-Z31.bom
 const uint32 AV_Lexicon_FileLen   = 246249; // from AV-Inventory-Z31.bom
@@ -21,8 +23,7 @@ public:
     class AVXLexItem {
     public:
         const uint16  entities;
-        const uint16  count;
-        const uint32* pos;
+        const vector<uint32> pos;
         const char* search;
         const char* display;
         const char* modern;

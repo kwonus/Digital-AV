@@ -80,6 +80,7 @@ class AVXWritten
 {
 public:
     class AVXWrit {
+    public:
         const uint16 strongs[4];
         const uint16 verse_idx;
         const uint16 word;

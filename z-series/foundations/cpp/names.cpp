@@ -1,5 +1,5 @@
 #include "names.h"
-static AVXNames::AVXName names[] = {
+static const AVXNames::AVXName names[] = {
 	{ 0x05AC, 3, { "a teacher", "lofty", "mountain of strength" } },
 	{ 0x14DC, 1, { "the destroyer" } },
 	{ 0x14DD, 1, { "father of the wine-press" } },

@@ -36,15 +36,15 @@ namespace SerializeFromSDK
 
                 switch (select)
                 {
-                    case "Book":        this.XBook(record);     break;
-                    case "Chapter":     this.XChapter(record);  break;
-                    case "Verse":       this.XVerse(record);    break;
-                    case "Lemma":       this.XLemma(record);    break;
-                    case "Lemma-OOV":   this.XLemmaOOV(record); break;
-                    case "Lexicon":     this.XLexicon(record);  break;
-                    case "Names":       this.XNames(record);    break;
-                    case "WordClass":   this.XWordClass(record);break;
-                    case "Writ":        this.XWrit(record);     break;
+                    case "Book":        this.XBook(     record, "AVXBookIndex::AVXBook index[]");           break;
+                    case "Chapter":     this.XChapter(  record, "AVXChapterIndex::AVXChapter index[]");     break;
+                    case "Verse":       this.XVerse(    record, "AVXVerseIndex::AVXVerse index[]");         break;
+                    case "Lemma":       this.XLemma(    record, "AVXLemmataRecords::AVXLemmata records[]"); break;
+                    case "Lemma-OOV":   this.XLemmaOOV( record, "AVXLemmataOOV::AVXLemmaOOV vocabulary[]"); break;
+                    case "Lexicon":     this.XLexicon(  record, "AVXLexicon::AVXLexItem items[]");          break;
+                    case "Names":       this.XNames(    record, "AVXNames::AVXName names[]");               break;
+                    case "WordClass":   this.XWordClass(record, "AVXWordClasses::AVXWordClass classes[]");  break;
+                    case "Writ":        this.XWrit(     record, "AVXWritten::AVXWrit written[]");           break;
                 }
             }
             return true;
@@ -56,27 +56,19 @@ namespace SerializeFromSDK
             return string.Format(fmt, val);
         }
 
-        private TextWriter XInitialize((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private TextWriter XInitialize(string otype, string inializerVar)
         {
-            var vartype = "AVX" + bom.otype[0].ToString().ToUpper() + bom.otype.Substring(1).Replace("-", "").Replace("Index", "");
-            if (vartype.EndsWith("Names"))
-                vartype = vartype.Substring(0, vartype.Length-1);
-            if (vartype.EndsWith("es"))
-                vartype = vartype.Substring(0, vartype.Length-2);
-            else if (vartype.EndsWith("ten"))
-                vartype = vartype.Substring(0, vartype.Length-3);
+            var outname = otype.Replace('-', '_').ToLower();
 
-            var outname = bom.otype.Replace('-', '_').ToLower();
-
-            TextWriter writer = File.CreateText(Path.Combine(this.output, outname + ".c"));
+            TextWriter writer = File.CreateText(Path.Combine(this.output, outname + ".cpp"));
             writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.Write("static const " + vartype + " " + outname + "[] = {");
+            writer.Write("static const " + inializerVar + " = {");
 
             return writer;
         }
-        private void XBook((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XBook((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar)
         {
-            TextWriter writer = XInitialize(bom);
+            TextWriter writer = XInitialize(bom.otype, inializerVar);
 
             var fstream = new StreamReader(bom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
@@ -104,10 +96,12 @@ namespace SerializeFromSDK
 
                     for (int i = 0; i < bname.Length && bname[i] != 0; i++)
                         name.Append((char)bname[i]);
-                    for (int i = 0; i < babbr.Length && babbr[i] != 0; i++)
-                        abbr.Append((char)babbr[i]);
 
-                    var abbreviations = abbr.ToString().Split(',', StringSplitOptions.RemoveEmptyEntries);
+//                  Z14-style field
+//                  for (int i = 0; i < babbr.Length && babbr[i] != 0; i++)
+//                      abbr.Append((char)babbr[i]);
+//
+//                  var abbreviations = abbr.ToString().Split(',', StringSplitOptions.RemoveEmptyEntries);
 
                     writer.Write("\t{ ");
 
@@ -119,28 +113,43 @@ namespace SerializeFromSDK
                     writer.Write(Pad(writCnt, 7) + ", ");
                     writer.Write(Pad(writIdx, 8) + ", ");
                     writer.Write("\"" + name.ToString() + "\", ");
-                    writer.Write(Pad(abbreviations.Length > 0 ? abbreviations.Length : 1, 2) + ", ");
-                    var insideDelimiter = "{ ";
-                    foreach (var ab in abbreviations)
-                    {
-                        writer.Write(insideDelimiter);
-                        insideDelimiter = ", ";
-                        writer.Write("\"" + ab + "\"");
-                    }
-                    if (abbreviations.Length > 0)
-                        writer.Write(" }");
-                    else
-                        writer.Write("{ \"\" }");
 
+                    if (bookNum > 0)
+                    {
+                        int idx;
+                        var abbreviations = RustSrcGen.BK[name.ToString()];
+                        if ((idx = abbreviations.a2.IndexOf('-')) >= 0)
+                                abbreviations.a2 = (idx > 0) ? abbreviations.a2.Substring(0, idx) : string.Empty;
+                        if ((idx = abbreviations.a3.IndexOf('-')) >= 0)
+                            abbreviations.a3 = (idx > 0) ? abbreviations.a3.Substring(0, idx) : string.Empty;
+                        if ((idx = abbreviations.a4.IndexOf('-')) >= 0)
+                            abbreviations.a4 = (idx > 0) ? abbreviations.a4.Substring(0, idx) : string.Empty;
+                        if ((idx = abbreviations.alternates.IndexOf('-')) >= 0)
+                            abbreviations.alternates = (idx > 0) ? abbreviations.alternates.Substring(0, idx) : string.Empty;
+
+                        var alts = abbreviations.alternates.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                        var alt1 = alts.Length >= 1 ? alts[0] : abbreviations.alternates;
+                        var alt2 = alts.Length >= 2 ? alts[1] : string.Empty;
+
+                        writer.Write("\"" + abbreviations.a2 + "\", ");
+                        writer.Write("\"" + abbreviations.a3 + "\", ");
+                        writer.Write("\"" + abbreviations.a4 + "\", ");
+                        writer.Write(alt1.Length > 0 ? "\"" + alt1 + "\", " : "nullptr, ");
+                        writer.Write(alt2.Length > 0 ? "\"" + alt2 + "\""   : "nullptr");
+                    }
+                    else
+                    {
+                        writer.Write("nullptr, nullptr, nullptr, nullptr, nullptr");
+                    }
                     writer.Write(" }");
                 }
             }
             writer.WriteLine("\n};");
             writer.Close();
         }
-        private void XChapter((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XChapter((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar)
         {
-            TextWriter writer = XInitialize(bom);
+            TextWriter writer = XInitialize(bom.otype, inializerVar);
 
             var fstream = new StreamReader(bom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
@@ -170,9 +179,9 @@ namespace SerializeFromSDK
             writer.WriteLine("\n};");
             writer.Close();
         }
-        private void XVerse((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XVerse((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar)
         {
-            TextWriter writer = XInitialize(bom);
+            TextWriter writer = XInitialize(bom.otype, inializerVar);
 
             var fstream = new StreamReader(bom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
@@ -201,9 +210,9 @@ namespace SerializeFromSDK
             writer.WriteLine("\n};");
             writer.Close();
         }
-        private void XLemma((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XLemma((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar)
         {
-            TextWriter writer = XInitialize(bom);
+            TextWriter writer = XInitialize(bom.otype, inializerVar);
 
             var fstream = new StreamReader(bom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
@@ -224,26 +233,27 @@ namespace SerializeFromSDK
 
                     writer.Write("0x" + pos.ToString("X08") + ", ");
                     writer.Write("0x" + wordKey.ToString("X04") + ", ");
-                    writer.Write("0x" + wordClass.ToString("X04") + ", ");
-                    writer.Write(lemmaCount.ToString() + ", ");
+                    writer.Write("0x" + wordClass.ToString("X04"));
 
-                    string seperator = "{ ";
-                    for (int i = 0; i < lemmaCount; i++)
+                    int i;
+                    for (i = 0; i < lemmaCount; i++)
                     {
                         var lemma = breader.ReadUInt16();
-                        writer.Write(seperator + "0x" + lemma.ToString("X04"));
-                        seperator = ", ";
+                        writer.Write(", 0x" + lemma.ToString("X04"));
                     }
-                    writer.Write(" }");
+                    for (/**/; i < 3; i++)
+                    {
+                        writer.Write(", 0x0000");
+                    }
                     writer.Write(" }");
                 }
             }
             writer.WriteLine("\n};");
             writer.Close();
         }
-        private void XLemmaOOV((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XLemmaOOV((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar)
         {
-            TextWriter writer = XInitialize(bom);
+            TextWriter writer = XInitialize(bom.otype, inializerVar);
 
             var buffer = new char[24];
             var fstream = new StreamReader(bom.fpath);
@@ -279,9 +289,9 @@ namespace SerializeFromSDK
             writer.WriteLine("\n};");
             writer.Close();
         }
-        private void XNames((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XNames((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar)
         {
-            TextWriter writer = XInitialize(bom);
+            TextWriter writer = XInitialize(bom.otype, inializerVar);
 
             var buffer = new char[24];
             var fstream = new StreamReader(bom.fpath);
@@ -317,9 +327,9 @@ namespace SerializeFromSDK
             writer.Close();
         }
 
-        private void XLexicon((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XLexicon((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar)
         {
-            TextWriter writer = XInitialize(bom);
+            TextWriter writer = XInitialize(bom.otype, inializerVar);
 
             var buffer = new char[24];
             var fstream = new StreamReader(bom.fpath);
@@ -362,7 +372,7 @@ namespace SerializeFromSDK
                     writer.Write("\t{ ");
 
                     writer.Write("0x" + entities.ToString("X04") + ", ");
-                    writer.Write(posCnt.ToString() + ", ");
+ //                 writer.Write(posCnt.ToString() + ", ");     // C++ code uses std::vector. Therfore, count is not needed as a seperate field
 
                     string seperator = "{ ";
                     foreach (var p in pos)
@@ -380,17 +390,17 @@ namespace SerializeFromSDK
                     if (!string.IsNullOrEmpty(search))
                         writer.Write("\"" + search + "\", ");
                     else
-                        writer.Write("NULL, ");
+                        writer.Write("nullptr, ");
 
                     if (!string.IsNullOrEmpty(display))
                         writer.Write("\"" + display + "\", ");
                     else
-                        writer.Write("NULL, ");
+                        writer.Write("nullptr, ");
 
                     if (!string.IsNullOrEmpty(modern))
                         writer.Write("\"" + modern + "\"");
                     else
-                        writer.Write("NULL");
+                        writer.Write("nullptr");
 
                     writer.Write(" }");
                 }
@@ -398,9 +408,9 @@ namespace SerializeFromSDK
                 writer.Close();
             }
         }
-        private void XWordClass((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XWordClass((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar)
         {
-            TextWriter writer = XInitialize(bom);
+            TextWriter writer = XInitialize(bom.otype, inializerVar);
 
             var buffer = new char[24];
             var fstream = new StreamReader(bom.fpath);
@@ -435,9 +445,9 @@ namespace SerializeFromSDK
             writer.WriteLine("\n};");
             writer.Close();
         }
-        private void XWrit((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XWrit((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar)
         {
-            TextWriter writer = XInitialize(bom);
+            TextWriter writer = XInitialize(bom.otype, inializerVar);
 
             var fstream = new StreamReader(bom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
@@ -460,18 +470,12 @@ namespace SerializeFromSDK
 
                     writer.Write("\t{ ");
 
-                    var insideDelimiter = "{ ";
                     int shift = 3*16;
-                    int index = 0;
-                    for (/**/; index < 4; shift -= 16, index++)
+                    for (int index = 0; index < 4; shift -= 16, index++)
                     {
                         var strongs = (UInt16)((Strongs >> shift) & 0xFFFF);
-                        writer.Write(insideDelimiter);
-                        insideDelimiter = ", ";
-                        writer.Write(Pad(strongs, 4));
+                        writer.Write(Pad(strongs, 4) + ", ");
                     }
-                    writer.Write(" }, ");
-
                     writer.Write(Pad(VerseIdx, 5) + ", ");
                     writer.Write("0x" + Word.ToString("X04") + ", ");
                     writer.Write("0x" + Punc.ToString("X02") + ", ");

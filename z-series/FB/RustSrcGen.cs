@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SerializeFromSDK
 {
@@ -98,6 +99,7 @@ namespace SerializeFromSDK
         {
             Console.WriteLine("Create source initializers for Rust.");
 
+            string saveBookItem = "";
             string saveWritItem = "";
             foreach (var item in inventory.Keys)
             {
@@ -106,24 +108,25 @@ namespace SerializeFromSDK
 
                 switch (select)
                 {
-                    case "Book":      this.XAny(select, record);; break;
-                    case "Chapter":   this.XAny(select, record); break;
-                    case "Verse":     this.XAny(select, record); break;
-                    case "Lemma":     this.XAny(select, record); break;
-                    case "Lemma-OOV": this.XAny(select, record); break;
-                    case "Lexicon":   this.XAny(select, record); break;
-                    case "Names":     this.XAny(select, record); break;
-                    case "WordClass": this.XAny(select, record); break;
-                    case "Writ":      saveWritItem = item;       break;
+                    case "Book":        saveBookItem = item; break;
+                    case "Chapter":     this.XAny(select, record); break;
+                    case "Verse":       this.XAny(select, record); break;
+                    case "Lemma":       this.XAny(select, record); break;
+                    case "Lemma-OOV":   this.XAny(select, record); break;
+                    case "Lexicon":     this.XAny(select, record); break;
+                    case "Names":       this.XAny(select, record); break;
+                    case "WordClass":   this.XAny(select, record); break;
+                    case "Writ":        saveWritItem = item; break;
                 }
             }
-            // XWrit differs from processing of other files
-            var wbom = this.inventory[saveWritItem];
-            var fstream = new StreamReader(wbom.fpath);
+            // These need to be done last and in this order (XWrit differs from processing of other files)
+            this.XAny("Book", this.inventory[saveBookItem]);    // This is only here to support option Z14 migration to Z31 (otherwise could be handled in the switch statement above
+            var writBom = this.inventory[saveWritItem];
+            var fstream = new StreamReader(writBom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
                 for (byte i = 1; i <= 66; i++)
-                    this.XWrit(breader, i, "AVXWrit", wbom);
+                    this.XWrit(breader, i, "AVXWrit", writBom);
             }
             return true;
         }
@@ -298,6 +301,33 @@ namespace SerializeFromSDK
                     writer.Write("writ_idx: " + Pad(bk.writ_idx, 9) + ", ");
                     writer.Write("name: \"" + name.ToString() + "\", ");
 
+                    if (bookNum > 0)
+                    {
+                        int idx;
+                        var abbreviations = RustSrcGen.BK[name.ToString()];
+                        if ((idx = abbreviations.a2.IndexOf('-')) >= 0)
+                            abbreviations.a2 = (idx > 0) ? abbreviations.a2.Substring(0, idx) : string.Empty;
+                        if ((idx = abbreviations.a3.IndexOf('-')) >= 0)
+                            abbreviations.a3 = (idx > 0) ? abbreviations.a3.Substring(0, idx) : string.Empty;
+                        if ((idx = abbreviations.a4.IndexOf('-')) >= 0)
+                            abbreviations.a4 = (idx > 0) ? abbreviations.a4.Substring(0, idx) : string.Empty;
+                        if ((idx = abbreviations.alternates.IndexOf('-')) >= 0)
+                            abbreviations.alternates = (idx > 0) ? abbreviations.alternates.Substring(0, idx) : string.Empty;
+
+                        var alts = abbreviations.alternates.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                        var alt1 = alts.Length >= 1 ? alts[0] : abbreviations.alternates;
+                        var alt2 = alts.Length >= 2 ? alts[1] : string.Empty;
+
+                        writer.Write("abbr2: \"" + abbreviations.a2 + "\", ");
+                        writer.Write("abbr3: \"" + abbreviations.a3 + "\", ");
+                        writer.Write("abbr4: \"" + abbreviations.a4 + "\", ");
+                        writer.Write("abbrAltA: " + alt1 + "\", ");
+                        writer.Write("abbrAltB: " + alt2 + "\", ");
+                    }
+                    else
+                    {
+                        writer.Write("\"\", \"\", \"\", \"\", \"\"");
+                    }
                     var insideDelimiter = "abbreviations: [  ";
                     int a = 0;
                     foreach (var ab in bk.abbreviations)
@@ -336,41 +366,89 @@ namespace SerializeFromSDK
                     bwriter.Write(bk.writ_cnt);
                     bwriter.Write(bk.writ_idx);
 
+                    string name = bk.name != null ? bk.name : "";
                     // print 16 bytes for name
                     for (int i = 0; i < 16; i++)
                     {
                         if (i < bk.name.Length)
-                            bwriter.Write((byte)bk.name[i]);
+                            bwriter.Write((byte)name[i]);
                         else
                             bwriter.Write((byte)0);
                     }
-                    // print 12 bytes for all abbreviations
-                    int j = 0;
-                    int cnt = 0;
-                    foreach (var abbr in bk.abbreviations)
+                    if (bookNum > 0 && RustSrcGen.BK.ContainsKey(name))
                     {
-                        if (j > 12)
-                            break;
-                        for (int a = 0; a < abbr.Length; a++)
+                        int idx;
+                        var abbreviations = RustSrcGen.BK[name];
+                        if ((idx = abbreviations.a2.IndexOf('-')) >= 0)
+                            abbreviations.a2 = (idx > 0) ? abbreviations.a2.Substring(0, idx) : string.Empty;
+                        if ((idx = abbreviations.a3.IndexOf('-')) >= 0)
+                            abbreviations.a3 = (idx > 0) ? abbreviations.a3.Substring(0, idx) : string.Empty;
+                        if ((idx = abbreviations.a4.IndexOf('-')) >= 0)
+                            abbreviations.a4 = (idx > 0) ? abbreviations.a4.Substring(0, idx) : string.Empty;
+                        if ((idx = abbreviations.alternates.IndexOf('-')) >= 0)
+                            abbreviations.alternates = (idx > 0) ? abbreviations.alternates.Substring(0, idx) : string.Empty;
+
+                        var alts = abbreviations.alternates.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                        var altA = alts.Length >= 1 ? alts[0] : abbreviations.alternates;
+                        var altB = alts.Length >= 2 ? alts[1] : string.Empty;
+
+                        for (int i = 0; i < 2; i++)
                         {
-                            bwriter.Write((byte)abbr[a]);
-                            j++;
+                            if (i < abbreviations.a2.Length)
+                                bwriter.Write((byte)abbreviations.a2[i]);
+                            else
+                                bwriter.Write((byte)0);
                         }
-                        if (++cnt < bk.abbreviations.Length)
+                        for (int i = 0; i < 3; i++)
+                        {
+                            if (i < abbreviations.a3.Length)
+                                bwriter.Write((byte)abbreviations.a3[i]);
+                            else
+                                bwriter.Write((byte)0);
+                        }
+                        for (int i = 0; i < 4; i++)
+                        {
+                            if (i < abbreviations.a4.Length)
+                                bwriter.Write((byte)abbreviations.a4[i]);
+                            else
+                                bwriter.Write((byte)0);
+                        }
+                        int a = 0;
+                        int b = 0;
+                        for (a = 0; a < 9 && a < altA.Length; a++)
+                        {
+                            bwriter.Write((byte)altA[a]);
+                        }
+                        if (++a < 9)
                         {
                             bwriter.Write((byte)',');
-                            j++;
+                        }
+                        for (b = 0; a + b < 9 && b < altB.Length; b++)
+                        {
+                            bwriter.Write((byte)altB[b]);
+                        }
+                        for (a += b; a < 9; a++)
+                        {
+                            bwriter.Write((byte)0);
                         }
                     }
-                    for (/**/; j < 12; j++)
+                    else
                     {
-                        bwriter.Write((byte)0);
+                        for (int i = 0; i < 9 + 9; i ++)
+                        {
+                            bwriter.Write((byte)0);
+                        }
                     }
                 }
             }
         }
         private void XBook(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {
+            if (bom.rlen != 50)
+            {
+                XBookZ14(writer, rtype, bom);
+                return;
+            }
             var outname = bom.otype.Replace('-', '_').ToLower();
 
             writer.WriteLine("static " + "books" + ": [" + rtype + "; " + 67.ToString() + "] = [");
@@ -520,6 +598,11 @@ namespace SerializeFromSDK
                     var writCnt  = breader.ReadUInt16();
                     var verseIdx = breader.ReadUInt16();
                     var verseCnt = breader.ReadUInt16();
+
+                    ChapterIndex[x].writ_idx = writIdx;
+                    ChapterIndex[x].word_cnt = writCnt;
+                    ChapterIndex[x].verse_idx = verseIdx;
+                    ChapterIndex[x].verse_cnt = verseCnt;
 
                     byte b = VerseIndex[verseIdx].book;
                     byte c = VerseIndex[verseIdx].chapter;
@@ -934,5 +1017,73 @@ namespace SerializeFromSDK
             writer.WriteLine("];");
             writer.Close();
         }
+        public static Dictionary<string, (string a2, string a3, string a4, string alternates)> BK = new() {
+         ///book/////////////////  a2    a3     common  alternates ////////////////////////////////////////
+         { "Genesis",           ( "Ge", "Gen", "Gen-", "Gn-------" )},
+         { "Exodus",            ( "Ex", "Exo", "Exo-", "Exod-----" )},
+         { "Leviticus",         ( "Le", "Lev", "Lev-", "Lv-------" )},
+         { "Numbers",           ( "Nu", "Num", "Numb", "Nb-------" )},
+         { "Deuteronomy",       ( "Dt", "D't", "Deut", "De-------" )},
+         { "Joshua",            ( "Js", "Jsh", "Josh", "Jos------" )},
+         { "Judges",            ( "Jg", "Jdg", "Judg", "Jdgs-----" )},
+         { "Ruth",              ( "Ru", "Rth", "Ruth", "Rut------" )},
+         { "1 Samuel",          ( "1S", "1Sm", "1Sam", "1Sa------" )},
+         { "2 Samuel",          ( "2S", "2Sm", "2Sam", "1Sa------" )},
+         { "1 Kings",           ( "1K", "1Ki", "1Kgs", "1Kg,1Kin-" )},
+         { "2 Kings",           ( "2K", "2Ki", "2Kgs", "2Kg,2Kin-" )},
+         { "1 Chronicles",      ( "--", "1Ch", "1Chr", "1Chron---" )},
+         { "2 Chronicles",      ( "--", "2Ch", "2Chr", "2Chron---" )},
+         { "Ezra",              ( "--", "Ezr", "Ezra", "---------" )},
+         { "Nehemiah",          ( "Ne", "Neh", "Neh-", "---------" )},
+         { "Esther",            ( "Es", "Est", "Est-", "Esth-----" )},
+         { "Job",               ( "Jb", "Job", "Job-", "---------" )},
+         { "Psalms",            ( "Ps", "Psa", "Pslm", "Psm,Pss--" )},
+         { "Proverbs",          ( "Pr", "Pro", "Prov", "Prv------" )},
+         { "Ecclesiastes",      ( "Ec", "Ecc", "Eccl", "Eccle,Qoh" )},
+         { "Song of Solomon",   ( "So", "SoS", "Song", "SS,Cant--" )},
+         { "Isaiah",            ( "Is", "Isa", "Isa-", "---------" )},
+         { "Jeremiah",          ( "Je", "Jer", "Jer-", "Jeremy,Jr" )},
+         { "Lamentations",      ( "La", "Lam", "Lam-", "---------" )},
+         { "Ezekiel",           ( "--", "Eze", "Ezek", "Ezk------" )},
+         { "Daniel",            ( "Da", "Dan", "Dan-", "Dn-------" )},
+         { "Hosea",             ( "Ho", "Hos", "Hos-", "---------" )},
+         { "Joel",              ( "Jl", "Jol", "Joel", "Joe------" )},
+         { "Amos",              ( "Am", "Amo", "Amos", "---------" )},
+         { "Obadiah",           ( "Ob", "Obd", "Obad", "---------" )},
+         { "Jonah",             ( "--", "Jnh", "Jona", "---------" )},
+         { "Micah",             ( "Mc", "Mic", "Mica", "Mi-------" )},
+         { "Nahum",             ( "Na", "Nah", "Nah-", "---------" )},
+         { "Habakkuk",          ( "Hb", "Hab", "Hab-", "---------" )},
+         { "Zephaniah",         ( "Zp", "Zep", "Zeph", "Zph------" )},
+         { "Haggai",            ( "Hg", "Hag", "Hag-", "---------" )},
+         { "Zechariah",         ( "Zc", "Zec", "Zech", "Zch------" )},
+         { "Malachi",           ( "Ml", "Mal", "Mal-", "---------" )},
+         { "Matthew",           ( "Mt", "Mat", "Matt", "---------" )},
+         { "Mark",              ( "Mk", "Mrk", "Mark", "Mk,Mr----" )},
+         { "Luke",              ( "Lk", "Luk", "Luke", "Lu-------" )},
+         { "John",              ( "Jn", "Jhn", "John", "Joh------" )},
+         { "Acts",              ( "Ac", "Act", "Acts", "Ats------" )},
+         { "Romans",            ( "Ro", "Rom", "Rom-", "Rm-------" )},
+         { "1 Corinthians",     ( "--", "1Co", "1Cor", "---------" )},
+         { "2 Corinthians",     ( "--", "2Co", "2Cor", "---------" )},
+         { "Galatians",         ( "Ga", "Gal", "Gal-", "---------" )},
+         { "Ephesians",         ( "Ep", "Eph", "Eph-", "---------" )},
+         { "Philippians",       ( "Pp", "Php", "Phil", "Philip---" )},
+         { "Colossians",        ( "Co", "Col", "Col-", "---------" )},
+         { "1 Thessalonians",   ( "--", "1Th", "1Th-", "1Thess---" )},
+         { "2 Thessalonians",   ( "--", "2Th", "2Th-", "2Thess---" )},
+         { "1 Timothy",         ( "--", "1Ti", "1Tim", "---------" )},
+         { "2 Timothy",         ( "--", "2Ti", "2Tim", "---------" )},
+         { "Titus",             ( "Ti", "Ti-", "Ti--", "---------" )},
+         { "Philemon",          ( "Pm", "Phm", "Phm-", "Philem---" )},
+         { "Hebrews",           ( "--", "Heb", "Heb-", "Hbr,Hbrs-" )},
+         { "James",             ( "Jm", "Jam", "Jam-", "---------" )},
+         { "1 Peter",           ( "1P", "1Pe", "1Pet", "1Pt------" )},
+         { "2 Peter",           ( "2P", "2Pe", "2Pet", "2Pt------" )},
+         { "1 John",            ( "1J", "1Jn", "1Jn-", "1Jn,1Jhn-" )},
+         { "2 John",            ( "2J", "2Jn", "2Jn-", "1Jn,1Jhn-" )},
+         { "3 John",            ( "3J", "3Jn", "3Jn-", "1Jn,1Jhn-" )},
+         { "Jude",              ( "Jd", "Jd-", "Jude", "---------" )},
+         { "Revelation",        ( "Re", "Rev", "Rev-", "---------" )} };
     }
 }
