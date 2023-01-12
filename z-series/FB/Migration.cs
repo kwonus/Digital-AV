@@ -248,7 +248,7 @@ namespace DigitalAV.Migration
             }
 
             var cpp = new CSrcGen(this.baseSDK, this.csrc, this.bomDetails);
-            cpp.Generate();
+            //cpp.Generate();
 
             var rust = new RustSrcGen(this.baseSDK, this.rsrc, this.bomDetails);
             rust.Generate();
