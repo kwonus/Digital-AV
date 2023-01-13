@@ -61,12 +61,7 @@ namespace SerializeFromSDK
             }
             // This needs to be done last and in this order (XWrit differs from processing of other files)
             var writBom = this.inventory[saveWritItem];
-            var fstream = new StreamReader(writBom.fpath);
-            using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
-            {
-                for (byte i = 1; i <= 66; i++)
-                    this.XWrit(writBom, "AVXWritten::AVXWrit written[]");
-            }
+            this.XWrit(writBom, "AVXWritten::AVXWrit written[]");
             return true;
         }
         private string Pad<T>(T num, int width)
@@ -81,9 +76,11 @@ namespace SerializeFromSDK
             var suffix = (bookNum < 9 ? "_0" : "_") + bookNum.ToString();
             var outname = otype.Replace('-', '_').ToLower();
 
-            TextWriter writer = File.CreateText(Path.Combine(this.output, outname + suffix + ".cpp"));
+            var path = Path.Combine(this.output, "written", outname + suffix + ".cpp");
+            TextWriter writer = File.CreateText(path);
             writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.Write("static const " + inializerVar + suffix + " = {");
+            writer.Write("static const " + inializerVar.Replace("[]", suffix + "[]") + " = {");
+            Console.WriteLine("\tstatic AVXWrit const written" + suffix + "[" + BookIndex[bookNum].verse_cnt.ToString() + "];");
 
             return writer;
         }
@@ -99,99 +96,86 @@ namespace SerializeFromSDK
         }
         private void XBook((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar)
         {
+            TextWriter writer = XInitialize(bom.otype, inializerVar);
+
             var fstream = new StreamReader(bom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
-                for (byte n = 1; n <= 66; n++)
+                string delimiter = "\n";
+                byte bookNum = 0;
+                for (int x = 0; x <= 66; x++)
                 {
-                    TextWriter writer = XInitializeWrit(bom.otype, inializerVar, n);
-                    for (UInt32 w = 0; w < BookIndex[n].writ_cnt; w++)
+                    writer.Write(delimiter);
+                    if (delimiter.Length < 2)
+                        delimiter = ",\n";
+
+                    bookNum        = breader.ReadByte();
+                    var chapterCnt = breader.ReadByte();
+                    var chapterIdx = breader.ReadUInt16();
+                    var verseCnt   = breader.ReadUInt16();
+                    var verseIdx   = breader.ReadUInt16();
+                    var writCnt    = breader.ReadUInt32();
+                    var writIdx    = breader.ReadUInt32();
+                    var bname      = breader.ReadBytes(16);
+                    var babbr      = breader.ReadBytes(18);
+                    if (x != bookNum)
+                        break;
+
+                    this.BookIndex[bookNum].chapter_cnt = chapterCnt;
+                    this.BookIndex[bookNum].chapter_idx = chapterIdx;
+                    this.BookIndex[bookNum].verse_cnt = verseCnt;
+                    this.BookIndex[bookNum].verse_idx = verseIdx;
+                    this.BookIndex[bookNum].writ_cnt = writCnt;
+                    this.BookIndex[bookNum].writ_idx = writIdx;
+                    var name = new StringBuilder();
+                    var abbr = new StringBuilder();
+
+                    for (int i = 0; i < bname.Length && bname[i] != 0; i++)
+                        name.Append((char)bname[i]);
+
+                    writer.Write("\t{ ");
+
+                    writer.Write(Pad(bookNum, 2) + ", ");
+                    writer.Write(Pad(chapterCnt, 3) + ", ");
+                    writer.Write(Pad(chapterIdx, 4) + ", ");
+                    writer.Write(Pad(verseCnt, 5) + ", ");
+                    writer.Write(Pad(verseIdx, 6) + ", ");
+                    writer.Write(Pad(writCnt, 7) + ", ");
+                    writer.Write(Pad(writIdx, 8) + ", ");
+                    writer.Write("\"" + name.ToString() + "\", ");
+
+                    if (bookNum > 0)
                     {
-                        string delimiter = "\n";
-                        byte bookNum = 0;
-                        for (int x = 0; x <= 66; x++)
-                        {
-                            writer.Write(delimiter);
-                            if (delimiter.Length < 2)
-                                delimiter = ",\n";
+                        int idx;
+                        var abbreviations = RustSrcGen.BK[bookNum];
+                        if ((idx = abbreviations.a2.IndexOf('-')) >= 0)
+                                abbreviations.a2 = (idx > 0) ? abbreviations.a2.Substring(0, idx) : string.Empty;
+                        if ((idx = abbreviations.a3.IndexOf('-')) >= 0)
+                            abbreviations.a3 = (idx > 0) ? abbreviations.a3.Substring(0, idx) : string.Empty;
+                        if ((idx = abbreviations.a4.IndexOf('-')) >= 0)
+                            abbreviations.a4 = (idx > 0) ? abbreviations.a4.Substring(0, idx) : string.Empty;
+                        if ((idx = abbreviations.alternates.IndexOf('-')) >= 0)
+                            abbreviations.alternates = (idx > 0) ? abbreviations.alternates.Substring(0, idx) : string.Empty;
 
-                            bookNum = breader.ReadByte();
-                            var chapterCnt = breader.ReadByte();
-                            var chapterIdx = breader.ReadUInt16();
-                            var verseCnt = breader.ReadUInt16();
-                            var verseIdx = breader.ReadUInt16();
-                            var writCnt = breader.ReadUInt32();
-                            var writIdx = breader.ReadUInt32();
-                            var bname = breader.ReadBytes(16);
-                            var babbr = breader.ReadBytes(12);
+                        var alts = abbreviations.alternates.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                        var alt1 = alts.Length >= 1 ? alts[0] : abbreviations.alternates;
+                        var alt2 = alts.Length >= 2 ? alts[1] : string.Empty;
 
-                            if (x != bookNum)
-                                break;
-
-                            this.BookIndex[bookNum].chapter_cnt = chapterCnt;
-                            this.BookIndex[bookNum].chapter_idx = chapterIdx;
-                            this.BookIndex[bookNum].verse_cnt = verseCnt;
-                            this.BookIndex[bookNum].verse_idx = verseIdx;
-                            this.BookIndex[bookNum].writ_cnt = writCnt;
-                            this.BookIndex[bookNum].writ_idx = writIdx;
-
-                            var name = new StringBuilder();
-                            var abbr = new StringBuilder();
-
-                            for (int i = 0; i < bname.Length && bname[i] != 0; i++)
-                                name.Append((char)bname[i]);
-
-                            //                  Z14-style field
-                            //                  for (int i = 0; i < babbr.Length && babbr[i] != 0; i++)
-                            //                      abbr.Append((char)babbr[i]);
-                            //
-                            //                  var abbreviations = abbr.ToString().Split(',', StringSplitOptions.RemoveEmptyEntries);
-
-                            writer.Write("\t{ ");
-
-                            writer.Write(Pad(bookNum, 2) + ", ");
-                            writer.Write(Pad(chapterCnt, 3) + ", ");
-                            writer.Write(Pad(chapterIdx, 4) + ", ");
-                            writer.Write(Pad(verseCnt, 5) + ", ");
-                            writer.Write(Pad(verseIdx, 6) + ", ");
-                            writer.Write(Pad(writCnt, 7) + ", ");
-                            writer.Write(Pad(writIdx, 8) + ", ");
-                            writer.Write("\"" + name.ToString() + "\", ");
-
-                            if (bookNum > 0)
-                            {
-                                int idx;
-                                var abbreviations = RustSrcGen.BK[bookNum];
-                                if ((idx = abbreviations.a2.IndexOf('-')) >= 0)
-                                    abbreviations.a2 = (idx > 0) ? abbreviations.a2.Substring(0, idx) : string.Empty;
-                                if ((idx = abbreviations.a3.IndexOf('-')) >= 0)
-                                    abbreviations.a3 = (idx > 0) ? abbreviations.a3.Substring(0, idx) : string.Empty;
-                                if ((idx = abbreviations.a4.IndexOf('-')) >= 0)
-                                    abbreviations.a4 = (idx > 0) ? abbreviations.a4.Substring(0, idx) : string.Empty;
-                                if ((idx = abbreviations.alternates.IndexOf('-')) >= 0)
-                                    abbreviations.alternates = (idx > 0) ? abbreviations.alternates.Substring(0, idx) : string.Empty;
-
-                                var alts = abbreviations.alternates.Split(',', StringSplitOptions.RemoveEmptyEntries);
-                                var alt1 = alts.Length >= 1 ? alts[0] : abbreviations.alternates;
-                                var alt2 = alts.Length >= 2 ? alts[1] : string.Empty;
-
-                                writer.Write("\"" + abbreviations.a2 + "\", ");
-                                writer.Write("\"" + abbreviations.a3 + "\", ");
-                                writer.Write("\"" + abbreviations.a4 + "\", ");
-                                writer.Write(alt1.Length > 0 ? "\"" + alt1 + "\", " : "nullptr, ");
-                                writer.Write(alt2.Length > 0 ? "\"" + alt2 + "\"" : "nullptr");
-                            }
-                            else
-                            {
-                                writer.Write("nullptr, nullptr, nullptr, nullptr, nullptr");
-                            }
-                            writer.Write(" }");
-                        }
+                        writer.Write("\"" + abbreviations.a2 + "\", ");
+                        writer.Write("\"" + abbreviations.a3 + "\", ");
+                        writer.Write("\"" + abbreviations.a4 + "\", ");
+                        writer.Write("\"" + alt1 + "\", ");
+                        writer.Write("\"" + alt2 + "\", ");
                     }
-                    writer.WriteLine("\n};");
-                    writer.Close();
+                    else
+                    {
+                        writer.Write("\"\", \"\", \"\", \"\", \"\"");
+                    }
+                    writer.Write(" }");
                 }
             }
+            writer.WriteLine("\n};");
+            writer.Close();
         }
         private void XChapter((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar)
         {
@@ -493,48 +477,52 @@ namespace SerializeFromSDK
         }
         private void XWrit((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar)
         {
-            TextWriter writer = XInitialize(bom.otype, inializerVar);
-
             var fstream = new StreamReader(bom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
-                string delimiter = "\n";
-                for (int x = 1; x <= bom.rcnt; x++)
+                for (byte n = 1; n <= 66; n++)
                 {
-                    writer.Write(delimiter);
-                    if (delimiter.Length < 2)
-                        delimiter = ",\n";
-
-                    var Strongs = breader.ReadUInt64();
-                    var VerseIdx = breader.ReadUInt16();
-                    var Word = breader.ReadUInt16();
-                    var Punc = breader.ReadByte();
-                    var Trans = breader.ReadByte();
-                    var Pnwc = breader.ReadUInt16();
-                    var Pos = breader.ReadUInt32();
-                    var Lemma = breader.ReadUInt16();
-
-                    writer.Write("\t{ ");
-
-                    int shift = 3*16;
-                    for (int index = 0; index < 4; shift -= 16, index++)
+                    TextWriter writer = XInitializeWrit(bom.otype, inializerVar, n);
+                    for (UInt32 w = 0; w < BookIndex[n].writ_cnt; w++)
                     {
-                        var strongs = (UInt16)((Strongs >> shift) & 0xFFFF);
-                        writer.Write(Pad(strongs, 4) + ", ");
-                    }
-                    writer.Write(Pad(VerseIdx, 5) + ", ");
-                    writer.Write("0x" + Word.ToString("X04") + ", ");
-                    writer.Write("0x" + Punc.ToString("X02") + ", ");
-                    writer.Write("0x" + Trans.ToString("X02") + ", ");
-                    writer.Write("0x" + Pnwc.ToString("X04") + ", ");
-                    writer.Write("0x" + Pos.ToString("X08") + ", ");
-                    writer.Write("0x" + Lemma.ToString("X04"));
+                        string delimiter = "\n";
 
-                    writer.Write(" }");
+                        writer.Write(delimiter);
+                        if (delimiter.Length < 2)
+                            delimiter = ",\n";
+
+                        var Strongs  = breader.ReadUInt64();
+                        var VerseIdx = breader.ReadUInt16();
+                        var Word     = breader.ReadUInt16();
+                        var Punc     = breader.ReadByte();
+                        var Trans    = breader.ReadByte();
+                        var Pnwc     = breader.ReadUInt16();
+                        var Pos      = breader.ReadUInt32();
+                        var Lemma    = breader.ReadUInt16();
+
+                        writer.Write("\t{ ");
+
+                        int shift = 3*16;
+                        for (int index = 0; index < 4; shift -= 16, index++)
+                        {
+                            var strongs = (UInt16)((Strongs >> shift) & 0xFFFF);
+                            writer.Write(Pad(strongs, 4) + ", ");
+                        }
+                        writer.Write(Pad(VerseIdx, 5) + ", ");
+                        writer.Write("0x" + Word.ToString("X04") + ", ");
+                        writer.Write("0x" + Punc.ToString("X02") + ", ");
+                        writer.Write("0x" + Trans.ToString("X02") + ", ");
+                        writer.Write("0x" + Pnwc.ToString("X04") + ", ");
+                        writer.Write("0x" + Pos.ToString("X08") + ", ");
+                        writer.Write("0x" + Lemma.ToString("X04"));
+
+                        writer.Write(" }");
+
+                    }
+                    writer.WriteLine("\n};");
+                    writer.Close();
                 }
             }
-            writer.WriteLine("\n};");
-            writer.Close();
         }
     }
 }

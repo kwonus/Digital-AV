@@ -1,6 +1,6 @@
 #include "lexicon.h"
 static const AVXLexicon::AVXLexItem items[] = {
-	{ 0xFFFF, { 0x00003118, 0x0000001F, 0x00000009 }, nullptr, nullptr, nullptr },
+	{ 0xFFFF, { 0x00003117, 0x0000310C }, nullptr, nullptr, nullptr },
 	{ 0x0000, { 0x00000036, 0x00000094, 0x80004206 }, "a", nullptr, nullptr },
 	{ 0x0000, { 0x01074F9C }, "i", nullptr, nullptr },
 	{ 0x0000, { 0x000002A8 }, "o", nullptr, "oh" },
@@ -12566,6 +12566,5 @@ static const AVXLexicon::AVXLexItem items[] = {
 	{ 0x0000, { 0x0000000A }, "selahammahlekoth", "sela-hammahlekoth", nullptr },
 	{ 0x0000, { 0x000001DC }, "unprofitableness", nullptr, nullptr },
 	{ 0x0000, { 0x0000000A }, "chushanrishathaim", "chushan-rishathaim", nullptr },
-	{ 0x0000, { 0x00000000 }, "jonathelemrechokim", nullptr, nullptr },
-	{ 0x0000, { 0x0000000A }, "mahershalalhashbaz", "maher-shalal-hash-baz", nullptr }
+	{ 0x0000, { 0x00000000 }, "jonathelemrechokim", nullptr, nullptr }
 };
