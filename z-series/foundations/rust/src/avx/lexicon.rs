@@ -10,8 +10,8 @@ static AVXLexicon_SDK_ZEdition    :u16 = 23107;
 
 static AVXLexicon_File: &'static str = "AV-Lexicon.dxi";
 static AVXLexicon_RecordLen   :usize =        0;
-static AVXLexicon_RecordCnt   :usize =    12568;
-static AVXLexicon_FileLen     :usize =   246262;
+static AVXLexicon_RecordCnt   :usize =    12567;
+static AVXLexicon_FileLen     :usize =   246258;
 // < < < Generated-Code -- Metadata < < < //
 
 // Entities: uint16
@@ -35,8 +35,8 @@ struct AVXLexItem {
 }
 
 // > > > Generated-Code -- Initialization > > > //
-static lexicon: [AVXLexItem; 12569] = [
-	AVXLexItem { entities: 0xFFFF, search: "", display: "", modern: "", pos: [ 0x00003118, 0x0000001F, 0x00000009, ]  },
+static lexicon: [AVXLexItem; 12568] = [
+	AVXLexItem { entities: 0xFFFF, search: "", display: "", modern: "", pos: [ 0x00003117, 0x0000310C, ]  },
 	AVXLexItem { entities: 0x0000, search: "a", display: "", modern: "", pos: [ 0x00000036, 0x00000094, 0x80004206, ]  },
 	AVXLexItem { entities: 0x0000, search: "i", display: "", modern: "", pos: [ 0x01074F9C, ]  },
 	AVXLexItem { entities: 0x0000, search: "o", display: "", modern: "oh", pos: [ 0x000002A8, ]  },
@@ -12603,6 +12603,5 @@ static lexicon: [AVXLexItem; 12569] = [
 	AVXLexItem { entities: 0x0000, search: "unprofitableness", display: "", modern: "", pos: [ 0x000001DC, ]  },
 	AVXLexItem { entities: 0x0000, search: "chushanrishathaim", display: "chushan-rishathaim", modern: "", pos: [ 0x0000000A, ]  },
 	AVXLexItem { entities: 0x0000, search: "jonathelemrechokim", display: "", modern: "", pos: [ 0x00000000, ]  },
-	AVXLexItem { entities: 0x0000, search: "mahershalalhashbaz", display: "maher-shalal-hash-baz", modern: "", pos: [ 0x0000000A, ]  },
 ];
 // < < < Generated-Code -- Initialization < < < //

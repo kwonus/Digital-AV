@@ -117,7 +117,7 @@ namespace SerializeFromSDK
                     if (bookNum > 0)
                     {
                         int idx;
-                        var abbreviations = RustSrcGen.BK[name.ToString()];
+                        var abbreviations = RustSrcGen.BK[bookNum];
                         if ((idx = abbreviations.a2.IndexOf('-')) >= 0)
                                 abbreviations.a2 = (idx > 0) ? abbreviations.a2.Substring(0, idx) : string.Empty;
                         if ((idx = abbreviations.a3.IndexOf('-')) >= 0)

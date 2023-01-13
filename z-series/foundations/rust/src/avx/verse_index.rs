@@ -31140,6 +31140,7 @@ static verse_index: [AVXVerse; 31102] = [
 ];
 // < < < Generated-Code -- Initialization < < < //
 
-pub const fn get_chapter_index(sdkdir: string) -> [AVXVerse; 31_102] {
-    let index: avxlib::avx::book_index::books;
+use crate::avx;
+pub const fn get_verse_index(sdkdir: string) -> [AVXVerse; 31_102] {
+    let index = verses;
 }
