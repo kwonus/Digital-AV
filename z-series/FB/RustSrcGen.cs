@@ -201,7 +201,7 @@ namespace SerializeFromSDK
             File.Delete(old);
             File.Replace(temp, path, null/*, old */);
         }
-        private void XBook(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, bool useZ14 = true, bool genNext = true) // change default values to change behavior
+        private void XBook(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, bool useZ14 = false, bool genNext = false) // change default values to change behavior
         {
             var outname = bom.otype.Replace('-', '_').ToLower();
 
