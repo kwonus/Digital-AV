@@ -356,7 +356,6 @@ namespace SerializeFromSDK
             writer.WriteLine("\n};");
             writer.Close();
         }
-
         private void XLexicon((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar)
         {
             TextWriter writer = XInitialize(bom.otype, inializerVar);
@@ -482,11 +481,11 @@ namespace SerializeFromSDK
             {
                 for (byte n = 1; n <= 66; n++)
                 {
+                    string delimiter = "\n";
+
                     TextWriter writer = XInitializeWrit(bom.otype, inializerVar, n);
                     for (UInt32 w = 0; w < BookIndex[n].writ_cnt; w++)
                     {
-                        string delimiter = "\n";
-
                         writer.Write(delimiter);
                         if (delimiter.Length < 2)
                             delimiter = ",\n";
@@ -517,7 +516,6 @@ namespace SerializeFromSDK
                         writer.Write("0x" + Lemma.ToString("X04"));
 
                         writer.Write(" }");
-
                     }
                     writer.WriteLine("\n};");
                     writer.Close();
