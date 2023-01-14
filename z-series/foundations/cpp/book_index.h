@@ -28,7 +28,7 @@ public:
         
         inline const AVXWritten::AVXWrit* const getWrit()
         {
-            return &(AVXWritten::written[this->writIdx]);
+            return AVXWritten::written[num];
         }
         inline const AVXWritten::AVXWrit* const getWrit(uint8 chapter)
         {
@@ -36,7 +36,7 @@ public:
                 return nullptr;
 
             auto ichapter = AVXChapterIndex::index[this->chapter_idx + chapter - 1];
-            return &(AVXWritten::written[ichapter.writ_idx]);
+            return AVXWritten::written[num] + ichapter.writ_idx - this->writIdx;
         }
         const AVXWritten::AVXWrit* const getWrit(uint8 chapter, uint8 verse)
         {
@@ -50,14 +50,14 @@ public:
 
             auto iverse = &(AVXVerseIndex::index[ichapter.verse_idx + verse - 1]);
 
-            uint32 offset = ichapter.writ_idx;
+            uint32 offset = ichapter.writ_idx - this->writIdx;
 
             for (uint8 v = 1; v < verse; v++)
             {
                 offset += iverse->word_cnt;
                 iverse++;
             }
-            return &(AVXWritten::written[offset]);
+            return AVXWritten::written[num] + offset;
         }
     };
 

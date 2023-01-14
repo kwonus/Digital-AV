@@ -73,7 +73,7 @@ namespace SerializeFromSDK
 
         private TextWriter XInitializeWrit(string otype, string inializerVar, byte bookNum)
         {
-            var suffix = (bookNum < 9 ? "_0" : "_") + bookNum.ToString();
+            var suffix = (bookNum <= 9 ? "_0" : "_") + bookNum.ToString();
             var outname = otype.Replace('-', '_').ToLower();
 
             var path = Path.Combine(this.output, "written", outname + suffix + ".cpp");

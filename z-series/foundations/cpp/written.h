@@ -103,7 +103,7 @@ public:
     static AVXWrit const written_06[1316];
     static AVXWrit const written_07[1236];
     static AVXWrit const written_08[170];
-    static AVXWrit const written_9[1620];
+    static AVXWrit const written_09[1620];
     static AVXWrit const written_10[1390];
     static AVXWrit const written_11[1632];
     static AVXWrit const written_12[1438];
@@ -161,4 +161,6 @@ public:
     static AVXWrit const written_64[28];
     static AVXWrit const written_65[50];
     static AVXWrit const written_66[808];
+
+    static AVXWrit const *written[67];
 };
