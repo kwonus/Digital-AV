@@ -1,5 +1,5 @@
 #include "chapter_index.h"
-static const AVXChapterIndex::AVXChapter index[] = {
+AVXChapterIndex::AVXChapter const AVXChapterIndex::index[] = {
 	{     0,  797,     0,   31 },
 	{   797,  632,    31,   25 },
 	{  1429,  695,    56,   24 },

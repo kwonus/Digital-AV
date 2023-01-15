@@ -1,5 +1,5 @@
 #include "lemmata_oov.h"
-static const AVXLemmataOOV::AVXLemmaOOV vocabulary[] = {
+AVXLemmataOOV::AVXLemmaOOV const AVXLemmataOOV::vocabulary[] = {
 	{ 0x8301, "aid" },
 	{ 0x8302, "ail" },
 	{ 0x8303, "ape" },

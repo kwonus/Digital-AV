@@ -1,5 +1,5 @@
 #include "verse_index.h"
-static const AVXVerseIndex::AVXVerse index[] = {
+AVXVerseIndex::AVXVerse const AVXVerseIndex::index[] = {
 	{  1,   1,   1,  10 },
 	{  1,   1,   2,  29 },
 	{  1,   1,   3,  11 },

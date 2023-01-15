@@ -1,5 +1,5 @@
 #include "book_index.h"
-static const AVXBookIndex::AVXBook index[] = {
+AVXBookIndex::AVXBook const AVXBookIndex::index[] = {
 	{  0,   0,    0,     0,      0,       0,    12556, "Z31c", "", "", "", "", "" },
 	{  1,  50,    0,  3066,      0,   38262,        0, "Genesis", "Ge", "Gen", "Gen", "Gn", "",  },
 	{  2,  40,   50,  2426,   1533,   32685,    38262, "Exodus", "Ex", "Exo", "Exo", "Exod", "",  },

@@ -49,20 +49,20 @@ namespace SerializeFromSDK
 
                 switch (select)
                 {
-                    case "Book":        this.XBook(     record, "AVXBookIndex::AVXBook index[]");           break;
-                    case "Chapter":     this.XChapter(  record, "AVXChapterIndex::AVXChapter index[]");     break;
-                    case "Verse":       this.XVerse(    record, "AVXVerseIndex::AVXVerse index[]");         break;
-                    case "Lemma":       this.XLemma(    record, "AVXLemmataRecords::AVXLemmata records[]"); break;
-                    case "Lemma-OOV":   this.XLemmaOOV( record, "AVXLemmataOOV::AVXLemmaOOV vocabulary[]"); break;
-                    case "Lexicon":     this.XLexicon(  record, "AVXLexicon::AVXLexItem items[]");          break;
-                    case "Names":       this.XNames(    record, "AVXNames::AVXName names[]");               break;
-                    case "WordClass":   this.XWordClass(record, "AVXWordClasses::AVXWordClass classes[]");  break;
-                    case "Writ":        saveWritItem = item;                                                break;
+                    case "Book":        this.XBook(     record, "AVXBookIndex::AVXBook const AVXBookIndex::index[]");                 break;
+                    case "Chapter":     this.XChapter(  record, "AVXChapterIndex::AVXChapter const AVXChapterIndex::index[]");        break;
+                    case "Verse":       this.XVerse(    record, "AVXVerseIndex::AVXVerse const AVXVerseIndex::index[]");              break;
+                    case "Lemma":       this.XLemma(    record, "AVXLemmataRecords::AVXLemmata const AVXLemmataRecords::records[]");  break;
+                    case "Lemma-OOV":   this.XLemmaOOV( record, "AVXLemmataOOV::AVXLemmaOOV const AVXLemmataOOV::vocabulary[]");      break;
+                    case "Lexicon":     this.XLexicon(  record, "AVXLexicon::AVXLexItem const AVXLexicon::items[]");                  break;
+                    case "Names":       this.XNames(    record, "AVXNames::AVXName const AVXNames::names[]");                         break;
+                    case "WordClass":   this.XWordClass(record, "AVXWordClasses::AVXWordClass const AVXWordClasses::classes[]");      break;
+                    case "Writ":        saveWritItem = item;                                                                                break;
                 }
             }
             // This needs to be done last and in this order (XWrit differs from processing of other files)
             var writBom = this.inventory[saveWritItem];
-            this.XWrit(writBom, "AVXWritten::AVXWrit written[]");
+            this.XWrit(writBom, "AVXWritten::AVXWrit const AVXWritten::written[]", "static AVXWrit const written[]");
             return true;
         }
         private string Pad<T>(T num, int width)
@@ -72,7 +72,7 @@ namespace SerializeFromSDK
             return string.Format(fmt, val);
         }
 
-        private TextWriter XInitializeWrit(string otype, string inializerVar, byte bookNum)
+        private TextWriter XInitializeWrit(string otype, string inializerVar, string memberVar, byte bookNum)
         {
             var suffix = (bookNum <= 9 ? "_0" : "_") + bookNum.ToString();
             var outname = otype.Replace('-', '_').ToLower();
@@ -80,8 +80,9 @@ namespace SerializeFromSDK
             var path = Path.Combine(this.output, "written", outname + suffix + ".cpp");
             TextWriter writer = File.CreateText(path);
             writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.Write("static " + inializerVar.Replace("[]", suffix + "[]") + " = {");
-            Console.WriteLine("\tstatic AVXWrit written" + suffix + "[" + BookIndex[bookNum].verse_cnt.ToString() + "];");
+            writer.Write(inializerVar.Replace("[]", suffix + "[]") + " = {");
+
+            Console.WriteLine(memberVar.Replace("[]", suffix + "[" + BookIndex[bookNum].writ_cnt.ToString() + "];"));
 
             return writer;
         }
@@ -91,7 +92,7 @@ namespace SerializeFromSDK
 
             TextWriter writer = File.CreateText(Path.Combine(this.output, outname + ".cpp"));
             writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.Write("static const " + inializerVar + " = {");
+            writer.Write(inializerVar + " = {");
 
             return writer;
         }
@@ -487,7 +488,7 @@ namespace SerializeFromSDK
             writer.WriteLine("\n};");
             writer.Close();
         }
-        private void XWrit((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar)
+        private void XWrit((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar, string memberVar)
         {
             var fstream = new StreamReader(bom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
@@ -496,7 +497,7 @@ namespace SerializeFromSDK
                 {
                     string delimiter = "\n";
 
-                    TextWriter writer = XInitializeWrit(bom.otype, inializerVar, n);
+                    TextWriter writer = XInitializeWrit(bom.otype, inializerVar, memberVar, n);
                     for (UInt32 w = 0; w < BookIndex[n].writ_cnt; w++)
                     {
                         writer.Write(delimiter);
