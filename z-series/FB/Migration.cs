@@ -108,7 +108,7 @@ namespace DigitalAV.Migration
             else switch (itype.ToLower())
             {
                 case "av-writ.dx":    return 22;
-                case "av-book.ix":    return 44;
+                case "av-book.ix":    return 50;
                 case "av-chapter.ix": return 10;
                 case "av-verse.ix":   return  4;
             }
@@ -272,7 +272,7 @@ namespace DigitalAV.Migration
                     var writCnt    = breader.ReadUInt32();      // 4 = 12
                     var writIdx    = breader.ReadUInt32();      // 4 = 16
                     var bname      = breader.ReadBytes(16);     //16 = 32
-                    var babbr      = breader.ReadBytes(12);     //12 = 44
+                    var babbr      = breader.ReadBytes(18);     //18 = 50
 
                     var name = new StringBuilder();
                     var abbr = new StringBuilder();
@@ -281,6 +281,14 @@ namespace DigitalAV.Migration
                         name.Append(bname[i]);
                     for (int i = 0; i < babbr.Length && babbr[i] != 0; i++)
                         abbr.Append(babbr[i]);
+
+                    BookIndex[bookNum].chapter_cnt = chapterCnt;
+                    BookIndex[bookNum].chapter_idx = chapterIdx;
+                    BookIndex[bookNum].verse_cnt   = verseCnt;
+                    BookIndex[bookNum].verse_idx   = verseIdx;
+                    BookIndex[bookNum].writ_cnt    = writCnt; 
+                    BookIndex[bookNum].writ_idx    = writIdx;
+                    BookIndex[bookNum].name        = name.ToString();
 
                     var abbreviations = bookNum > 0 ? abbr.ToString().Split(',', StringSplitOptions.RemoveEmptyEntries) : new string[0];
 
@@ -585,5 +593,15 @@ namespace DigitalAV.Migration
             string file = DX(itype);
             StoreInventoryLine(file, "");
         }
+        public static 
+        (
+            byte   chapter_cnt,
+            UInt16 chapter_idx,
+            UInt16 verse_cnt,
+            UInt16 verse_idx,
+            UInt32 writ_idx,
+            UInt32 writ_cnt,
+            string? name
+        )[] BookIndex = new (byte, UInt16, UInt16, UInt16, UInt32, UInt32, string?)[67];
     }
 }

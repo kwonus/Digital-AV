@@ -502,7 +502,8 @@ namespace SerializeFromSDK
 
                     writer.Write("\t" + rtype + "{ ");
 
-                    writer.Write("writ_idx: " + Pad(writIdx, 6) + ", ");
+                    UInt32 normalizedIdx = writIdx - ConsoleApp.BookIndex[b].writ_idx;
+                    writer.Write("writ_idx: " + Pad(normalizedIdx, 5) + ", ");
                     writer.Write("writ_cnt: " + Pad(wordCnt, 4) + ", ");
                     writer.Write("verse_idx: " + Pad(verseIdx, 5) + ", ");
                     writer.Write("verse_cnt: " + Pad(ChapterIndex[x].verse_cnt, 4) + ", ");
@@ -571,7 +572,8 @@ namespace SerializeFromSDK
 
                     writer.Write("\t" + rtype + "{ ");
 
-                    writer.Write("writ_idx: "  + Pad(writIdx,  6) + ", ");
+                    UInt32 normalizedIdx = writIdx - ConsoleApp.BookIndex[b].writ_idx;
+                    writer.Write("writ_idx: "  + Pad(normalizedIdx, 5) + ", ");
                     writer.Write("writ_cnt: "  + Pad(writCnt,  4) + ", ");
                     writer.Write("verse_idx: " + Pad(verseIdx, 5) + ", ");
                     writer.Write("verse_cnt: " + Pad(verseCnt, 4) + ", ");
