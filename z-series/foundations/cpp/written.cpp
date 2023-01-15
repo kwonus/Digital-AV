@@ -1,5 +1,5 @@
 #include "written.h"
-AVXWritten::AVXWrit const *AVXWritten::written[] = {
+AVXWritten::AVXWrit *AVXWritten::written[] = {
     AVXWritten::written_01, // placeholder only. So that 
     AVXWritten::written_01,
     AVXWritten::written_02,

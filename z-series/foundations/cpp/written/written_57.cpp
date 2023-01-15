@@ -1,5 +1,5 @@
 #include "written.h"
-static const AVXWritten::AVXWrit written_57[] = {
+static AVXWritten::AVXWrit written_57[] = {
 	{    0,    0,    0,    0, 29939, 0x843F, 0x40, 0xE1, 0x4032, 0x00003A1C, 0x043F },
 	{ 1198,    0,    0,    0, 29939, 0x0001, 0x00, 0x00, 0x0D00, 0x00000094, 0x0001 },
 	{ 1198,    0,    0,    0, 29939, 0x2242, 0x00, 0x00, 0x4010, 0x000001DC, 0x2242 },

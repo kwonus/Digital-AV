@@ -8,6 +8,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -79,8 +80,8 @@ namespace SerializeFromSDK
             var path = Path.Combine(this.output, "written", outname + suffix + ".cpp");
             TextWriter writer = File.CreateText(path);
             writer.WriteLine("#include \"" + outname + ".h\"");
-            writer.Write("static const " + inializerVar.Replace("[]", suffix + "[]") + " = {");
-            Console.WriteLine("\tstatic AVXWrit const written" + suffix + "[" + BookIndex[bookNum].verse_cnt.ToString() + "];");
+            writer.Write("static " + inializerVar.Replace("[]", suffix + "[]") + " = {");
+            Console.WriteLine("\tstatic AVXWrit written" + suffix + "[" + BookIndex[bookNum].verse_cnt.ToString() + "];");
 
             return writer;
         }
@@ -177,6 +178,18 @@ namespace SerializeFromSDK
             writer.WriteLine("\n};");
             writer.Close();
         }
+        private UInt32 NormalizeWritIdx(UInt32 writIdx)
+        {
+            UInt32 bk = 0;
+            for (byte n = 1; n <= 66; n++)
+            {
+                if (writIdx >= BookIndex[n].writ_idx)
+                    bk = n;
+                else
+                    break;
+            }
+            return writIdx - BookIndex[bk].writ_idx; ;
+        }
         private void XChapter((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar)
         {
             TextWriter writer = XInitialize(bom.otype, inializerVar);
@@ -198,7 +211,7 @@ namespace SerializeFromSDK
 
                     writer.Write("\t{ ");
 
-                    writer.Write(Pad(writIdx, 6) + ", ");
+                    writer.Write(Pad(NormalizeWritIdx(writIdx), 5) + ", ");
                     writer.Write(Pad(writCnt, 4) + ", ");
                     writer.Write(Pad(verseIdx, 5) + ", ");
                     writer.Write(Pad(verseCnt, 4));

@@ -15,11 +15,11 @@ public:
         const uint8     num;
         const uint8     chapter_cnt;
         const uint16    chapter_idx;
-        const uint16    verseCnt;
-        const uint16    verseIdx;
-        const uint16    writCnt;
-        const uint32    writIdx;
-        const char     *bookname;
+        const uint16    verse_cnt;
+        const uint16    verse_idx;
+        const uint16    writ_cnt;
+        const uint32    sdk_writ_idx;   // this value is directly from the SDK, and is global across all of AV-Writ.dx. In C++ implementation, this is 0 for verse 1:1 of each book. But we retain the SDK value here.
+        const char      name[17];
         const char      abbr2[3];  // strlen == 2 || strlen == 0
         const char      abbr3[4];  // strlen == 3
         const char      abbr4[5];  // <-- Most common // use this for display // strlen <= 4
@@ -36,7 +36,7 @@ public:
                 return nullptr;
 
             auto ichapter = AVXChapterIndex::index[this->chapter_idx + chapter - 1];
-            return AVXWritten::written[num] + ichapter.writ_idx - this->writIdx;
+            return AVXWritten::written[num] + ichapter.bk_writ_idx;
         }
         const AVXWritten::AVXWrit* const getWrit(uint8 chapter, uint8 verse)
         {
@@ -50,7 +50,7 @@ public:
 
             auto iverse = &(AVXVerseIndex::index[ichapter.verse_idx + verse - 1]);
 
-            uint32 offset = ichapter.writ_idx - this->writIdx;
+            uint32 offset = ichapter.bk_writ_idx;
 
             for (uint8 v = 1; v < verse; v++)
             {

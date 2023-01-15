@@ -9,7 +9,7 @@ class AVXChapterIndex
 public:
     class AVXChapter {
     public:
-        const uint32 writ_idx;
+        const uint16 bk_writ_idx;
         const uint16 writ_cnt;
         const uint16 verse_idx;
         const uint16 verse_cnt;
