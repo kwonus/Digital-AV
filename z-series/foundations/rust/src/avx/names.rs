@@ -16,7 +16,7 @@ static AVXNames_FileLen     :usize =    60727;
 
 struct AVXName {
     word_key:  u16,
-    meaning:  [string],
+    meaning:  [String],
 }
 
 // > > > Generated-Code -- Initialization > > > //
