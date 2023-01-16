@@ -15,16 +15,16 @@ static AVXChapterIndex_FileLen     :usize =    11890;
 // < < < Generated-Code -- Metadata < < < //
 
 struct AVXChapter {
-    writ_idx:    uint16,
-	writ_cnt:    uint16,
-    verse_idx:   uint16,
-	verse_cnt:   uint8,		// uint16 in binary-file baseline SDK asset
+    writ_idx:    u16,
+	writ_cnt:    u16,
+    verse_idx:   u16,
+	verse_cnt:   u8,		// uint16 in binary-file baseline SDK asset
 }
 
 impl Default for AVXChapter {
     #[inline]
     fn default() -> AVXChapter {
-        AVXBook {
+		AVXChapter {
             writ_idx:  0,
 			writ_cnt:  0,
 			verse_idx: 0,
@@ -1228,6 +1228,6 @@ static chapter_index: [AVXChapter; 1189] = [
 // < < < Generated-Code -- Initialization < < < //
 
 use crate::avx::book_index;
-pub const fn get_chapter_index(sdkdir: string) -> [AVChapter; 1189] {
+pub const fn get_chapter_index(sdkdir: String) -> [AVChapter; 1189] {
     let index = chapter_index;
 }

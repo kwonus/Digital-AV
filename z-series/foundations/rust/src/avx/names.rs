@@ -15,7 +15,7 @@ static AVXNames_FileLen     :usize =    60727;
 // < < < Generated-Code -- Metadata < < < //
 
 struct AVXName {
-    word_key:  uint16,
+    word_key:  u16,
     meaning:  [string],
 }
 

@@ -15,8 +15,8 @@ static AVXWordClasses_FileLen     :usize =      836;
 // < < < Generated-Code -- Metadata < < < //
 
 struct AVXWordClass {
-    word_class: uint16,
-    pos: [uint32],
+    word_class: u16,
+    pos: [u32],
 }
 
 // > > > Generated-Code -- Initialization > > > //

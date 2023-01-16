@@ -87,14 +87,6 @@ static AVXWritten_RecordCnt   :usize =   789651;
 static AVXWritten_FileLen     :usize = 17372322;
 // < < < Generated-Code -- Metadata < < < //
 
-static AVXWritten_Rust_Edition    :u16 = 23108;
-static AVXWritten_SDK_ZEdition    :u16 = 23107;
-
-static AVXWritten_File: &'static str   = "AV-Writ.dx";
-static AVXWritten_RecordLen     :usize =       22;
-static AVXWritten_RecordCnt     :usize =   789651;
-static AVXWritten_FileLen       :usize = 17372322;
-
 static WordKeyBits_CAPS                  :u16 = 0xC000; // leading 2 bits
 static WordKeyBits_CAPS_FirstLetter      :u16 = 0x8000;
 static WordKeyBits_CAPS_AllLetters       :u16 = 0x4000;
@@ -168,14 +160,14 @@ static Segments_SoftSegmentEnd            :u8 =   0x01; // , ; ( ) --
 static Segments_RealSegmentEnd            :u8 =   0x06; // . ? ! :
 
 pub struct AVXWrit {
-    strongs:  [uint16; 4],
-    verse_idx: uint16,
-    word:      uint16,
-    punc:      uint8,
-    trans:     uint8,
-    pnwc:      uint16,
-    pos:       uint32,
-    lemma:     uint16,
+    strongs:  [u16; 4],
+    verse_idx: u16,
+    word:      u16,
+    punc:      u8,
+    trans:     u8,
+    pnwc:      u16,
+    pos:       u32,
+    lemma:     u16,
 }
 impl Default for AVXWrit {
     #[inline]
@@ -194,10 +186,77 @@ impl Default for AVXWrit {
 }
 
 pub struct AVXWritItem {
-    book: uint8,
+    book: u8,
     written: [AVXWrit],
 }
 
 // > > > Generated-Code -- Initialization > > > //
-
+static  AVXWrittenAll: [ [AVXWritItem] ; 66] = [
+	AVXWritItem { book: 1, written: written_01 },
+	AVXWritItem { book: 2, written: written_02 },
+	AVXWritItem { book: 3, written: written_03 },
+	AVXWritItem { book: 4, written: written_04 },
+	AVXWritItem { book: 5, written: written_05 },
+	AVXWritItem { book: 6, written: written_06 },
+	AVXWritItem { book: 7, written: written_07 },
+	AVXWritItem { book: 8, written: written_08 },
+	AVXWritItem { book: 9, written: written_09 },
+	AVXWritItem { book:10, written: written_10 },
+	AVXWritItem { book:11, written: written_11 },
+	AVXWritItem { book:12, written: written_12 },
+	AVXWritItem { book:13, written: written_13 },
+	AVXWritItem { book:14, written: written_14 },
+	AVXWritItem { book:15, written: written_15 },
+	AVXWritItem { book:16, written: written_16 },
+	AVXWritItem { book:17, written: written_17 },
+	AVXWritItem { book:18, written: written_18 },
+	AVXWritItem { book:19, written: written_19 },
+	AVXWritItem { book:20, written: written_20 },
+	AVXWritItem { book:21, written: written_21 },
+	AVXWritItem { book:22, written: written_22 },
+	AVXWritItem { book:23, written: written_23 },
+	AVXWritItem { book:24, written: written_24 },
+	AVXWritItem { book:25, written: written_25 },
+	AVXWritItem { book:26, written: written_26 },
+	AVXWritItem { book:27, written: written_27 },
+	AVXWritItem { book:28, written: written_28 },
+	AVXWritItem { book:29, written: written_29 },
+	AVXWritItem { book:30, written: written_30 },
+	AVXWritItem { book:31, written: written_31 },
+	AVXWritItem { book:32, written: written_32 },
+	AVXWritItem { book:33, written: written_33 },
+	AVXWritItem { book:34, written: written_34 },
+	AVXWritItem { book:35, written: written_35 },
+	AVXWritItem { book:36, written: written_36 },
+	AVXWritItem { book:37, written: written_37 },
+	AVXWritItem { book:38, written: written_38 },
+	AVXWritItem { book:39, written: written_39 },
+	AVXWritItem { book:40, written: written_40 },
+	AVXWritItem { book:41, written: written_41 },
+	AVXWritItem { book:42, written: written_42 },
+	AVXWritItem { book:43, written: written_43 },
+	AVXWritItem { book:44, written: written_44 },
+	AVXWritItem { book:45, written: written_45 },
+	AVXWritItem { book:46, written: written_46 },
+	AVXWritItem { book:47, written: written_47 },
+	AVXWritItem { book:48, written: written_48 },
+	AVXWritItem { book:49, written: written_49 },
+	AVXWritItem { book:50, written: written_50 },
+	AVXWritItem { book:51, written: written_51 },
+	AVXWritItem { book:52, written: written_52 },
+	AVXWritItem { book:53, written: written_53 },
+	AVXWritItem { book:54, written: written_54 },
+	AVXWritItem { book:55, written: written_55 },
+	AVXWritItem { book:56, written: written_56 },
+	AVXWritItem { book:57, written: written_57 },
+	AVXWritItem { book:58, written: written_58 },
+	AVXWritItem { book:59, written: written_59 },
+	AVXWritItem { book:60, written: written_60 },
+	AVXWritItem { book:61, written: written_61 },
+	AVXWritItem { book:62, written: written_62 },
+	AVXWritItem { book:63, written: written_63 },
+	AVXWritItem { book:64, written: written_64 },
+	AVXWritItem { book:65, written: written_65 },
+	AVXWritItem { book:66, written: written_66 },
+];
 // < < < Generated-Code -- Initialization < < < //

@@ -80,16 +80,10 @@ namespace SerializeFromSDK
                     case "Writ":        saveWritItem = item;       break;
                 }
             }
-            // These need to be done last and in this order (XWrit differs from processing of other files)
+            // These need to be done last and in this order (XWrit differs from processing of other files, as it generates sub-modules also)
             this.XAny("Chapter", this.inventory[saveChapItem]);
             this.XAny("Book", this.inventory[saveBookItem]);
-            var writBom = this.inventory[saveWritItem];
-            var fstream = new StreamReader(writBom.fpath);
-            using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
-            {
-                for (byte i = 1; i <= 66; i++)
-                    this.XWrit(breader, i, "AVXWrit", writBom);
-            }
+            this.XAny("Writ", this.inventory[saveWritItem]);
             return true;
         }
         private string Pad<T>(T num, int width)
@@ -180,6 +174,8 @@ namespace SerializeFromSDK
                     case OP_INIT:
                     {
                         writer.WriteLine(INIT[BEGIN]);
+                        Dictionary<string, (UInt16 count, byte book)> metadata = new();
+
                         switch (select)
                         {
                             case "Book":        this.XBook(     writer, "AVXBook",      bom); break;
@@ -190,7 +186,19 @@ namespace SerializeFromSDK
                             case "Lexicon":     this.XLexicon(  writer, "AVXLexItem",   bom); break; // TBD: Temporary
                             case "Names":       this.XNames(    writer, "AVXName",      bom); break;
                             case "WordClass":   this.XWordClass(writer, "AVXWordClass", bom); break;
-                        }
+                            case "Writ":        {
+                                                    var fstream = new StreamReader(bom.fpath);
+                                                    using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
+                                                    {
+                                                        for (byte bk = 1; bk <= 66; bk++)
+                                                        {
+                                                            var record = this.XWrit_NN(breader, bk, "AVXWrit", bom);
+                                                            metadata[record.variable] = (record.count, bk);
+                                                        }
+                                                    }
+                                                }
+                                                this.XWrit(writer, "AVXWrit", bom, metadata); break;
+                            }
                         writer.WriteLine(INIT[END]);
                         op = OP_NOOP;
                         continue;
@@ -720,7 +728,6 @@ namespace SerializeFromSDK
             }
             writer.WriteLine("];");
         }
-
         private void XLexiconZ14(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {
             // Update SDK file fo Z31
@@ -899,13 +906,31 @@ namespace SerializeFromSDK
             }
             writer.WriteLine("];");
         }
-        private void XWrit(BinaryReader breader, byte book, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XWrit(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, Dictionary<string, (UInt16 count, byte book)> metadata)
         {
-            var outname = bom.otype.Replace('-', '_').ToLower() + "_" + book.ToString("D02");
+            var outname = bom.otype.Replace('-', '_').ToLower();
+
+            writer.WriteLine("static  AVXWrittenAll: [ [AVXWritItem ; " + metadata.Count.ToString() + "] = [");
+
+            foreach (var variable in metadata.Keys)
+            {
+                writer.Write("\t{ book:"  + Pad(metadata[variable].book,  2) + ", ");
+                writer.WriteLine("written: "  + variable + " },");
+            }
+            writer.WriteLine("];");
+        }
+        private (string variable, UInt16 count, byte bookNum) XWrit_NN(BinaryReader breader, byte book, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        {
+            (string variable, UInt16 count, byte book) result;
+
+            var dirname = bom.otype.Replace('-', '_').ToLower();
+            var outname = dirname + "_" + book.ToString("D02");
             var vartype = "AVX" + bom.otype[0].ToString().ToUpper() + bom.otype.Substring(1).Replace("-", "");
+            var wordCnt = this.BookIndex[book].writ_cnt;
+            result = (outname, (UInt16)wordCnt, book);
 
             var fname = Path.GetFileName(bom.fpath);
-            var path = Path.Combine(this.output, "book_index", outname + ".rs");
+            var path = Path.Combine(this.output, dirname, outname + ".rs");
 
             TextWriter writer = File.CreateText(path);
 
@@ -921,7 +946,6 @@ namespace SerializeFromSDK
 
             writer.WriteLine("static " + outname + ": [" + rtype + "; " + this.BookIndex[book].writ_cnt.ToString() + "] = [");
 
-            var wordCnt = this.BookIndex[book].writ_cnt;
             for (int x = 0; x < wordCnt; x++)
             {
                 var Strongs = breader.ReadUInt64();
@@ -957,6 +981,7 @@ namespace SerializeFromSDK
             }
             writer.WriteLine("];");
             writer.Close();
+            return result;
         }
         public static (string name, string a2, string a3, string a4, string alternates)[] BK = new[] {
             ///book/////////////////  a2    a3     common  alternates //////////////////////////////

@@ -4,79 +4,6 @@
 // For example, these comments are wrapped in a pair Generated-Coded directives.
 // < < < Generated-Code -- Header < < < //
 
-mod written_01;
-mod written_02;
-mod written_03;
-mod written_04;
-mod written_05;
-mod written_06;
-mod written_07;
-mod written_08;
-mod written_09;
-mod written_10;
-
-mod written_11;
-mod written_12;
-mod written_13;
-mod written_14;
-mod written_15;
-mod written_16;
-mod written_17;
-mod written_18;
-mod written_19;
-mod written_20;
-
-mod written_21;
-mod written_22;
-mod written_23;
-mod written_24;
-mod written_25;
-mod written_26;
-mod written_27;
-mod written_28;
-mod written_29;
-mod written_30;
-
-mod written_31;
-mod written_32;
-mod written_33;
-mod written_34;
-mod written_35;
-mod written_36;
-mod written_37;
-mod written_38;
-mod written_39;
-mod written_40;
-
-mod written_41;
-mod written_42;
-mod written_43;
-mod written_44;
-mod written_45;
-mod written_46;
-mod written_47;
-mod written_48;
-mod written_49;
-mod written_50;
-
-mod written_51;
-mod written_52;
-mod written_53;
-mod written_54;
-mod written_55;
-mod written_56;
-mod written_57;
-mod written_58;
-mod written_59;
-mod written_60;
-
-mod written_61;
-mod written_62;
-mod written_63;
-mod written_64;
-mod written_65;
-mod written_66;
-
 // > > > Generated-Code -- Metadata > > > //
 static AVXBookIndex_Rust_Edition    :u16 = 23108;
 static AVXBookIndex_SDK_ZEdition    :u16 = 23107;
@@ -87,20 +14,20 @@ static AVXBookIndex_RecordCnt   :usize =       67;
 static AVXBookIndex_FileLen     :usize =     3350;
 // < < < Generated-Code -- Metadata < < < //
 
-struct AVXBook {                // from Digital-AV.pdf
-    num:            uint8,
-    chapter_cnt:    uint8,
-    chapter_idx:    uint16,
-	verse_cnt:		uint16,		// uint32 in binary-file baseline SDL asset,
-	verse_idx:		uint16,
-	writ_idx:		uint32,
-	writ_cnt:		uint16,		// uint32 in binary-file baseline SDK asset,
-    name:           string,
-	abbr2:			string,		// strlen == 2 || strlen == 0
-	abbr3:			string,		// strlen == 3
-	abbr4:			string,		// <-- Most common // use this for display // strlen <= 4
-	abbrAltA:		string,		// Alternate Abbreviation: unknown size
-	abbrAltB:		string,		// Alternate Abbreviation: unknown size
+pub struct AVXBook {                // from Digital-AV.pdf
+    num:            u8,
+    chapter_cnt:    u8,
+    chapter_idx:    u16,
+	verse_cnt:		u16,		// uint32 in binary-file baseline SDL asset,
+	verse_idx:		u16,
+	writ_idx:		u32,
+	writ_cnt:		u16,		// uint32 in binary-file baseline SDK asset,
+    name:           String,
+	abbr2:			String,		// strlen == 2 || strlen == 0
+	abbr3:			String,		// strlen == 3
+	abbr4:			String,		// <-- Most common // use this for display // strlen <= 4
+	abbrAltA:		String,		// Alternate Abbreviation: unknown size
+	abbrAltB:		String,		// Alternate Abbreviation: unknown size
 }
 
 // > > > Generated-Code -- Initialization > > > //
@@ -177,6 +104,6 @@ static books: [AVXBook; 67] = [
 
 use crate::avx::book_index;
 
-pub const fn get_book_index(sdkdir: string) -> [AVXBook; 67] {
+pub const fn get_book_index(sdkdir: String) -> [AVXBook; 67] {
     let index = books;
 }

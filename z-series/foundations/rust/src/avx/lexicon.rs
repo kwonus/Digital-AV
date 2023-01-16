@@ -28,9 +28,9 @@ static Entity_measurements :u16 =  0x100;
 
 struct AVXLexItem {
     entities: u16,
-    search:   string,
-    display:  string,
-    modern:   string,
+    search:   String,
+    display:  String,
+    modern:   String,
     pos:      Vec<u32>,
 }
 

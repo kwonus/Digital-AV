@@ -15,10 +15,10 @@ static AVXLemmata_FileLen     :usize =   182344;
 // < < < Generated-Code -- Metadata < < < //
 
 struct AVXLemma  {
-    pos:        uint32,
-    word_key:   uint16,
-    word_class: uint16,
-    lemma:     [uint16],
+    pos:        u32,
+    word_key:   u16,
+    word_class: u16,
+    lemma:     [u16],
 }
 
 // > > > Generated-Code -- Initialization > > > //

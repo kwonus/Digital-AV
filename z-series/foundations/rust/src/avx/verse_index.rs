@@ -15,10 +15,10 @@ static AVXVerseIndex_FileLen     :usize =   124408;
 // < < < Generated-Code -- Metadata < < < //
 
 struct AVXVerse {                                     // from Digital-AV.pdf
-    book:     uint8,
-    chapter:  uint8,
-    verse:    uint8,
-    word_cnt: uint8,
+    book:     u8,
+    chapter:  u8,
+    verse:    u8,
+    word_cnt: u8,
 }
 
 impl Default for AVXVerse {
@@ -31141,6 +31141,6 @@ static verse_index: [AVXVerse; 31102] = [
 // < < < Generated-Code -- Initialization < < < //
 
 use crate::avx;
-pub const fn get_verse_index(sdkdir: string) -> [AVXVerse; 31_102] {
+pub const fn get_verse_index(sdkdir: String) -> [AVXVerse; 31_102] {
     let index = verses;
 }
