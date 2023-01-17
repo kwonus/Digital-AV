@@ -19,6 +19,7 @@ struct AVXWordClass {
     pos: Vec<u32>,
 }
 
+/*
 // > > > Generated-Code -- Initialization > > > //
 static word_classes: [AVXWordClass; 54] = [
 	AVXWordClass{ word_class: 0x0000, pos: vec![ 0x00000000] },
@@ -77,4 +78,5 @@ static word_classes: [AVXWordClass; 54] = [
 	AVXWordClass{ word_class: 0xCC00, pos: vec![ 0x40018E51] },
 ];
 // < < < Generated-Code -- Initialization < < < //
+*/
 
