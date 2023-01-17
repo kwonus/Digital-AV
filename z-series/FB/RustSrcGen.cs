@@ -809,21 +809,15 @@ namespace SerializeFromSDK
                     var entities = breader.ReadUInt16();
                     var posCnt = breader.ReadUInt16();
 
-                    if (posCnt < 1)
+                    if (posCnt > 6)
                     {
-
+                        Console.WriteLine("Bad Assumption");
                     }
                     UInt32[] poses = new UInt32[posCnt];
                     for (int p = 0; p < posCnt; p++)
                     {
                         var val = breader.ReadUInt32();
                         poses[p] = val;
-                    }
-                    if (posCnt < 1)
-                    {
-                        posCnt = 1;
-                        poses = new UInt32[1];
-                        poses[0] = 0;
                     }
                     var search = ConsoleApp.ReadByteString(breader);
                     var display = ConsoleApp.ReadByteString(breader);
@@ -849,18 +843,20 @@ namespace SerializeFromSDK
                     else
                         writer.Write("\"\", ");
 
-                    writer.Write("pos: vec![");
+                    writer.Write("pos: [");
 
                     int i = 0;
                     foreach (var pos in poses)
                     {
-                        writer.Write("0x" + pos.ToString("X08") + (++i < posCnt ? ", " : "]"));
+                        writer.Write("0x" + pos.ToString("X08") + (++i < 6 ? ", " : "]"));
+                    }
+                    for (++i; i <= 6; i++)
+                    {
+                        writer.Write("0x00000000" + (i < 6 ? ", " : "]"));
                     }
                     writer.WriteLine(" },");
                 }
                 writer.WriteLine("];");
-
-//              Console.WriteLine("maxPosCnt = " + maxPosCnt.ToString());
             }
         }
         private void XWordClass(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
