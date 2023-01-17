@@ -1,12 +1,12 @@
 // This file is entirely code generated. All edits to this module will be lost.
 // when code is regenerated
 
-static AVXWritten_Rust_Edition    :u16 = 23108;
-static AVXWritten_SDK_ZEdition    :u16 = 23107;
+pub static AVXWritten_Rust_Edition    :u16 = 23108;
+pub static AVXWritten_SDK_ZEdition    :u16 = 23107;
 
-use crate::avx;
+use crate::avx::written::AVXWrit;
 
-static written_61: [AVXWrit; 1553] = [
+pub static written_61: [AVXWrit; 1553] = [
 	AVXWrit { strongs: [    0,   0,   0,   0, ], verse_idx: 30480, word: 0x8AF0, punc: 0x00, trans: 0xE0, pnwc: 0x4032, pos: 0x00003A1C, lemma: 0x0AF0 },
 	AVXWrit { strongs: [ 4074,   0,   0,   0, ], verse_idx: 30480, word: 0x8A0F, punc: 0x40, trans: 0x01, pnwc: 0x4032, pos: 0x00003A1C, lemma: 0x0A0F },
 	AVXWrit { strongs: [ 1401,   0,   0,   0, ], verse_idx: 30480, word: 0x0001, punc: 0x00, trans: 0x00, pnwc: 0x0D00, pos: 0x00000094, lemma: 0x0001 },

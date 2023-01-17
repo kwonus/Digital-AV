@@ -24,7 +24,7 @@ struct AVXVerse {                                     // from Digital-AV.pdf
 impl Default for AVXVerse {
     #[inline]
     fn default() -> AVXVerse {
-        AVXBook {
+        AVXVerse {
             book:  0,
             chapter: 0,
             verse:  0,
@@ -31140,7 +31140,10 @@ static verse_index: [AVXVerse; 31102] = [
 ];
 // < < < Generated-Code -- Initialization < < < //
 
+/*
 use crate::avx;
 pub const fn get_verse_index(sdkdir: String) -> [AVXVerse; 31_102] {
     let index = verses;
 }
+*/
+

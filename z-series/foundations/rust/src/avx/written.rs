@@ -4,79 +4,6 @@
 // For example, these comments are wrapped in a pair Generated-Coded directives.
 // < < < Generated-Code -- Header < < < //
 
-mod written_01;
-mod written_02;
-mod written_03;
-mod written_04;
-mod written_05;
-mod written_06;
-mod written_07;
-mod written_08;
-mod written_09;
-mod written_10;
-
-mod written_11;
-mod written_12;
-mod written_13;
-mod written_14;
-mod written_15;
-mod written_16;
-mod written_17;
-mod written_18;
-mod written_19;
-mod written_20;
-
-mod written_21;
-mod written_22;
-mod written_23;
-mod written_24;
-mod written_25;
-mod written_26;
-mod written_27;
-mod written_28;
-mod written_29;
-mod written_30;
-
-mod written_31;
-mod written_32;
-mod written_33;
-mod written_34;
-mod written_35;
-mod written_36;
-mod written_37;
-mod written_38;
-mod written_39;
-mod written_40;
-
-mod written_41;
-mod written_42;
-mod written_43;
-mod written_44;
-mod written_45;
-mod written_46;
-mod written_47;
-mod written_48;
-mod written_49;
-mod written_50;
-
-mod written_51;
-mod written_52;
-mod written_53;
-mod written_54;
-mod written_55;
-mod written_56;
-mod written_57;
-mod written_58;
-mod written_59;
-mod written_60;
-
-mod written_61;
-mod written_62;
-mod written_63;
-mod written_64;
-mod written_65;
-mod written_66;
-
 // > > > Generated-Code -- Metadata > > > //
 static AVXWritten_Rust_Edition    :u16 = 23108;
 static AVXWritten_SDK_ZEdition    :u16 = 23107;
@@ -190,8 +117,210 @@ pub struct AVXWritItem {
     written: [AVXWrit],
 }
 
+mod written_01;
+mod written_02;
+mod written_03;
+mod written_04;
+mod written_05;
+mod written_06;
+mod written_07;
+mod written_08;
+mod written_09;
+mod written_10;
+mod written_11;
+mod written_12;
+mod written_13;
+mod written_14;
+mod written_15;
+mod written_16;
+mod written_17;
+mod written_18;
+mod written_19;
+mod written_20;
+mod written_21;
+mod written_22;
+mod written_23;
+mod written_24;
+mod written_25;
+mod written_26;
+mod written_27;
+mod written_28;
+mod written_29;
+mod written_30;
+mod written_31;
+mod written_32;
+mod written_33;
+mod written_34;
+mod written_35;
+mod written_36;
+mod written_37;
+mod written_38;
+mod written_39;
+mod written_40;
+mod written_41;
+mod written_42;
+mod written_43;
+mod written_44;
+mod written_45;
+mod written_46;
+mod written_47;
+mod written_48;
+mod written_49;
+mod written_50;
+mod written_51;
+mod written_52;
+mod written_53;
+mod written_54;
+mod written_55;
+mod written_56;
+mod written_57;
+mod written_58;
+mod written_59;
+mod written_60;
+mod written_61;
+mod written_62;
+mod written_63;
+mod written_64;
+mod written_65;
+mod written_66;
+/*
+
 // > > > Generated-Code -- Initialization > > > //
-static  AVXWrittenAll: [ [AVXWritItem] ; 66] = [
+pub mod written_01;
+pub mod written_02;
+pub mod written_03;
+pub mod written_04;
+pub mod written_05;
+pub mod written_06;
+pub mod written_07;
+pub mod written_08;
+pub mod written_09;
+pub mod written_10;
+pub mod written_11;
+pub mod written_12;
+pub mod written_13;
+pub mod written_14;
+pub mod written_15;
+pub mod written_16;
+pub mod written_17;
+pub mod written_18;
+pub mod written_19;
+pub mod written_20;
+pub mod written_21;
+pub mod written_22;
+pub mod written_23;
+pub mod written_24;
+pub mod written_25;
+pub mod written_26;
+pub mod written_27;
+pub mod written_28;
+pub mod written_29;
+pub mod written_30;
+pub mod written_31;
+pub mod written_32;
+pub mod written_33;
+pub mod written_34;
+pub mod written_35;
+pub mod written_36;
+pub mod written_37;
+pub mod written_38;
+pub mod written_39;
+pub mod written_40;
+pub mod written_41;
+pub mod written_42;
+pub mod written_43;
+pub mod written_44;
+pub mod written_45;
+pub mod written_46;
+pub mod written_47;
+pub mod written_48;
+pub mod written_49;
+pub mod written_50;
+pub mod written_51;
+pub mod written_52;
+pub mod written_53;
+pub mod written_54;
+pub mod written_55;
+pub mod written_56;
+pub mod written_57;
+pub mod written_58;
+pub mod written_59;
+pub mod written_60;
+pub mod written_61;
+pub mod written_62;
+pub mod written_63;
+pub mod written_64;
+pub mod written_65;
+pub mod written_66;
+
+pub use written_01;
+pub use written_02;
+pub use written_03;
+pub use written_04;
+pub use written_05;
+pub use written_06;
+pub use written_07;
+pub use written_08;
+pub use written_09;
+pub use written_10;
+pub use written_11;
+pub use written_12;
+pub use written_13;
+pub use written_14;
+pub use written_15;
+pub use written_16;
+pub use written_17;
+pub use written_18;
+pub use written_19;
+pub use written_20;
+pub use written_21;
+pub use written_22;
+pub use written_23;
+pub use written_24;
+pub use written_25;
+pub use written_26;
+pub use written_27;
+pub use written_28;
+pub use written_29;
+pub use written_30;
+pub use written_31;
+pub use written_32;
+pub use written_33;
+pub use written_34;
+pub use written_35;
+pub use written_36;
+pub use written_37;
+pub use written_38;
+pub use written_39;
+pub use written_40;
+pub use written_41;
+pub use written_42;
+pub use written_43;
+pub use written_44;
+pub use written_45;
+pub use written_46;
+pub use written_47;
+pub use written_48;
+pub use written_49;
+pub use written_50;
+pub use written_51;
+pub use written_52;
+pub use written_53;
+pub use written_54;
+pub use written_55;
+pub use written_56;
+pub use written_57;
+pub use written_58;
+pub use written_59;
+pub use written_60;
+pub use written_61;
+pub use written_62;
+pub use written_63;
+pub use written_64;
+pub use written_65;
+pub use written_66;
+
+static  AVXWrittenAll: [ AVXWritItem ; 66] = [
 	AVXWritItem { book: 1, written: written_01 },
 	AVXWritItem { book: 2, written: written_02 },
 	AVXWritItem { book: 3, written: written_03 },
@@ -260,3 +389,5 @@ static  AVXWrittenAll: [ [AVXWritItem] ; 66] = [
 	AVXWritItem { book:66, written: written_66 },
 ];
 // < < < Generated-Code -- Initialization < < < //
+
+*/

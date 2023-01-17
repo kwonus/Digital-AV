@@ -21,7 +21,7 @@ static OOV_index  :u16 = 0x000F;
 
 struct AVXLemmaOOV{                                    // from Digital-AV.pdf
     key:  u16,
-    word: String,
+    word: &'static str,
 }
 
 // > > > Generated-Code -- Initialization > > > //

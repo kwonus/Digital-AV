@@ -14,7 +14,7 @@ static AVXBookIndex_RecordCnt   :usize =       67;
 static AVXBookIndex_FileLen     :usize =     3350;
 // < < < Generated-Code -- Metadata < < < //
 
-pub struct AVXBook {                // from Digital-AV.pdf
+pub struct AVXBook { // from Digital-AV.pdf
     num:            u8,
     chapter_cnt:    u8,
     chapter_idx:    u16,
@@ -22,12 +22,12 @@ pub struct AVXBook {                // from Digital-AV.pdf
 	verse_idx:		u16,
 	writ_idx:		u32,
 	writ_cnt:		u16,		// uint32 in binary-file baseline SDK asset,
-    name:           String,
-	abbr2:			String,		// strlen == 2 || strlen == 0
-	abbr3:			String,		// strlen == 3
-	abbr4:			String,		// <-- Most common // use this for display // strlen <= 4
-	abbrAltA:		String,		// Alternate Abbreviation: unknown size
-	abbrAltB:		String,		// Alternate Abbreviation: unknown size
+    name:           &'static str,
+	abbr2:			&'static str,	// strlen == 2 || strlen == 0
+	abbr3:			&'static str,	// strlen == 3
+	abbr4:			&'static str,	// <-- Most common // use this for display // strlen <= 4
+	abbrAltA:		&'static str,	// Alternate Abbreviation: unknown size
+	abbrAltB:		&'static str,	// Alternate Abbreviation: unknown size
 }
 
 // > > > Generated-Code -- Initialization > > > //
@@ -102,8 +102,22 @@ static books: [AVXBook; 67] = [
 ];
 // < < < Generated-Code -- Initialization < < < //
 
+/*
 use crate::avx::book_index;
 
 pub const fn get_book_index(sdkdir: String) -> [AVXBook; 67] {
     let index = books;
 }
+
+error[E0106]: missing lifetime specifier
+   --> src\avx\book_index.rs:107:49
+    |
+107 | pub const fn get_book_index(sdkdir: String) -> [AVXBook; 67] {
+    |                                                 ^^^^^^^ expected named lifetime parameter
+    |
+    = help: this function's return type contains a borrowed value, but there is no value for it to be borrowed from
+help: consider using the `'static` lifetime
+    |
+107 | pub const fn get_book_index(sdkdir: String) -> [AVXBook<'static>; 67] {
+    |
+*/

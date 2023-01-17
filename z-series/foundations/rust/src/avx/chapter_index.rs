@@ -1227,7 +1227,9 @@ static chapter_index: [AVXChapter; 1189] = [
 ];
 // < < < Generated-Code -- Initialization < < < //
 
+/*
 use crate::avx::book_index;
-pub const fn get_chapter_index(sdkdir: String) -> [AVChapter; 1189] {
+pub const fn get_chapter_index(sdkdir: String) -> [AVXChapter; 1189] {
     let index = chapter_index;
 }
+*/

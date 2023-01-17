@@ -1,8 +1,8 @@
 
 pub mod avx;
 
-use std::fs::File;
-use std::io::Read;
+//use std::fs::File;
+//use std::io::Read;
 
 #[cfg(test)]
 mod tests {

@@ -1,14 +1,6 @@
-﻿using DigitalAV.Migration;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Data.Common;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Runtime.Intrinsics.X86;
+﻿using AVX.FlatBuf;
+using DigitalAV.Migration;
 using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace SerializeFromSDK
 {
@@ -625,40 +617,35 @@ namespace SerializeFromSDK
         }
         private void XLemma(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
         {
-            var outname = bom.otype.Replace('-', '_').ToLower();
+            //          writer.WriteLine("static lemmata: HashMap < AVXLemmaKey, AVXLemma > = HashMap::from([");
 
-            writer.Write("static " + outname + ": [" + rtype + "; " + bom.rcnt.ToString() + "] = [");
+            var outname = "AVXLemmata"; // bom.otype.Replace('-', '_').ToLower();
+            writer.WriteLine("static " + outname + ": [(AVXLemmaKey, AVXLemma); " + bom.rcnt.ToString() + "] = [");
 
             var fstream = new StreamReader(bom.fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
-                string delimiter = "\n";
                 for (int x = 1; x <= bom.rcnt; x++)
                 {
-                    writer.Write(delimiter);
-                    if (delimiter.Length < 2)
-                        delimiter = ",\n";
-
                     var pos = breader.ReadUInt32();
                     var wordKey = breader.ReadUInt16();
                     var wordClass = breader.ReadUInt16();
                     var lemmaCount = breader.ReadUInt16();
 
-                    writer.Write("\t" + rtype + " { ");
-
-                    writer.Write("pos: 0x" + pos.ToString("X08") + ", ");
-                    writer.Write("word_key: 0x" + wordKey.ToString("X04") + ", ");
-                    writer.Write("word_class: 0x" + wordClass.ToString("X04") + ", ");
-
-                    string seperator = "lemma: [ ";
-                    for (int i = 0; i < lemmaCount; i++)
+                    if (lemmaCount > 3)
                     {
-                        var lemma = breader.ReadUInt16();
-                        writer.Write(seperator + "0x" + lemma.ToString("X04"));
-                        seperator = ", ";
+                        Console.WriteLine("Bad Assumption! (" + lemmaCount.ToString() + ")");
                     }
-                    writer.Write(" ]");
-                    writer.Write(" }");
+
+                    writer.Write("\t( AVXLemmaKey { word_key: 0x"   + wordKey.ToString("X04")   + ", pos: 0x" + pos.ToString("X08") + " }, "
+                                   + "AVXLemma { word_class: 0x" + wordClass.ToString("X04") + ", lemmata: [");
+
+                    for (int i = 1; i <= 3; i++) // array is fixed size==3
+                    {
+                        var lemma = (i <= lemmaCount) ? breader.ReadUInt16() : 0x0000;
+                        writer.Write("0x" + lemma.ToString("X04") + ((i < 3) ? ", " : "] "));
+                    }
+                    writer.WriteLine("} ),");
                 }
             }
             writer.WriteLine("];");
@@ -710,19 +697,14 @@ namespace SerializeFromSDK
                 for (int x = 1; x <= bom.rcnt; x++)
                 {
                     var wkey = breader.ReadUInt16();
-                    var meanings = ConsoleApp.ReadByteString(breader, maxLen: 4096);
-                    var meaningArray = meanings.Split('|', StringSplitOptions.RemoveEmptyEntries);
+                    string meanings = ConsoleApp.ReadByteString(breader, maxLen: 4096);
+//                  string[] meaningArray = meanings.Split('|', StringSplitOptions.RemoveEmptyEntries);
 
                     writer.Write("\t" + rtype + " { ");
 
                     writer.Write("word_key: 0x" + wkey.ToString("X04") + ", ");
-                    writer.Write("meaning: [");
+                    writer.Write("meanings: \"" + meanings + "\"");
 
-                    foreach (var meaning in meaningArray)
-                    {
-                        writer.Write("\"" + meaning + "\", ");
-                    }
-                    writer.Write("]");
                     writer.WriteLine(" },");
                 }
             }
@@ -822,16 +804,26 @@ namespace SerializeFromSDK
             var fstream = new StreamReader(bom.fpath);    // we still base input on the Z14 release, until we are certain that there are no bugs
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
-                for (int x = 1; x <= bom.rcnt; x++)
+                for (int x = 0; x <= bom.rcnt; x++)
                 {
                     var entities = breader.ReadUInt16();
                     var posCnt = breader.ReadUInt16();
 
-                    UInt32[] pos = new UInt32[posCnt];
+                    if (posCnt < 1)
+                    {
+
+                    }
+                    UInt32[] poses = new UInt32[posCnt];
                     for (int p = 0; p < posCnt; p++)
                     {
                         var val = breader.ReadUInt32();
-                        pos[p] = val;
+                        poses[p] = val;
+                    }
+                    if (posCnt < 1)
+                    {
+                        posCnt = 1;
+                        poses = new UInt32[1];
+                        poses[0] = 0;
                     }
                     var search = ConsoleApp.ReadByteString(breader);
                     var display = ConsoleApp.ReadByteString(breader);
@@ -857,22 +849,18 @@ namespace SerializeFromSDK
                     else
                         writer.Write("\"\", ");
 
-                    writer.Write("pos: [ ");
-                    int cnt = 0;
-                    foreach (var p in pos)
-                    {
-                        writer.Write("0x" + p.ToString("X08") + ", ");
-                        cnt++;
-                    }
-                    if (cnt == 0)
-                    {
-                        writer.Write("0x" + 0.ToString("X08") + ", ");
-                    }
-                    writer.Write("] ");
+                    writer.Write("pos: vec![");
 
+                    int i = 0;
+                    foreach (var pos in poses)
+                    {
+                        writer.Write("0x" + pos.ToString("X08") + (++i < posCnt ? ", " : "]"));
+                    }
                     writer.WriteLine(" },");
                 }
                 writer.WriteLine("];");
+
+//              Console.WriteLine("maxPosCnt = " + maxPosCnt.ToString());
             }
         }
         private void XWordClass(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
@@ -894,13 +882,12 @@ namespace SerializeFromSDK
 
                     writer.Write("word_class: 0x" + wclass.ToString("X04") + ", ");
 
-                    writer.Write("pos: [ ");
+                    writer.Write("pos: vec![ ");
                     for (int i = 0; i < posCnt; i++)
                     {
                         var pos = breader.ReadUInt32();
-                        writer.Write("0x" + pos.ToString("X08") + ",");
+                        writer.Write("0x" + pos.ToString("X08") + ((i < posCnt-1) ? ", " : "]"));
                     }
-                    writer.Write(" ]");
                     writer.WriteLine(" },");
                 }
             }
@@ -910,12 +897,23 @@ namespace SerializeFromSDK
         {
             var outname = bom.otype.Replace('-', '_').ToLower();
 
-            writer.WriteLine("static  AVXWrittenAll: [ [AVXWritItem ; " + metadata.Count.ToString() + "] = [");
+            foreach (var variable in metadata.Keys)
+            {
+                writer.WriteLine("pub mod " + variable + ";");
+            }
+            writer.WriteLine();
 
             foreach (var variable in metadata.Keys)
             {
-                writer.Write("\t{ book:"  + Pad(metadata[variable].book,  2) + ", ");
-                writer.WriteLine("written: "  + variable + " },");
+                writer.WriteLine("pub use " + variable + ";");
+            }
+            writer.WriteLine();
+
+            writer.WriteLine("static  AVXWrittenAll: [ AVXWritItem ; " + metadata.Count.ToString() + "] = [");
+
+            foreach (var variable in metadata.Keys)
+            {
+                writer.WriteLine("\tAVXWritItem { book:" + Pad(metadata[variable].book,  2) + ", written: "  + variable + " },");
             }
             writer.WriteLine("];");
         }
@@ -938,13 +936,13 @@ namespace SerializeFromSDK
             writer.WriteLine("// when code is regenerated");
 
             writer.WriteLine();
-            writer.WriteLine("static " + vartype + "_Rust_Edition    :u16 = 23108;");
-            writer.WriteLine("static " + vartype + "_SDK_ZEdition    :u16 = 23107;");
+            writer.WriteLine("pub static " + vartype + "_Rust_Edition    :u16 = 23108;");
+            writer.WriteLine("pub static " + vartype + "_SDK_ZEdition    :u16 = 23107;");
             writer.WriteLine();
-            writer.WriteLine("use crate::avx;");
+            writer.WriteLine("use crate::avx::written::AVXWrit;");
             writer.WriteLine();
 
-            writer.WriteLine("static " + outname + ": [" + rtype + "; " + this.BookIndex[book].writ_cnt.ToString() + "] = [");
+            writer.WriteLine("pub static " + outname + ": [" + rtype + "; " + this.BookIndex[book].writ_cnt.ToString() + "] = [");
 
             for (int x = 0; x < wordCnt; x++)
             {
