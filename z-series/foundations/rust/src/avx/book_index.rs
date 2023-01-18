@@ -32,7 +32,7 @@ pub struct AVXBook { // from Digital-AV.pdf
 
 // > > > Generated-Code -- Initialization > > > //
 static books: [AVXBook; 67] = [
-	AVXBook{ num:  0, chapter_cnt:   0, chapter_idx:    0, verse_cnt:       0, verse_idx:       0, writ_cnt:         0, writ_idx:     12556, name: "Z31c", abbr2: "", abbr3: "", abbr4: "", abbrAltA: "", abbrAltB: "Revision",  },
+	AVXBook{ num:  0, chapter_cnt:   0, chapter_idx:    0, verse_cnt:       0, verse_idx:       0, writ_cnt:         0, writ_idx:     12562, name: "Z31g", abbr2: "", abbr3: "", abbr4: "", abbrAltA: "", abbrAltB: "Revision",  },
 	AVXBook{ num:  1, chapter_cnt:  50, chapter_idx:    0, verse_cnt:    3066, verse_idx:       0, writ_cnt:     38262, writ_idx:         0, name: "Genesis", abbr2: "Ge", abbr3: "Gen", abbr4: "Gen", abbrAltA: "Gn", abbrAltB: "",  },
 	AVXBook{ num:  2, chapter_cnt:  40, chapter_idx:   50, verse_cnt:    2426, verse_idx:    1533, writ_cnt:     32685, writ_idx:     38262, name: "Exodus", abbr2: "Ex", abbr3: "Exo", abbr4: "Exo", abbrAltA: "Exod", abbrAltB: "",  },
 	AVXBook{ num:  3, chapter_cnt:  27, chapter_idx:   90, verse_cnt:    1718, verse_idx:    2746, writ_cnt:     24541, writ_idx:     70947, name: "Leviticus", abbr2: "Le", abbr3: "Lev", abbr4: "Lev", abbrAltA: "Lv", abbrAltB: "",  },

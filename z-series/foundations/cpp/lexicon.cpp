@@ -1,6 +1,6 @@
 #include "lexicon.h"
 AVXLexicon::AVXLexItem const AVXLexicon::items[] = {
-	{ 0xFFFF, { 0x00003117, 0x0000310C }, nullptr, nullptr, nullptr },
+	{ 0xFFFF, { 0x00003117, 0x00003112 }, nullptr, nullptr, nullptr },
 	{ 0x0000, { 0x00000036, 0x00000094, 0x80004206 }, "a", nullptr, nullptr },
 	{ 0x0000, { 0x01074F9C }, "i", nullptr, nullptr },
 	{ 0x0000, { 0x000002A8 }, "o", nullptr, "oh" },

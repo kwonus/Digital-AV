@@ -41,6 +41,8 @@ namespace SerializeFromSDK
             string? name
         )[] BookIndex = new (byte, UInt16, UInt16, UInt16, UInt32, UInt32, string?)[67];
 
+        private HashMapper Maps = new();
+
         public RustSrcGen(string sdk, string src, Dictionary<string, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize)> inventory)
         {
             this.inventory = inventory;
@@ -68,7 +70,7 @@ namespace SerializeFromSDK
                     case "Lemma-OOV":   this.XAny(select, record); break;
                     case "Lexicon":     this.XAny(select, record); break;
                     case "Names":       this.XAny(select, record); break;
-                    case "WordClass":   this.XAny(select, record); break;
+//                  case "WordClass":   this.XAny(select, record); break;
                     case "Writ":        saveWritItem = item;       break;
                 }
             }
@@ -76,6 +78,9 @@ namespace SerializeFromSDK
             this.XAny("Chapter", this.inventory[saveChapItem]);
             this.XAny("Book", this.inventory[saveBookItem]);
             this.XAny("Writ", this.inventory[saveWritItem]);
+
+            this.Maps.Print();
+
             return true;
         }
         private string Pad<T>(T num, int width)
@@ -950,6 +955,8 @@ namespace SerializeFromSDK
                 var Pnwc = breader.ReadUInt16();
                 var Pos = breader.ReadUInt32();
                 var Lemma = breader.ReadUInt16();
+
+                this.Maps.Add(Pos, Pnwc);
 
                 writer.Write("\t" + rtype + " { ");
 

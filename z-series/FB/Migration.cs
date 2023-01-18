@@ -76,7 +76,7 @@ namespace DigitalAV.Migration
             app.XLemmaOOV("Lemma-OOV", "Lemmata-OOV");
             app.XLexicon("Lexicon", "Lexicon");
             app.XNames("Names", "Names");
-            app.XWordClass("WordClass", "Word-Classes");
+//          app.XWordClass("WordClass", "Word-Classes");
             app.XWrit("Writ", "Written");
             app.XWrit128("Writ-128");
             app.XWrit32("Writ-32");

@@ -36,7 +36,7 @@ struct AVXLexItem {
 
 // > > > Generated-Code -- Initialization > > > //
 static lexicon: [AVXLexItem; 12568] = [
-	AVXLexItem { entities: 0xFFFF, search: "", display: "", modern: "", pos: [0x00003117, 0x0000310C, 0x00000000, 0x00000000, 0x00000000, 0x00000000] },
+	AVXLexItem { entities: 0xFFFF, search: "", display: "", modern: "", pos: [0x00003117, 0x00003112, 0x00000000, 0x00000000, 0x00000000, 0x00000000] },
 	AVXLexItem { entities: 0x0000, search: "a", display: "", modern: "", pos: [0x00000036, 0x00000094, 0x80004206, 0x00000000, 0x00000000, 0x00000000] },
 	AVXLexItem { entities: 0x0000, search: "i", display: "", modern: "", pos: [0x01074F9C, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000] },
 	AVXLexItem { entities: 0x0000, search: "o", display: "", modern: "oh", pos: [0x000002A8, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000] },

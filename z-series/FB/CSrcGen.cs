@@ -56,8 +56,8 @@ namespace SerializeFromSDK
                     case "Lemma-OOV":   this.XLemmaOOV( record, "AVXLemmataOOV::AVXLemmaOOV const AVXLemmataOOV::vocabulary[]");      break;
                     case "Lexicon":     this.XLexicon(  record, "AVXLexicon::AVXLexItem const AVXLexicon::items[]");                  break;
                     case "Names":       this.XNames(    record, "AVXNames::AVXName const AVXNames::names[]");                         break;
-                    case "WordClass":   this.XWordClass(record, "AVXWordClasses::AVXWordClass const AVXWordClasses::classes[]");      break;
-                    case "Writ":        saveWritItem = item;                                                                                break;
+//                  case "WordClass":   this.XWordClass(record, "AVXWordClasses::AVXWordClass const AVXWordClasses::classes[]");      break;
+                    case "Writ":        saveWritItem = item;                                                                          break;
                 }
             }
             // This needs to be done last and in this order (XWrit differs from processing of other files)
