@@ -1,4 +1,4 @@
-﻿using AVX.FlatBuf;
+﻿using DigitalAV.FlatBuf;
 using DigitalAV.Migration;
 using System.Text;
 
@@ -149,7 +149,7 @@ namespace SerializeFromSDK
                         writer.WriteLine(HEAD[BEGIN]);
                         writer.WriteLine("// This file was partially code generated. Some edits to this module will be lost.");
                         writer.WriteLine("// Be sure NOT to add/change code within Generated-Code directives.");
-                        writer.WriteLine("// For example, these comments are wrapped in a pair Generated-Coded directives.");
+                        writer.WriteLine("// For example, these comments are wrapped in a pair of Generated-Coded directives.");
                         writer.WriteLine(HEAD[END]);
                         op = OP_NOOP;
                         continue;
@@ -182,7 +182,6 @@ namespace SerializeFromSDK
                             case "Lemma-OOV":   this.XLemmaOOV( writer, "AVXLemmaOOV",  bom); break;
                             case "Lexicon":     this.XLexicon(  writer, "AVXLexItem",   bom); break; // TBD: Temporary
                             case "Names":       this.XNames(    writer, "AVXName",      bom); break;
-                            case "WordClass":   this.XWordClass(writer, "AVXWordClass", bom); break;
                             case "Writ":        {
                                                     var fstream = new StreamReader(bom.fpath);
                                                     using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
@@ -642,8 +641,8 @@ namespace SerializeFromSDK
                         Console.WriteLine("Bad Assumption! (" + lemmaCount.ToString() + ")");
                     }
 
-                    writer.Write("\t( AVXLemmaKey { word_key: 0x"   + wordKey.ToString("X04")   + ", pos: 0x" + pos.ToString("X08") + " }, "
-                                   + "AVXLemma { word_class: 0x" + wordClass.ToString("X04") + ", lemmata: [");
+                    writer.Write("\t( AVXLemmaKey { word_key: 0x"   + wordKey.ToString("X04")   + ", pos32: 0x" + pos.ToString("X08") + " }, "
+                                   + "AVXLemma { pn_pos: 0x" + wordClass.ToString("X04") + ", lemmata: [");
 
                     for (int i = 1; i <= 3; i++) // array is fixed size==3
                     {
@@ -864,36 +863,6 @@ namespace SerializeFromSDK
                 writer.WriteLine("];");
             }
         }
-        private void XWordClass(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
-        {
-            var outname = bom.otype.Replace('-', '_').ToLower();
-
-            writer.WriteLine("static " + outname + ": [" + rtype + "; " + bom.rcnt.ToString() + "] = [");
-
-            var buffer = new char[24];
-            var fstream = new StreamReader(bom.fpath);
-            using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
-            {
-                for (int x = 1; x <= bom.rcnt; x++)
-                {
-                    var wclass = breader.ReadUInt16();
-                    var posCnt = breader.ReadUInt16();
-
-                    writer.Write("\t" + rtype + "{ ");
-
-                    writer.Write("word_class: 0x" + wclass.ToString("X04") + ", ");
-
-                    writer.Write("pos: vec![ ");
-                    for (int i = 0; i < posCnt; i++)
-                    {
-                        var pos = breader.ReadUInt32();
-                        writer.Write("0x" + pos.ToString("X08") + ((i < posCnt-1) ? ", " : "]"));
-                    }
-                    writer.WriteLine(" },");
-                }
-            }
-            writer.WriteLine("];");
-        }
         private void XWrit(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, Dictionary<string, (UInt16 count, byte book)> metadata)
         {
             var outname = bom.otype.Replace('-', '_').ToLower();
@@ -933,7 +902,7 @@ namespace SerializeFromSDK
 
             TextWriter writer = File.CreateText(path);
 
-            writer.WriteLine("// This file is entirely code generated. All edits to this module will be lost.");
+            writer.WriteLine("// This file is entirely code generated. All edits to this module will be lost,");
             writer.WriteLine("// when code is regenerated");
 
             writer.WriteLine();

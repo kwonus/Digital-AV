@@ -1,4 +1,4 @@
-// This file is entirely code generated. All edits to this module will be lost.
+// This file is entirely code generated. All edits to this module will be lost,
 // when code is regenerated
 
 pub static AVXWritten_Rust_Edition    :u16 = 23108;

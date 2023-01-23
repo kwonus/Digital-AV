@@ -8,9 +8,9 @@ class AVXLemmataRecords
 public:
     class AVXLemmata {
     public:
-        const uint32  pos;
+        const uint32  pos32;
         const uint16  word_key;
-        const uint16  word_class;
+        const uint16  pn_pos;
         const uint16  lemmata[3];
     };
 

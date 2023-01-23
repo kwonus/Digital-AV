@@ -1,0 +1,81 @@
+attribute "fs_serializer";
+
+namespace DigitalAV.FlatBuf;
+
+table AVXName (fs_serializer) {
+    word_key:   uint16;
+    meaning:   [string] (required);
+}
+
+table AVXLemma (fs_serializer) {
+    word_key:   uint16;
+    pn_pos12:   uint16;
+    pos32:      uint32;
+    lemma:     [uint16] (required);
+}
+
+table AVXLemmaOOV (fs_serializer) {
+    wkey:  uint16;
+    word: string (required);
+}
+
+struct AVXWrit {
+    strongs:  		uint64;
+    verse_idx:		uint16;
+    word:     		uint16;
+    punc:     		uint8;
+    trans:    		uint8;
+    pnwc:     		uint16;
+    pos:      		uint32;
+    lemma:    		uint16;
+}
+
+struct AVXVerse {
+    book:     		uint8;
+    chapter:  		uint8;
+    verse:    		uint8;
+    word_cnt: 		uint8;
+}
+
+struct AVXChapter {
+    writ_idx:  		uint16;
+    writ_cnt:    	uint16;
+    verse_idx:   	uint16;
+    verse_cnt:   	uint16;
+}	
+
+table AVXBook (fs_serializer) {
+    num:            uint8    (key);
+    chapter_cnt:    uint8;
+    chapter_idx:    uint16;
+    verse_cnt:      uint16;
+    verse_idx:      uint16;
+    writ_cnt:       uint16;  
+    writ_idx:       uint32;
+    name:           string   (required);
+    abbr2:			string;
+    abbr3:          string;
+    abbr4:          string   (required);
+    abbrAlt:	   [string];
+	writ:          [AVXWrit] (required);
+}
+
+table AVXLexicon (fs_serializer) {
+    entities:       uint16;
+    search:         string  (required);
+    display:        string;
+    modern:         string;
+    pos:           [uint32];
+}
+
+table AVXObjects (fs_serializer) {
+    bible: 		   [AVXBook]    (required);
+	lexicon: 	   [AVXLexicon] (required);
+	chapter_index: [AVXChapter];
+	verse_index:   [AVXVerse];
+	name_index:    [AVXName];
+	lemmata:	   [AVXLemma];
+	oov: 		   [AVXLemmaOOV];
+}
+
+root_type AVXObjects;

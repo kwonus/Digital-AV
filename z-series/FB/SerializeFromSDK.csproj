@@ -8,25 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<FlatSharpSchema Include="IDL\Book-Index.fbs" />
-	<FlatSharpSchema Include="IDL\Chapter-Index.fbs" />
-	<FlatSharpSchema Include="IDL\Verse-Index.fbs" />
-	<FlatSharpSchema Include="IDL\Lexicon.fbs" />
-	<FlatSharpSchema Include="IDL\Lemmata.fbs" />
-	<FlatSharpSchema Include="IDL\Lemmata-OOV.fbs" />
-	<FlatSharpSchema Include="IDL\Word-Classes.fbs" />
-	<FlatSharpSchema Include="IDL\Names.fbs" />
-	<FlatSharpSchema Include="IDL\Written.fbs" />
+	<FlatSharpSchema Include="avx.fbs" />
 	<Compile Remove="avxlib\**" />
 	<Compile Remove="FlatSharp\**" />
+	<Compile Remove="IDL\**" />
     <EmbeddedResource Remove="avxlib\**" />
 	<EmbeddedResource Remove="FlatSharp\**" />
+	<EmbeddedResource Remove="IDL\**" />
     <None Remove="avxlib\**" />
     <None Remove="FlatSharp\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="IDL\idlgen.sh" />
+    <None Remove="IDL\**" />
   </ItemGroup>
 
   <ItemGroup>

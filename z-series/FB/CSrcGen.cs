@@ -1,4 +1,4 @@
-﻿using AVX.FlatBuf;
+﻿using DigitalAV.FlatBuf;
 using DigitalAV.Migration;
 using System;
 using System.CodeDom.Compiler;
@@ -450,43 +450,6 @@ namespace SerializeFromSDK
                 writer.WriteLine("\n};");
                 writer.Close();
             }
-        }
-        private void XWordClass((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar)
-        {
-            TextWriter writer = XInitialize(bom.otype, inializerVar);
-
-            var buffer = new char[24];
-            var fstream = new StreamReader(bom.fpath);
-            using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
-            {
-                string delimiter = "\n";
-                for (int x = 1; x <= bom.rcnt; x++)
-                {
-                    writer.Write(delimiter);
-                    if (delimiter.Length < 2)
-                        delimiter = ",\n";
-
-                    var wclass = breader.ReadUInt16();
-                    var posCnt = breader.ReadUInt16();
-
-                    writer.Write("\t{ ");
-
-                    writer.Write("0x" + wclass.ToString("X04") + ", ");
-                    writer.Write(posCnt.ToString() + ", ");
-
-                    string seperator = "{ ";
-                    for (int i = 0; i < posCnt; i++)
-                    {
-                        var pos = breader.ReadUInt32();
-                        writer.Write(seperator + "0x" + pos.ToString("X08"));
-                        seperator = ", ";
-                    }
-                    writer.Write(" }");
-                    writer.Write(" }");
-                }
-            }
-            writer.WriteLine("\n};");
-            writer.Close();
         }
         private void XWrit((string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, string inializerVar, string memberVar)
         {

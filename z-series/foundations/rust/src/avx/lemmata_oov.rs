@@ -1,7 +1,7 @@
 // > > > Generated-Code -- Header > > > //
 // This file was partially code generated. Some edits to this module will be lost.
 // Be sure NOT to add/change code within Generated-Code directives.
-// For example, these comments are wrapped in a pair Generated-Coded directives.
+// For example, these comments are wrapped in a pair of Generated-Coded directives.
 // < < < Generated-Code -- Header < < < //
 
 // > > > Generated-Code -- Metadata > > > //

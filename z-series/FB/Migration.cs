@@ -1,17 +1,14 @@
-﻿using AVX.FlatBuf;
+﻿using DigitalAV.FlatBuf;
 using System.Runtime.Intrinsics.X86;
 
 namespace DigitalAV.Migration
 {
-    using AVX.FlatBuf;
     using FlatSharp;
     using SerializeFromSDK;
     using System;
     using System.Collections.Generic;
-    using System.Data;
-    using System.Drawing;
     using System.IO;
-    using System.Runtime.CompilerServices;
+    using System.Reflection;
     using System.Security.Cryptography;
     using System.Text;
 
@@ -29,6 +26,18 @@ namespace DigitalAV.Migration
         private List<string> bomLines;
         private Dictionary<string, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize)> bomDetails;
         private Dictionary<string, UInt32> RecordCounts;
+
+        // AVX Assets:
+        AVXObjects AVXObj = new()
+        {
+            Bible = new List<AVXBook>(),
+            Lexicon = new List<AVXLexicon>(),
+            ChapterIndex = new List<AVXChapter>(),
+            VerseIndex = new List<AVXVerse>(),
+            NameIndex = new List<AVXName>(),
+            Lemmata = new List<AVXLemma>(),
+            Oov = new List<AVXLemmaOOV>()
+        };
 
         private const string Version = "-Z31";
         internal ConsoleApp()
@@ -69,14 +78,13 @@ namespace DigitalAV.Migration
             var app = new ConsoleApp();
 
             Console.WriteLine("Create FlatBuffers binary content files.");
+            app.XVerse("Verse", "Verse-Index");
             app.XBook("Book", "Book-Index");
             app.XChapter("Chapter", "Chapter-Index");
-            app.XVerse("Verse", "Verse-Index");
             app.XLemma("Lemma", "Lemmata");
             app.XLemmaOOV("Lemma-OOV", "Lemmata-OOV");
             app.XLexicon("Lexicon", "Lexicon");
             app.XNames("Names", "Names");
-//          app.XWordClass("WordClass", "Word-Classes");
             app.XWrit("Writ", "Written");
             app.XWrit128("Writ-128");
             app.XWrit32("Writ-32");
@@ -136,7 +144,12 @@ namespace DigitalAV.Migration
             }
             bwriter.Write((byte)0);
         }
-        private void SaveContent(string otype, byte[] content, string itype, UInt32 recordCount = 0)
+        private void RecordContent(string itype, long recordCount = 0)
+        {
+            if (recordCount > 0)
+                this.RecordCounts[itype] = (UInt32) recordCount;
+        }
+        private void SaveFB(string otype, byte[] content)
         {
             var file = this.output + otype + this.outputExtent;
             var fstream = new StreamWriter(file);
@@ -145,8 +158,6 @@ namespace DigitalAV.Migration
             {
                 bwriter.Write(content);
             }
-            if (recordCount > 0)
-                this.RecordCounts[itype] = recordCount;
         }
         private void AddInventoryRecord(string fname, string fpath, string otype, string hash, UInt32 len, UInt32 cnt, UInt32 size)
         {
@@ -217,6 +228,14 @@ namespace DigitalAV.Migration
 
         private void SaveInventoryAndGenerate()
         {
+            var maxBytesNeeded = AVXObjects.Serializer.GetMaxSize(this.AVXObj);
+            byte[] content = new byte[maxBytesNeeded];
+            int bytesWritten = AVXObjects.Serializer.Write(content, this.AVXObj);
+
+            // TO DO: Save file
+            this.SaveFB("avx-fb", content);
+
+
             int n = 0;
             int len = this.bomLines.Count;
             string output = "";
@@ -246,7 +265,6 @@ namespace DigitalAV.Migration
                 this.bomMD5.Write(md5Bytes);
                 this.bomMD5.Close();
             }
-
             var cpp = new CSrcGen(this.baseSDK, this.csrc, this.bomDetails);
             cpp.Generate();
 
@@ -255,7 +273,6 @@ namespace DigitalAV.Migration
         }
         private void XBook(string itype, string otype)
         {
-            var index = new AVXBookIndex() { Index = new List<AVXBook>() };
             string file = IX(itype);
 
             var fstream = new StreamReader(file);
@@ -275,12 +292,33 @@ namespace DigitalAV.Migration
                     var babbr      = breader.ReadBytes(18);     //18 = 50
 
                     var name = new StringBuilder();
-                    var abbr = new StringBuilder();
+                    var abbr2 = new StringBuilder();
+                    var abbr3 = new StringBuilder();
+                    var abbr4 = new StringBuilder();
+                    var abbrAlt1 = new StringBuilder();
+                    var abbrAlt2 = new StringBuilder();
 
-                    for (int i = 0; i < bname.Length && bname[i] != 0; i++)
+                    int i;
+                    for (i = 0; i < bname.Length && bname[i] != 0; i++)
                         name.Append(bname[i]);
-                    for (int i = 0; i < babbr.Length && babbr[i] != 0; i++)
-                        abbr.Append(babbr[i]);
+                    for (i = 0; i < 2 && babbr[i] != 0; i++)
+                        abbr2.Append(babbr[i]);
+                    for (i = 2; i < 2+3 && babbr[i] != 0; i++)
+                        abbr2.Append(babbr[i]);
+                    for (i = 2+3; i < 2+3+4 && babbr[i] != 0; i++)
+                        abbr2.Append(babbr[i]);
+                    bool comma = false;
+                    for (i = 2+3+4; i < babbr.Length && babbr[i] != 0; i++)
+                        if ((char)babbr[i] == ',')
+                        {
+                            if (comma)
+                                break; // we only handle two alt abbreviations here
+                            comma = true;
+                        }
+                        else if (comma)
+                            abbrAlt2.Append(babbr[i]);
+                        else
+                            abbrAlt1.Append(babbr[i]);
 
                     BookIndex[bookNum].chapter_cnt = chapterCnt;
                     BookIndex[bookNum].chapter_idx = chapterIdx;
@@ -290,25 +328,31 @@ namespace DigitalAV.Migration
                     BookIndex[bookNum].writ_idx    = writIdx;
                     BookIndex[bookNum].name        = name.ToString();
 
-                    var abbreviations = bookNum > 0 ? abbr.ToString().Split(',', StringSplitOptions.RemoveEmptyEntries) : new string[0];
+                    var book = new AVXBook() { Num = bookNum, ChapterCnt = chapterCnt, ChapterIdx = chapterIdx, VerseCnt = chapterCnt, VerseIdx = chapterIdx, WritCnt = chapterCnt, WritIdx = chapterIdx, Name = name.ToString(), Abbr4 = abbr4.ToString(), Writ = new List<AVXWrit>() };
+                    if (abbr2.Length > 0)
+                        book.Abbr2 = abbr2.ToString();
+                    if (abbr3.Length > 0)
+                        book.Abbr3 = abbr3.ToString();
+                    if (abbrAlt1.Length > 0 || abbrAlt2.Length > 0)
+                        book.AbbrAlt = new List<string>();
+                    if (abbrAlt1.Length > 0)
+                        book.AbbrAlt.Add(abbrAlt1.ToString());
+                    if (abbrAlt2.Length > 0)
+                        book.AbbrAlt.Add(abbrAlt2.ToString());
 
-                    var book = new AVXBook() { Num = bookNum, ChapterCnt = chapterCnt, ChapterIdx = chapterIdx, VerseCnt = chapterCnt, VerseIdx = chapterIdx, WritCnt = chapterCnt, WritIdx = chapterIdx, Name = name.ToString(), Abbreviations = abbreviations };
+                    this.AVXObj.Bible.Add(book);
 
                 }   while (bookNum < 66);
             }
-            var maxBytesNeeded = AVXBookIndex.Serializer.GetMaxSize(index);
-            byte[] content = new byte[maxBytesNeeded];
-            int bytesWritten = AVXBookIndex.Serializer.Write(content, index);
-
-            SaveContent(otype, content, itype);
             StoreInventoryLine(file, otype);
         }
         private void XChapter(string itype, string otype)
         {
-            var index = new AVXChapterIndex() { Index = new List<AVXChapter>() };
+            var index = this.AVXObj.ChapterIndex;
+
             string file = IX(itype);
             var info = new FileInfo(file);
-            var recordCount = info.Length / 10;
+            long recordCount = info.Length / 10;
 
             var fstream = new StreamReader(file);
 
@@ -321,19 +365,22 @@ namespace DigitalAV.Migration
                     var verseIdx = breader.ReadUInt16();
                     var verseCnt = breader.ReadUInt16();
 
-                    var chapter = new AVXChapter() { WritIdx = writIdx, WritCnt = writCnt, VerseIdx = verseIdx, VerseCnt = verseCnt };
+                    if (this.AVXObj.VerseIndex != null)
+                    {
+                        var verse = this.AVXObj.VerseIndex[verseIdx];
+                        var book = this.AVXObj.Bible[verse.Book];
+
+                        var chapter = new AVXChapter() { WritIdx = (UInt16) (writIdx-book.WritIdx), WritCnt = writCnt, VerseIdx = verseIdx, VerseCnt = verseCnt };
+                        index.Add(chapter);
+                    }
                 }
             }
-            var maxBytesNeeded = AVXChapterIndex.Serializer.GetMaxSize(index);
-            byte[] content = new byte[maxBytesNeeded];
-            int bytesWritten = AVXChapterIndex.Serializer.Write(content, index);
 
-            SaveContent(otype, content, itype);
+            RecordContent(itype, recordCount);
             StoreInventoryLine(file, otype);
         }
         private void XVerse(string itype, string otype)
         {
-            var index = new AVXVerseIndex() { Index = new List<AVXVerse>() };
             string file = IX(itype);
 
             var fstream = new StreamReader(file);
@@ -349,20 +396,16 @@ namespace DigitalAV.Migration
                     var wordCnt = breader.ReadByte();
 
                     var entry = new AVXVerse() { Book = book, Chapter = chapter, Verse = verse, WordCnt = wordCnt };
-                    index.Index.Add(entry);
+                    if (this.AVXObj.VerseIndex != null)
+                        this.AVXObj.VerseIndex.Add(entry);
 
                 } while (++recordIdx <= 0x797D);
             }
-            var maxBytesNeeded = AVXVerseIndex.Serializer.GetMaxSize(index);
-            byte[] content = new byte[maxBytesNeeded];
-            int bytesWritten = AVXVerseIndex.Serializer.Write(content, index);
-
-            SaveContent("Verse-Index", content, itype);
+            RecordContent(itype, this.AVXObj.VerseIndex != null ? this.AVXObj.VerseIndex.Count : 0);
             StoreInventoryLine(file, otype);
         }
         private void XLemma(string itype, string otype)
         {
-            var records = new AVXLemmata() { Record = new List<AVXLemma>() };
             string file = DXI(itype);
 
             var fstream = new StreamReader(file);
@@ -370,31 +413,26 @@ namespace DigitalAV.Migration
             UInt32 cnt = 0;
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
-                for (var pos = breader.ReadUInt32(); pos != 0xFFFFFFFF; pos = breader.ReadUInt32())
+                for (var pos32 = breader.ReadUInt32(); pos32 != 0xFFFFFFFF; pos32 = breader.ReadUInt32())
                 {
                     cnt ++;
                     var wordKey = breader.ReadUInt16();
-                    var wordClass = breader.ReadUInt16();
+                    var pnpos = breader.ReadUInt16();
                     var lemmaCount = breader.ReadUInt16();
                     var lemmata = new UInt16[lemmaCount];
                     for (int i = 0; i < lemmaCount; i++)
                         lemmata[i] = breader.ReadUInt16();
 
-                    var entry = new AVXLemma() { Pos = pos, WordKey = wordKey, WordClass = wordClass, Lemma = lemmata };
-                    records.Record.Add(entry);
+                    var entry = new AVXLemma() { Pos32 = pos32, WordKey = wordKey, PnPos12 = pnpos, Lemma = lemmata };
+                    if (this.AVXObj.Lemmata != null)
+                        this.AVXObj.Lemmata.Add(entry);
                 }
             }
-            var maxBytesNeeded = AVXLemmata.Serializer.GetMaxSize(records);
-            byte[] content = new byte[maxBytesNeeded];
-            int bytesWritten = AVXLemmata.Serializer.Write(content, records);
-
-            SaveContent(otype, content, itype, cnt);
+            RecordContent(itype, cnt);
             StoreInventoryLine(file, otype);
         }
         private void XLemmaOOV(string itype, string otype)
         {
-            var records = new AVXLemmataOOV() { Oov = new List<AVXLemmaOOV>() };
-
             string file = DXI(itype);
 
             var fstream = new StreamReader(file);
@@ -417,21 +455,16 @@ namespace DigitalAV.Migration
                         Console.WriteLine("Bad stuff!!!");
 
                     var oovString = new string(buffer, 0, i);
-                    var entry = new AVXLemmaOOV() { Key = oovKey, Word = oovString };
-                    records.Oov.Add(entry);
+                    var entry = new AVXLemmaOOV() { Wkey = oovKey, Word = oovString };
+                    if (this.AVXObj.Oov != null)
+                        this.AVXObj.Oov.Add(entry);
                 }
             }
-            var maxBytesNeeded = AVXLemmataOOV.Serializer.GetMaxSize(records);
-            byte[] content = new byte[maxBytesNeeded];
-            int bytesWritten = AVXLemmataOOV.Serializer.Write(content, records);
-
-            SaveContent(otype, content, itype, cnt);
+            RecordContent(itype, cnt);
             StoreInventoryLine(file, otype);
         }
         private void XNames(string itype, string otype)
         {
-            var records = new AVXNames() { Record = new List<AVXName>() };
-
             string file = DXI(itype);
 
             var fstream = new StreamReader(file);
@@ -447,20 +480,16 @@ namespace DigitalAV.Migration
                     var meaningArray = meanings.Split('|', StringSplitOptions.RemoveEmptyEntries);
 
                     var entry = new AVXName() { WordKey = wkey, Meaning = meaningArray };
-                    records.Record.Add(entry);
+                    if (this.AVXObj.NameIndex != null)
+                        this.AVXObj.NameIndex.Add(entry);
                 }
             }
-            var maxBytesNeeded = AVXNames.Serializer.GetMaxSize(records);
-            byte[] content = new byte[maxBytesNeeded];
-            int bytesWritten = AVXNames.Serializer.Write(content, records);
-
-            SaveContent(otype, content, itype, cnt);
+            RecordContent(itype, cnt);
             StoreInventoryLine(file, otype);
         }
 
         private void XLexicon(string itype, string otype)
         {
-            var records = new AVXLexicon() { Lex = new List<AVXLexItem>() };
             string file = DXI(itype);
 
             var fstream = new StreamReader(file);
@@ -501,58 +530,22 @@ namespace DigitalAV.Migration
                         if (!string.IsNullOrEmpty(display))
                         {
                             if (!string.IsNullOrEmpty(modern))
-                                records.Lex.Add(new AVXLexItem() { Search = search, Display = display, Modern = modern, Entities = entities, Pos = pos });
+                                this.AVXObj.Lexicon.Add(new AVXLexicon() { Search = search, Display = display, Modern = modern, Entities = entities, Pos = pos });
                             else
-                                records.Lex.Add(new AVXLexItem() { Search = search, Display = display, Entities = entities, Pos = pos });
+                                this.AVXObj.Lexicon.Add(new AVXLexicon() { Search = search, Display = display, Entities = entities, Pos = pos });
                         }
                         else if (!string.IsNullOrEmpty(modern))
-                            records.Lex.Add(new AVXLexItem() { Search = search, Modern = modern, Entities = entities, Pos = pos });
+                            this.AVXObj.Lexicon.Add(new AVXLexicon() { Search = search, Modern = modern, Entities = entities, Pos = pos });
                         else
-                            records.Lex.Add(new AVXLexItem() { Search = search, Entities = entities, Pos = pos });
+                            this.AVXObj.Lexicon.Add(new AVXLexicon() { Search = search, Entities = entities, Pos = pos });
                     }
                 }   while (++rec < recordCount);
             }
-            var maxBytesNeeded = AVXLexicon.Serializer.GetMaxSize(records);
-            byte[] content = new byte[maxBytesNeeded];
-            int bytesWritten = AVXLexicon.Serializer.Write(content, records);
-
-            SaveContent(otype, content, itype, recordCount);
-            StoreInventoryLine(file, otype);
-        }
-        private void XWordClass(string itype, string otype)
-        {
-            var records = new AVXWordClasses() { Instance = new List<AVXWordClass>() };
-            string file = DXI(itype);
-
-            var fstream = new StreamReader(file);
-
-            UInt32 cnt = 0;
-            using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
-            {
-                while (breader.BaseStream.Position < breader.BaseStream.Length - 1)
-                {
-                    cnt ++;
-                    var wclass = breader.ReadUInt16();
-                    var posCnt = breader.ReadUInt16();
-                    var pos = new UInt32[posCnt];
-                    for (int i = 0; i < posCnt; i++)
-                        pos[i] = breader.ReadUInt32();
-
-                    var entry = new AVXWordClass() { WordClass = wclass, Pos = pos };
-                    records.Instance.Add(entry);
-                }
-            }
-            var maxBytesNeeded = AVXWordClasses.Serializer.GetMaxSize(records);
-            byte[] content = new byte[maxBytesNeeded];
-            int bytesWritten = AVXWordClasses.Serializer.Write(content, records);
-
-            SaveContent(otype, content, itype, cnt);
+            RecordContent(itype, recordCount);
             StoreInventoryLine(file, otype);
         }
         private void XWrit(string itype, string otype)
         {
-            var items = new AVXWritten() { Writ = new List<AVXWrit>() };
-
             string file = DX(itype);
 
             var fstream = new StreamReader(file);
@@ -560,6 +553,7 @@ namespace DigitalAV.Migration
 
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
+                long cnt = 0;
                 while (breader.BaseStream.Position < breader.BaseStream.Length - 1)
                 {
                     var entry = new AVXWrit()
@@ -573,14 +567,16 @@ namespace DigitalAV.Migration
                         Pos = breader.ReadUInt32(),
                         Lemma = breader.ReadUInt16()
                     };
-                    items.Writ.Add(entry);
+                    if (this.AVXObj.VerseIndex != null)
+                    {
+                        var index = this.AVXObj.VerseIndex[entry.VerseIdx];
+                        var book = this.AVXObj.Bible[index.Book];
+                        book.Writ.Add(entry);
+                        cnt++;
+                    }
                 }
+                RecordContent(itype, cnt);
             }
-            var maxBytesNeeded = AVXWritten.Serializer.GetMaxSize(items);
-            byte[] content = new byte[maxBytesNeeded];
-            int bytesWritten = AVXWritten.Serializer.Write(content, items);
-
-            SaveContent(otype, content, itype);
             StoreInventoryLine(file, otype);
         }
         private void XWrit128(string itype)
