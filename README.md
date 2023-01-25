@@ -12,10 +12,9 @@ https://github.com/kwonus/Digital-AV/blob/master/z-series/Digital-AV.pdf
 
 Only files explicitly mentioned in the above spec are part of the official baseline SDK. Some files, and the Z-series/pos folder in particular, are informational. Many are inputs to the generation of the baseline SDK itself.
 
-New in the Z31 release is the addition of the z-series/foundations folder. The SDK foundations folder contains language-specific implementations of SDK artifacts as native arrays of structs. Initially, these include C++ and Rust. If you poke arounf in the repo, it should be easy to find the C# source generators for these foundations. I don't want to cite the current folder URL here, because refactoring plans are to move them to a more sensible location.
+New in the Z31 release is the addition of the z-series/foundations folder. The SDK foundations folder contains language-specific implementations of SDK artifacts as native arrays of structs. Initially, these include C++ and Rust. If you poke around in the repo, you will find the source generators in the z-series/generation folder.
 
-An additional reference implementation for C# can be found in a companion repo named AVXText. It is based upon the Z14 release.  The C# AVText project performs deserialization of the SDK files. This is differennt from the /foundations/ implementations which require no deserialization.
-
+An additional reference implementation for C# can be found in a companion repo named AVXText. It is based upon the Z14 release.  The C# AVText project performs deserialization of the SDK files. This is differennt from the /foundations/ implementations which require no deserialization.  Current plans are to create an updated C# reference implementation using the FlatSharp serialization artifacts.
 
 Finally, all of the text in each of these digital editions remains faithful to the original AV Bible and the orthography is consistent with the 1769 edition.
 

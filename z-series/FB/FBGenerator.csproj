@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<FlatSharpSchema Include="avx.fbs" />
+	<Compile Remove="avxlib\**" />
+	<Compile Remove="FlatSharp\**" />
+	<Compile Remove="IDL\**" />
+    <EmbeddedResource Remove="avxlib\**" />
+	<EmbeddedResource Remove="FlatSharp\**" />
+	<EmbeddedResource Remove="IDL\**" />
+    <None Remove="avxlib\**" />
+    <None Remove="FlatSharp\**" />
+    <None Remove="IDL\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FlatSharp.Compiler" Version="7.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="FlatSharp.Runtime" Version="7.0.2" />
+  </ItemGroup>
+
+</Project>
