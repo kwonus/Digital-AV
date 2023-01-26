@@ -96,7 +96,7 @@
             else if (itype.EndsWith("-32.dx"))
                 return (UInt32) (32 / 8); // 4 bytes
 
-            else switch (itype.ToLower())
+            else switch (Path.GetFileName(itype).ToLower())
             {
                 case "av-writ.dx":    return 22;
                 case "av-book.ix":    return 50;
