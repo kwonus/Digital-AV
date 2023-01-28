@@ -1,93 +1,72 @@
 ﻿namespace DigitalAV.Migration
 {
+    using FoundationsGenerator;
     using SerializeFromSDK;
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Security.Cryptography;
     using System.Text;
 
     public class ConsoleApp
     {
-        private HashAlgorithm? hasher;
+        private BinaryWriter? bomOmegaText;
 
-        private string rsrc;
-        private string csrc;
-        private string output;
-        private string outputExtent;
-        private string baseSDK;
-        private BinaryWriter? bom;
-        private BinaryWriter? bomMD5;
-        private List<string> bomLines;
-        private Dictionary<string, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize)> bomDetails;
-        private Dictionary<string, UInt32> RecordCounts;
+        private BinaryWriter? bomZ31;
+        private BinaryWriter? bomZ31_MD5;
 
-        private const string Version = "-Z31";
+        private BinaryWriter? bomZ32;
+        private BinaryWriter? bomZ32_MD5;
+
+        private BinaryWriter? bomOmega32;
+
+        private List<string>  bomLines;
+
+        internal BinaryWriter? OpenTextWriter(string suffix, string extent)
+        {
+            try
+            {
+                string file = BOM.baseSDK + "AV-Inventory" + suffix + extent;
+                var stream = new FileStream(file, FileMode.Create);
+                return new BinaryWriter(stream, Encoding.ASCII);
+            }
+            catch
+            {
+                return null;
+            }
+        }
         internal ConsoleApp()
         {
-            this.csrc = @"C:\src\Digital-AV\z-series\foundations\cpp";
-            this.rsrc = @"C:\src\Digital-AV\z-series\foundations\rust\src\avx";
-            this.output = @"C:\src\Digital-AV\z-series\FB\content\";
-            this.outputExtent = ".data";
-            this.baseSDK = @"C:\src\Digital-AV\z-series\";
-            this.hasher = HashAlgorithm.Create(HashAlgorithmName.MD5.ToString());
-            try
-            {
-                string file = this.baseSDK + "AV-Inventory" + Version + ".bom";
-                var stream = new FileStream(file, FileMode.Create);
-                this.bom = new BinaryWriter(stream, Encoding.ASCII);
-            }
-            catch
-            {
-                this.bom = null;
-            }
-            try
-            {
-                string file = this.baseSDK + "AV-Inventory" + Version + ".md5";
-                var stream = new FileStream(file, FileMode.Create);
-                this.bomMD5 = new BinaryWriter(stream, Encoding.ASCII);
-            }
-            catch
-            {
-                this.bomMD5 = null;
-            }
+            this.bomZ31 = OpenTextWriter(BOM.Z_31, ".bom");
+            this.bomZ31_MD5 = OpenTextWriter(BOM.Z_31, ".md5");
+
+            this.bomZ32 = OpenTextWriter(BOM.Z_32, ".bom");
+            this.bomZ32_MD5 = OpenTextWriter(BOM.Z_32, ".md5");
+
+            this.bomOmega32 = OpenTextWriter(BOM.Omega_Version, ".txt");
+
             this.bomLines = new();
-            this.bomDetails = new();
-            this.RecordCounts = new();
         }
 
         public static void Main()
         {
             var app = new ConsoleApp();
 
-            Console.WriteLine("Create FlatBuffers binary content files.");
-            app.XVerse("Verse", "Verse-Index");
-            app.XBook("Book", "Book-Index");
-            app.XChapter("Chapter", "Chapter-Index");
-            app.XLemma("Lemma", "Lemmata");
-            app.XLemmaOOV("Lemma-OOV", "Lemmata-OOV");
-            app.XLexicon("Lexicon", "Lexicon");
-            app.XNames("Names", "Names");
-            app.XWrit("Writ", "Written");
-            app.XWrit128("Writ-128");
-            app.XWrit32("Writ-32");
+            Console.WriteLine("Read Existing binary content files & and upgrade outdated files");
+            app.XVerse(ORDER.UNDEFINED);
+            app.XBook(ORDER.Book);
+            app.XChapter(ORDER.Chapter);
+            app.XLemma(ORDER.Lemmata);
+            app.XLemmaOOV(ORDER.OOV);
+            app.XLexicon(ORDER.Lexicon);
+            app.XNames(ORDER.Names);
+            app.XWrit(ORDER.Written);
+            app.XWrit128();
+            app.XWrit32();
 
             Console.WriteLine("Calculate and create the BOM.");
             app.SaveInventory();
         }
-        private string IX(string itype)
-        {
-            return this.baseSDK + "AV-" + itype + ".ix";
-        }
-        private string DX(string itype)
-        {
-            return this.baseSDK + "AV-" + itype + ".dx";
-        }
-        private string DXI(string itype)
-        {
-            return this.baseSDK + "AV-" + itype + ".dxi";
-        }
-        private UInt32 GetRecordLength(string itype)
+        private UInt32 GetRecordLength_31(string itype)
         {
             if (!itype.EndsWith('x'))
                 return 0; // this is variable lenght // i.e .dxi
@@ -127,22 +106,11 @@
             }
             bwriter.Write((byte)0);
         }
-        private void RecordContent(string itype, long recordCount = 0)
+        private void RecordContent(ORDER id, UInt32 recordCount)
         {
-            if (recordCount > 0)
-                this.RecordCounts[itype] = (UInt32) recordCount;
+            BOM.Inventory[(byte)id].recordCount = recordCount;
         }
-        private void SaveFB(string otype, byte[] content)
-        {
-            var file = this.output + otype + this.outputExtent;
-            var fstream = new StreamWriter(file);
-
-            using (var bwriter = new System.IO.BinaryWriter(fstream.BaseStream))
-            {
-                bwriter.Write(content);
-            }
-        }
-        private void AddInventoryRecord(string fname, string fpath, string otype, string hash, UInt32 len, UInt32 cnt, UInt32 size)
+        private void AddInventoryRecord(string fname, string fpath, string hash, UInt32 len, UInt32 cnt, UInt32 size, byte order)
         {
             if (this.bomLines.Count == 0)
             {
@@ -154,7 +122,15 @@
             }
             string record = PadRight(fname, 16) + " " + PadRight(hash, 32) + " " + PadLeft(len.ToString(), 3) + " " + PadLeft(cnt.ToString(), 7) + " " + PadLeft(size.ToString(), 8);
             this.bomLines.Add(record);
-            this.bomDetails[fname] = (hash, fpath, otype, len, cnt, size);
+            var entry = BOM.Inventory.ContainsKey(order) ? BOM.Inventory[order] : new FoundationsGenerator.Directory("");
+            entry.recordCount = cnt;
+            entry.recordLength = len;
+            entry.length = size;
+            entry.hash   = hash;
+
+            entry.offset = (order > 0 && order != BOM.UNDEFINED && order != BOM.IGNORE)
+                         ? BOM.Inventory[(byte)(order-1)].offset + BOM.Inventory[(byte)(order-1)].length
+                         : 0;
         }
         private static string PadLeft(string input, int cnt, char padding = ' ')
         {
@@ -170,20 +146,28 @@
                 output += padding;
             return output;
         }
-        private void StoreInventoryLine(string file, string otype)
+        private void StoreInventoryLine(string file, byte order, UInt32 recordLength = 0)
         {
             string ifile = Path.GetFileName(file);
-            string itype = Path.GetFileNameWithoutExtension(file).Substring(3);
+
+            var bom = order != BOM.IGNORE ? BOM.Inventory[order] : BOM.Inventory[BOM.Written];
 
             var buffer = File.ReadAllBytes(file);
             var size = buffer.Length;
-            var rlen = this.GetRecordLength(ifile);
-            var rcnt = rlen > 0 ? size / rlen : this.RecordCounts.ContainsKey(itype) ? this.RecordCounts[itype] : 0;
+            var rlen = recordLength == 0 && order != BOM.IGNORE ? this.GetRecordLength_31(ifile) : recordLength;
+            var rcnt = bom.recordCount;
 
-            var hash = this.hasher.ComputeHash(buffer);
-            string hashStr = hash != null ? BytesToHex(hash) : "ERROR";
+            string hashStr = "ERROR(0)";
+            if (BOM.hasher != null)
+            {
+                var hash = BOM.hasher.ComputeHash(buffer);
+                hashStr = hash != null ? BytesToHex(hash) : "ERROR(1)";
+                bom.hash = hashStr;
+            }
+            if (bom.recordLength == 0)
+                bom.recordCount = rlen;
 
-            this.AddInventoryRecord(Path.GetFileName(file), file, otype, hashStr, rlen, (UInt32) rcnt, (UInt32) size);
+            this.AddInventoryRecord(Path.GetFileName(file), file, hashStr, rlen, (UInt32) rcnt, (UInt32) size, order);
         }
         private static string BytesToHex(byte[] bytes)
         {
@@ -223,32 +207,32 @@
             {
                 bomBytes[i] = (byte)(output[i]);
             }
-            if (this.bom != null)
+            if (this.bomZ31 != null)
             {
-                this.bom.Write(bomBytes);
-                this.bom.Close();
+                this.bomZ31.Write(bomBytes);
+                this.bomZ31.Close();
             }
-            var hash = this.hasher != null ? this.hasher.ComputeHash(bomBytes) : null;
+            var hash = BOM.hasher != null ? BOM.hasher.ComputeHash(bomBytes) : null;
             var md5 = hash != null ? BytesToHex(hash) : "ERROR";
             var md5Bytes = new byte[md5.Length];
             for (int i = 0; i < md5.Length; i++)
             {
                 md5Bytes[i] = (byte)(md5[i]);
             }
-            if (this.bomMD5 != null)
+            if (this.bomZ31_MD5 != null)
             {
-                this.bomMD5.Write(md5Bytes);
-                this.bomMD5.Close();
+                this.bomZ31_MD5.Write(md5Bytes);
+                this.bomZ31_MD5.Close();
             }
-            var cpp = new CSrcGen(this.baseSDK, this.csrc, this.bomDetails);
+            var cpp = new CSrcGen(BOM.baseSDK, BOM.csrc_z);
             cpp.Generate();
 
-            var rust = new RustSrcGen(this.baseSDK, this.rsrc, this.bomDetails);
+            var rust = new RustSrcGen(BOM.baseSDK, BOM.rsrc_z);
             rust.Generate();
         }
-        private void XBook(string itype, string otype)
+        private void XBook(ORDER id)
         {
-            string file = IX(itype);
+            string file = BOM.GetZ_Path(id);
 
             var fstream = new StreamReader(file);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
@@ -320,12 +304,14 @@
                     */
 
                 }   while (bookNum < 66);
+
+                RecordContent(id, (uint)(1+bookNum)); // bookNum starts at zero
             }
-            StoreInventoryLine(file, otype);
+            StoreInventoryLine(file, BOM.Book);
         }
-        private void XChapter(string itype, string otype)
+        private void XChapter(ORDER id)
         {
-            string file = IX(itype);
+            string file = BOM.GetZ_Path(id);
             var info = new FileInfo(file);
             long recordCount = info.Length / 10;
 
@@ -352,12 +338,12 @@
                     */
                 }
             }
-            RecordContent(itype, recordCount);
-            StoreInventoryLine(file, otype);
+            RecordContent(id, (uint)recordCount);
+            StoreInventoryLine(file, BOM.Chapter);
         }
-        private void XVerse(string itype, string otype)
+        private void XVerse(ORDER id)
         {
-            string file = IX(itype);
+            string file = BOM.GetZ_Path(id);
 
             var fstream = new StreamReader(file);
 
@@ -371,13 +357,13 @@
                     var verse = breader.ReadByte();
                     var wordCnt = breader.ReadByte();
                 }   while (++recordIdx <= 0x797D);
-                RecordContent(itype, recordIdx);
+                RecordContent(ORDER.UNDEFINED, recordIdx);
             }
-            StoreInventoryLine(file, otype);
+            StoreInventoryLine(file, BOM.UNDEFINED);
         }
-        private void XLemma(string itype, string otype)
+        private void XLemma(ORDER id)
         {
-            string file = DXI(itype);
+            string file = BOM.GetZ_Path(id);
 
             var fstream = new StreamReader(file);
 
@@ -395,12 +381,12 @@
                         lemmata[i] = breader.ReadUInt16();
                 }
             }
-            RecordContent(itype, cnt);
-            StoreInventoryLine(file, otype);
+            RecordContent(id, cnt);
+            StoreInventoryLine(file, BOM.Lemmata);
         }
-        private void XLemmaOOV(string itype, string otype)
+        private void XLemmaOOV(ORDER id)
         {
-            string file = DXI(itype);
+            string file = BOM.GetZ_Path(id);
 
             var fstream = new StreamReader(file);
             var buffer = new char[24];
@@ -424,12 +410,12 @@
                     var oovString = new string(buffer, 0, i);
                 }
             }
-            RecordContent(itype, cnt);
-            StoreInventoryLine(file, otype);
+            RecordContent(id, cnt);
+            StoreInventoryLine(file, BOM.OOV);
         }
-        private void XNames(string itype, string otype)
+        private void XNames(ORDER id)
         {
-            string file = DXI(itype);
+            string file = BOM.GetZ_Path(id);
 
             var fstream = new StreamReader(file);
 
@@ -444,13 +430,13 @@
                     var meaningArray = meanings.Split('|', StringSplitOptions.RemoveEmptyEntries);
                 }
             }
-            RecordContent(itype, cnt);
-            StoreInventoryLine(file, otype);
+            RecordContent(id, cnt);
+            StoreInventoryLine(file, BOM.Names);
         }
 
-        private void XLexicon(string itype, string otype)
+        private void XLexicon(ORDER id)
         {
-            string file = DXI(itype);
+            string file = BOM.GetZ_Path(id);
 
             var fstream = new StreamReader(file);
 
@@ -487,28 +473,28 @@
 
                 }   while (++rec < recordCount);
             }
-            RecordContent(itype, recordCount);
-            StoreInventoryLine(file, otype);
+            RecordContent(id, recordCount);
+            StoreInventoryLine(file, BOM.Lexicon);
         }
-        private void XWrit(string itype, string otype)
+        private void XWrit(ORDER id)
         {
-            string file = this.DX(itype);
-            var length = this.GetRecordLength(file);
+            string file = BOM.GetZ_Path(id);
+            var length = BOM.GetRecordLength(id, BOM.Z_31);
             var bytes = File.ReadAllBytes(file);
             var cnt = bytes.Length / length;
 
-            RecordContent(itype, cnt);
-            StoreInventoryLine(file, otype);
+            RecordContent(id, (UInt32) cnt);
+            StoreInventoryLine(file, BOM.Written);
         }
-        private void XWrit128(string itype)
+        private void XWrit128()
         {
-            string file = DX(itype);
-            StoreInventoryLine(file, "");
+            string file = BOM.GetZ_Path(ORDER.Written).Replace(".dx", "-128.dx");
+            StoreInventoryLine(file, BOM.IGNORE, 16);
         }
-        private void XWrit32(string itype)
+        private void XWrit32()
         {
-            string file = DX(itype);
-            StoreInventoryLine(file, "");
+            string file = BOM.GetZ_Path(ORDER.Written).Replace(".dx", "-32.dx");
+            StoreInventoryLine(file, BOM.IGNORE, 4);
         }
         public static 
         (

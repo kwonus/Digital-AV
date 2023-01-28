@@ -1,4 +1,5 @@
 ﻿using DigitalAV.Migration;
+using FoundationsGenerator;
 using System.Text;
 
 namespace SerializeFromSDK
@@ -13,7 +14,6 @@ namespace SerializeFromSDK
 
         private string output;
         private string sdk;
-        private Dictionary<string, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize)> inventory;
 
         private
         (
@@ -42,9 +42,8 @@ namespace SerializeFromSDK
 
         private HashMapper Maps = new();
 
-        public RustSrcGen(string sdk, string src, Dictionary<string, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize)> inventory)
+        public RustSrcGen(string sdk, string src)
         {
-            this.inventory = inventory;
             this.sdk = sdk;
             this.output = src;
         }
@@ -52,31 +51,16 @@ namespace SerializeFromSDK
         {
             Console.WriteLine("Create source initializers for Rust.");
 
-            string saveBookItem = "";
-            string saveChapItem = "";
-            string saveWritItem = "";
-            foreach (var item in inventory.Keys)
-            {
-                var record = this.inventory[item];
-                var select = Path.GetFileNameWithoutExtension(item).Substring(3);
+            this.XAny(ORDER.UNDEFINED); // verse
+            this.XAny(ORDER.Lemmata);
+            this.XAny(ORDER.OOV);
+            this.XAny(ORDER.Lexicon);
+            this.XAny(ORDER.Names);
 
-                switch (select)
-                {
-                    case "Book":        saveBookItem = item;       break;
-                    case "Chapter":     saveChapItem = item;       break;
-                    case "Verse":       this.XAny(select, record); break;   // this needs to be done before chapter
-                    case "Lemma":       this.XAny(select, record); break;
-                    case "Lemma-OOV":   this.XAny(select, record); break;
-                    case "Lexicon":     this.XAny(select, record); break;
-                    case "Names":       this.XAny(select, record); break;
-//                  case "WordClass":   this.XAny(select, record); break;
-                    case "Writ":        saveWritItem = item;       break;
-                }
-            }
             // These need to be done last and in this order (XWrit differs from processing of other files, as it generates sub-modules also)
-            this.XAny("Chapter", this.inventory[saveChapItem]);
-            this.XAny("Book", this.inventory[saveBookItem]);
-            this.XAny("Writ", this.inventory[saveWritItem]);
+            this.XAny(ORDER.Chapter);
+            this.XAny(ORDER.Book);
+            this.XAny(ORDER.Written);
 
             this.Maps.Print();
 
@@ -105,15 +89,14 @@ namespace SerializeFromSDK
         private static readonly string[] INIT = { INIT_BEGIN, INIT_END };
         private static Dictionary<string, int> OpLookup = new() { { HEAD_BEGIN, OP_HEAD }, { META_BEGIN, OP_META }, { INIT_BEGIN, OP_INIT } };
         private static Dictionary<int, String[]> Operations = new() { { OP_HEAD, HEAD }, { OP_META, META }, { OP_INIT, INIT } };
-        private void XAny(string select, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XAny(ORDER id)
         {
-            var outname = bom.otype.Replace('-', '_').ToLower();
-            var vartype = "AVX" + bom.otype[0].ToString().ToUpper() + bom.otype.Substring(1).Replace("-", "");
+            var bom = BOM.Inventory[(byte)id];
+            var vartype = "AVX" + BOM.GetPascal_Type(id);
 
-            var fname = Path.GetFileName(bom.fpath);
-            var path  = Path.Combine(this.output, outname + ".rs");
-            var old   = Path.Combine(this.output, outname + "-Z31.rs");
-            var temp  = Path.Combine(this.output, outname + "-temp.rs");
+            var path  = bom.GetRustSource(BOM.Z_31, ".rs");
+            var old   = bom.GetRustSource(BOM.Z_31, BOM.Z_31 + ".rs");
+            var temp  = bom.GetRustSource(BOM.Z_31, "-temp.rs");
             var lines = File.ReadAllLines(path);
 
             TextWriter writer = File.CreateText(temp);
@@ -159,10 +142,10 @@ namespace SerializeFromSDK
                         writer.WriteLine("static " + vartype + "_Rust_Edition    :u16 = 23108;");
                         writer.WriteLine("static " + vartype + "_SDK_ZEdition    :u16 = 23107;");
                         writer.WriteLine();
-                        writer.WriteLine("static " + vartype + "_File: &'static str = \"" + fname + "\";");
-                        writer.WriteLine("static " + vartype + "_RecordLen   :usize = " + Pad(bom.rlen, 8) + ";");
-                        writer.WriteLine("static " + vartype + "_RecordCnt   :usize = " + Pad(bom.rcnt, 8) + ";");
-                        writer.WriteLine("static " + vartype + "_FileLen     :usize = " + Pad(bom.fsize, 8) + ";");
+                        writer.WriteLine("static " + vartype + "_File: &'static str = \"" + Path.GetFileName(BOM.GetZ_Path(id)) + "\";");
+                        writer.WriteLine("static " + vartype + "_RecordLen   :usize = " + Pad(bom.recordLength, 8) + ";");
+                        writer.WriteLine("static " + vartype + "_RecordCnt   :usize = " + Pad(bom.recordCount, 8) + ";");
+                        writer.WriteLine("static " + vartype + "_FileLen     :usize = " + Pad(bom.length, 8) + ";");
                         writer.WriteLine(META[END]);
                         op = OP_NOOP;
                         continue;
@@ -172,17 +155,17 @@ namespace SerializeFromSDK
                         writer.WriteLine(INIT[BEGIN]);
                         Dictionary<string, (UInt16 count, byte book)> metadata = new();
 
-                        switch (select)
+                        switch ((byte)id)
                         {
-                            case "Book":        this.XBook(     writer, "AVXBook",      bom); break;
-                            case "Chapter":     this.XChapter(  writer, "AVXChapter",   bom); break;
-                            case "Verse":       this.XVerse(    writer, "AVXVerse",     bom); break;
-                            case "Lemma":       this.XLemma(    writer, "AVXLemma",     bom); break;
-                            case "Lemma-OOV":   this.XLemmaOOV( writer, "AVXLemmaOOV",  bom); break;
-                            case "Lexicon":     this.XLexicon(  writer, "AVXLexItem",   bom); break; // TBD: Temporary
-                            case "Names":       this.XNames(    writer, "AVXName",      bom); break;
-                            case "Writ":        {
-                                                    var fstream = new StreamReader(bom.fpath);
+                            case BOM.Book:        this.XBook(     writer, "AVXBook",      bom); break;
+                            case BOM.Chapter:     this.XChapter(  writer, "AVXChapter",   bom); break;
+                            case BOM.Verse:       this.XVerse(    writer, "AVXVerse",     bom); break;
+                            case BOM.Lemmata:     this.XLemma(    writer, "AVXLemma",     bom); break;
+                            case BOM.OOV:         this.XLemmaOOV( writer, "AVXLemmaOOV",  bom); break;
+                            case BOM.Lexicon:     this.XLexicon(  writer, "AVXLexItem",   bom); break; // TBD: Temporary
+                            case BOM.Names:       this.XNames(    writer, "AVXName",      bom); break;
+                            case BOM.Written:     {
+                                                    var fstream = new StreamReader(BOM.GetZ_Path(id));
                                                     using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
                                                     {
                                                         for (byte bk = 1; bk <= 66; bk++)
@@ -204,13 +187,13 @@ namespace SerializeFromSDK
             File.Delete(old);
             File.Replace(temp, path, null/*, old */);
         }
-        private void XBook(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, bool useZ14 = false, bool genNext = false) // change default values to change behavior
+        private void XBook(TextWriter writer, string rtype, FoundationsGenerator.Directory bom, bool useZ14 = false, bool genNext = false) // change default values to change behavior
         {
-            var outname = bom.otype.Replace('-', '_').ToLower();
+            var fpath = BOM.GetZ_Path(ORDER.Book);
 
             writer.WriteLine("static " + "books" + ": [" + rtype + "; " + 67.ToString() + "] = [");
 
-            var fstream = new StreamReader(!useZ14 ? bom.fpath : bom.fpath.Replace(".ix", "-Z14.ix"));    // we can still baseline against Z14 release, until we are certain that there are no bugs
+            var fstream = new StreamReader(!useZ14 ? fpath : fpath.Replace(".ix", "-Z14.ix"));    // we can still baseline against Z14 release, until we are certain that there are no bugs
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
                 for (byte bookNum = 0; bookNum <= 66; bookNum++)
@@ -358,8 +341,9 @@ namespace SerializeFromSDK
 
             if (genNext)
             {
+                var opath = BOM.csrc_z + "FOO";
                 // Update SDK file to Z31-B/11
-                var ostream = new StreamWriter(bom.fpath + "-" + this.BookIndex[0].name, false, Encoding.ASCII);
+                var ostream = new StreamWriter(opath + "-" + this.BookIndex[0].name, false, Encoding.ASCII);
                 using (var bwriter = new System.IO.BinaryWriter(ostream.BaseStream))
                 {
                     for (byte bookNum = 0; bookNum < this.BookIndex.Length; bookNum++)
@@ -460,7 +444,8 @@ namespace SerializeFromSDK
                 }
             }
         }
-        private void XChapterZ14(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        /*
+        private void XChapterZ14(TextWriter writer, string rtype, FoundationsGenerator.Directory bom)
         {
             var outname = bom.otype.Replace('-', '_').ToLower();
 
@@ -529,16 +514,18 @@ namespace SerializeFromSDK
                 }
             }
         }
-        private void XChapter(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        */
+        private void XChapter(TextWriter writer, string rtype, FoundationsGenerator.Directory bom)
         {
-            var outname = bom.otype.Replace('-', '_').ToLower();
+            var outname = BOM.GetC_Type(ORDER.Chapter);
+            var fpath = BOM.GetZ_Path(ORDER.Chapter);
 
-            writer.WriteLine("static " + outname + ": [" + rtype + "; " + bom.rcnt.ToString() + "] = [");
+            writer.WriteLine("static " + outname + ": [" + rtype + "; " + bom.recordCount.ToString() + "] = [");
 
-            var fstream = new StreamReader(bom.fpath);    // we still base input on the Z14 release, until we are certain that there are no bugs
+            var fstream = new StreamReader(fpath);    // we still base input on the Z14 release, until we are certain that there are no bugs
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
-                for (int x = 0; x < bom.rcnt; x++)
+                for (int x = 0; x < bom.recordCount; x++)
                 {
                     var writIdx  = breader.ReadUInt32();
                     var writCnt  = breader.ReadUInt16();
@@ -586,16 +573,17 @@ namespace SerializeFromSDK
             }
             writer.WriteLine("];");
         }
-        private void XVerse(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XVerse(TextWriter writer, string rtype, FoundationsGenerator.Directory bom)
         {
-            var outname = bom.otype.Replace('-', '_').ToLower();
+            var outname = BOM.GetC_Type(ORDER.UNDEFINED);
+            var fpath = BOM.GetZ_Path(ORDER.UNDEFINED);
 
-            writer.WriteLine("static " + outname + ": [" + rtype + "; " + bom.rcnt.ToString() + "] = [");
+            writer.WriteLine("static " + outname + ": [" + rtype + "; " + bom.recordCount.ToString() + "] = [");
 
-            var fstream = new StreamReader(bom.fpath);
+            var fstream = new StreamReader(fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
-                for (int x = 0; x < bom.rcnt; x++)
+                for (int x = 0; x < bom.recordCount; x++)
                 {
                     var book = breader.ReadByte();
                     var chapter = breader.ReadByte();
@@ -618,17 +606,19 @@ namespace SerializeFromSDK
             }
             writer.WriteLine("];");
         }
-        private void XLemma(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XLemma(TextWriter writer, string rtype, FoundationsGenerator.Directory bom)
         {
-            //          writer.WriteLine("static lemmata: HashMap < AVXLemmaKey, AVXLemma > = HashMap::from([");
+            var fpath = BOM.GetZ_Path(ORDER.Lemmata);
+
+//          writer.WriteLine("static lemmata: HashMap < AVXLemmaKey, AVXLemma > = HashMap::from([");
 
             var outname = "AVXLemmata"; // bom.otype.Replace('-', '_').ToLower();
-            writer.WriteLine("static " + outname + ": [(AVXLemmaKey, AVXLemma); " + bom.rcnt.ToString() + "] = [");
+            writer.WriteLine("static " + outname + ": [(AVXLemmaKey, AVXLemma); " + bom.recordCount.ToString() + "] = [");
 
-            var fstream = new StreamReader(bom.fpath);
+            var fstream = new StreamReader(fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
-                for (int x = 1; x <= bom.rcnt; x++)
+                for (int x = 1; x <= bom.recordCount; x++)
                 {
                     var pos = breader.ReadUInt32();
                     var wordKey = breader.ReadUInt16();
@@ -653,17 +643,18 @@ namespace SerializeFromSDK
             }
             writer.WriteLine("];");
         }
-        private void XLemmaOOV(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XLemmaOOV(TextWriter writer, string rtype, FoundationsGenerator.Directory bom)
         {
-            var outname = bom.otype.Replace('-', '_').ToLower();
+            var outname = BOM.GetC_Type(ORDER.OOV);
+            var fpath = BOM.GetZ_Path(ORDER.OOV);
 
-            writer.WriteLine("static " + outname + ": [" + rtype + "; " + bom.rcnt.ToString() + "] = [");
+            writer.WriteLine("static " + outname + ": [" + rtype + "; " + bom.recordCount.ToString() + "] = [");
 
             var buffer = new char[24];
-            var fstream = new StreamReader(bom.fpath);
+            var fstream = new StreamReader(fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
-                for (int x = 1; x <= bom.rcnt; x++)
+                for (int x = 1; x <= bom.recordCount; x++)
                 {
                     var oovKey = breader.ReadUInt16();
 
@@ -687,17 +678,18 @@ namespace SerializeFromSDK
             }
             writer.WriteLine("];");
         }
-        private void XNames(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private void XNames(TextWriter writer, string rtype, FoundationsGenerator.Directory bom)
         {
-            var outname = bom.otype.Replace('-', '_').ToLower();
+            var outname = BOM.GetC_Type(ORDER.Names);
+            var fpath = BOM.GetZ_Path(ORDER.Names);
 
-            writer.WriteLine("static " + outname + ": [" + rtype + "; " + bom.rcnt.ToString() + "] = [");
+            writer.WriteLine("static " + outname + ": [" + rtype + "; " + bom.recordCount.ToString() + "] = [");
 
             var buffer = new char[24];
-            var fstream = new StreamReader(bom.fpath);
+            var fstream = new StreamReader(fpath);
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
-                for (int x = 1; x <= bom.rcnt; x++)
+                for (int x = 1; x <= bom.recordCount; x++)
                 {
                     var wkey = breader.ReadUInt16();
                     string meanings = ConsoleApp.ReadByteString(breader, maxLen: 4096);
@@ -713,7 +705,8 @@ namespace SerializeFromSDK
             }
             writer.WriteLine("];");
         }
-        private void XLexiconZ14(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        /*
+        private void XLexiconZ14(TextWriter writer, string rtype, FoundationsGenerator.Directory bom)
         {
             // Update SDK file fo Z31
             var ostream = new StreamWriter(bom.fpath, false, Encoding.ASCII);
@@ -797,17 +790,19 @@ namespace SerializeFromSDK
             }
             bwriter.Close();
         }
-        private void XLexicon(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        */
+        private void XLexicon(TextWriter writer, string rtype, FoundationsGenerator.Directory bom)
         {
-            var outname = bom.otype.Replace('-', '_').ToLower();
+            var outname = BOM.GetC_Type(ORDER.Lexicon);
+            var fpath = BOM.GetZ_Path(ORDER.Lexicon);
 
-            writer.WriteLine("static " + outname + ": [" + rtype + "; " + (bom.rcnt + 1).ToString() + "] = [");
+            writer.WriteLine("static " + outname + ": [" + rtype + "; " + (bom.recordCount + 1).ToString() + "] = [");
 
             var buffer = new char[24];
-            var fstream = new StreamReader(bom.fpath);    // we still base input on the Z14 release, until we are certain that there are no bugs
+            var fstream = new StreamReader(fpath);    // we still base input on the Z14 release, until we are certain that there are no bugs
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
-                for (int x = 0; x <= bom.rcnt; x++)
+                for (int x = 0; x <= bom.recordCount; x++)
                 {
                     var entities = breader.ReadUInt16();
                     var posCnt = breader.ReadUInt16();
@@ -862,10 +857,8 @@ namespace SerializeFromSDK
                 writer.WriteLine("];");
             }
         }
-        private void XWrit(TextWriter writer, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom, Dictionary<string, (UInt16 count, byte book)> metadata)
+        private void XWrit(TextWriter writer, string rtype, FoundationsGenerator.Directory bom, Dictionary<string, (UInt16 count, byte book)> metadata)
         {
-            var outname = bom.otype.Replace('-', '_').ToLower();
-
             foreach (var variable in metadata.Keys)
             {
                 writer.WriteLine("pub mod " + variable + ";");
@@ -886,17 +879,17 @@ namespace SerializeFromSDK
             }
             writer.WriteLine("];");
         }
-        private (string variable, UInt16 count, byte bookNum) XWrit_NN(BinaryReader breader, byte book, string rtype, (string md5, string fpath, string otype, UInt32 rlen, UInt32 rcnt, UInt32 fsize) bom)
+        private (string variable, UInt16 count, byte bookNum) XWrit_NN(BinaryReader breader, byte book, string rtype, FoundationsGenerator.Directory bom)
         {
             (string variable, UInt16 count, byte book) result;
 
-            var dirname = bom.otype.Replace('-', '_').ToLower();
+            var fpath = BOM.GetZ_Path(ORDER.Written);
+            var dirname = BOM.GetC_Type(ORDER.Written);
             var outname = dirname + "_" + book.ToString("D02");
-            var vartype = "AVX" + bom.otype[0].ToString().ToUpper() + bom.otype.Substring(1).Replace("-", "");
+            var vartype = "AVX" + bom.label.Replace("-", "");
             var wordCnt = this.BookIndex[book].writ_cnt;
             result = (outname, (UInt16)wordCnt, book);
 
-            var fname = Path.GetFileName(bom.fpath);
             var path = Path.Combine(this.output, dirname, outname + ".rs");
 
             TextWriter writer = File.CreateText(path);

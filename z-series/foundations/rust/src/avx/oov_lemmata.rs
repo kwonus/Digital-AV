@@ -5,13 +5,13 @@
 // < < < Generated-Code -- Header < < < //
 
 // > > > Generated-Code -- Metadata > > > //
-static AVXLemmataOOV_Rust_Edition    :u16 = 23108;
-static AVXLemmataOOV_SDK_ZEdition    :u16 = 23107;
+static AVXOOVLemmata_Rust_Edition    :u16 = 23108;
+static AVXOOVLemmata_SDK_ZEdition    :u16 = 23107;
 
-static AVXLemmataOOV_File: &'static str = "AV-Lemma-OOV.dxi";
-static AVXLemmataOOV_RecordLen   :usize =        0;
-static AVXLemmataOOV_RecordCnt   :usize =      771;
-static AVXLemmataOOV_FileLen     :usize =     7754;
+static AVXOOVLemmata_File: &'static str = "AV-Lemma-OOV.dxi";
+static AVXOOVLemmata_RecordLen   :usize =        0;
+static AVXOOVLemmata_RecordCnt   :usize =      771;
+static AVXOOVLemmata_FileLen     :usize =     7754;
 // < < < Generated-Code -- Metadata < < < //
 
 // OOV: uint16                                           // from Digital-AV.pdf
@@ -25,7 +25,7 @@ struct AVXLemmaOOV{                                    // from Digital-AV.pdf
 }
 
 // > > > Generated-Code -- Initialization > > > //
-static lemmata_oov: [AVXLemmaOOV; 771] = [
+static oov_lemmata: [AVXLemmaOOV; 771] = [
 	AVXLemmaOOV { key: 0x8301, word: "aid" },
 	AVXLemmaOOV { key: 0x8302, word: "ail" },
 	AVXLemmaOOV { key: 0x8303, word: "ape" },
