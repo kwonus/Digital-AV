@@ -31,7 +31,9 @@ namespace SerializeFromSDK
         }
         public void Print()
         {
+#pragma warning disable CS0219
             int i = 0;
+#pragma warning restore CS0219
         }
     }
 }

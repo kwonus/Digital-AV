@@ -8,7 +8,7 @@ Each revision of the SDK can be found in this repository.  This repo also contai
 
 The SDK is primarily a set of binary files that can be used to manifest the entire text of the the bible, along with Strong's numbers, Lemmatizations, and Part-of-Speech tags.  For details, consult the included documentation at:
 
-https://github.com/kwonus/Digital-AV/blob/master/z-series/Digital-AV.pdf
+https://github.com/kwonus/Digital-AV/blob/master/z-series/Digital-AV-Z31.pdf
 
 Only files explicitly mentioned in the above spec are part of the official baseline SDK. Some files, and the Z-series/pos folder in particular, are informational. Many are inputs to the generation of the baseline SDK itself.
 

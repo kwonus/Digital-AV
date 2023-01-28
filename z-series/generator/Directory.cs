@@ -14,7 +14,9 @@ namespace FoundationsGenerator
         public const string Z_31 = "-Z31";
         public const string Z_32 = "-Z32";
 
+#pragma warning disable SYSLIB0045
         public static HashAlgorithm? hasher { get; private set; } = HashAlgorithm.Create(HashAlgorithmName.MD5.ToString());
+#pragma warning restore SYSLIB0045
 
         public static string rsrc_z  { get; private set; }   = @"C:\src\Digital-AV\z-series\foundations\rust\src\avx";
         public static string csrc_z  { get; private set; }   = @"C:\src\Digital-AV\z-series\foundations\cpp";
@@ -56,7 +58,7 @@ namespace FoundationsGenerator
                 case ORDER.Directory:   return 64;
                 case ORDER.Revision:    return  4;
                 case ORDER.Book:        return  version.Contains("32") ? 48 : 50;
-                case ORDER.Chapter:     return !version.Contains("31") ?  8 : 10;   // Z14 is also 8 bytes; only Z31 was 10 bytes
+                case ORDER.Chapter:     return  version.Contains("32") ?  6 : 10;   // Z14 is also 8 bytes; only Z31 was 10 bytes
                 case ORDER.UNDEFINED:   return  4; // Verse 
                 case ORDER.Written:     return  version.Contains("32") ? 24 : 22; 
             }
@@ -79,18 +81,6 @@ namespace FoundationsGenerator
 
             return entry.label;
         }
-        /*
-            app.XVerse("Verse", "Verse-Index");
-            app.XBook("Book", "Book-Index");
-            app.XChapter("Chapter", "Chapter-Index");
-            app.XLemma("Lemma", "Lemmata");
-            app.XLemmaOOV("Lemma-OOV", "Lemmata-OOV");
-            app.XLexicon("Lexicon", "Lexicon");
-            app.XNames("Names", "Names");
-            app.XWrit("Writ", "Written");
-            app.XWrit128("Writ-128");
-            app.XWrit32("Writ-32");
-         */
         private static string IX(string itype)
         {
             return BOM.baseSDK + "AV-" + itype + ".ix";
@@ -125,22 +115,31 @@ namespace FoundationsGenerator
             }
             return BOM.Inventory[(byte)id].label.Replace("-", "");
         }
-        public static string GetZ_Path(string zname, string suffix = "")    // suffice can be one of the Z version strings
+        public static string GetZ_Path(string zname, string explicitSuffix = "", string release = "")
         {
-            if (zname == "Verse" || zname == "Chapter" || zname == "Book")
-                return IX(zname + suffix);
-            if (zname.StartsWith("Writ"))
-                return DX(zname + suffix);
+            string suffix = explicitSuffix;
+
+            if (explicitSuffix.Length == 0)
+            {
+                if (zname == "Book" && release == BOM.Z_31)
+                    suffix = "-50";
+                else if (zname == "Chapter" && release == BOM.Z_31)
+                    suffix = "-10";
+                else if (zname == "Writ" && release == BOM.Z_31)
+                    suffix = "-22";
+            }
 
             if (zname.Contains("Writ"))
                 return DX(zname + suffix);
+            if (zname == "Verse" || zname == "Chapter" || zname == "Book")
+                return IX(zname + suffix);
 
             return DXI(zname + suffix);
         }
-        public static string GetZ_Path(ORDER id, string suffix = "")
+        public static string GetZ_Path(ORDER id, string suffix = "", string release = "")
         {
             var zname = GetZ_Name(id);
-            return GetZ_Path(zname, suffix);
+            return GetZ_Path(zname, suffix, release);
         }
         public static string GetZ_IType(ORDER id)
         {

@@ -19,17 +19,19 @@
             IInventoryManager z31 = new ManageZ31();
             z31.Manage();
 
+#if NEVER
             IInventoryManager z32 = new ManageZ32();
-            //z31.Manage();
+            z32.Manage();
 
             IInventoryManager omega = new ManageOmega();
-            //omega.Manage();
+            omega.Manage();
 
             var cpp = new CSrcGen(BOM.baseSDK, BOM.csrc_z);
             cpp.Generate();
 
             var rust = new RustSrcGen(BOM.baseSDK, BOM.rsrc_z);
             rust.Generate();
+#endif
         }
         internal static BinaryWriter? OpenTextWriter(string suffix, string extent)
         {
@@ -102,6 +104,31 @@
                 }
             }
             return hex.ToString();
+        }
+        internal static UInt32 GetRecordLength(string itype)
+        {
+            if (!itype.EndsWith('x'))
+                return 0; // this is variable length // i.e .dxi
+
+            var filename = Path.GetFileNameWithoutExtension(itype).ToLower();
+
+            if (filename.Length < 3+3)
+                return 0;
+
+            string digits = filename.Substring(filename.Length-3);
+
+            if ((digits[0] == '-') && char.IsDigit(digits[1]) && char.IsDigit(digits[2])) // this file identifies it's size
+            {
+                return (UInt32) (((digits[1] - (int) '0') * 10) + (digits[2] - (int)'0'));
+            }
+            else switch (filename)
+                {
+                    case "writ":    return 24;
+                    case "book":    return 48;
+                    case "chapter": return  6;
+                    case "verse":   return  4;
+                }
+            return 0;
         }
     }
 }
