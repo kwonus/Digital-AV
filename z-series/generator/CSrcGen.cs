@@ -349,7 +349,7 @@ namespace SerializeFromSDK
                         delimiter = ",\n";
 
                     var wkey = breader.ReadUInt16();
-                    var meanings = ConsoleApp.ReadByteString(breader, maxLen: 4096);
+                    var meanings = AVXManager.ReadByteString(breader, maxLen: 4096);
                     var meaningArray = meanings.Split('|', StringSplitOptions.RemoveEmptyEntries);
 
                     writer.Write("\t{ ");
@@ -410,9 +410,9 @@ namespace SerializeFromSDK
                         }
                     }
 
-                    var search =  ConsoleApp.ReadByteString(breader);
-                    var display = ConsoleApp.ReadByteString(breader);
-                    var modern =  ConsoleApp.ReadByteString(breader);
+                    var search =  AVXManager.ReadByteString(breader);
+                    var display = AVXManager.ReadByteString(breader);
+                    var modern =  AVXManager.ReadByteString(breader);
 
                     writer.Write("\t{ ");
 

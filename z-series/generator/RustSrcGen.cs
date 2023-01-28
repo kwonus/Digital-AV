@@ -58,8 +58,8 @@ namespace SerializeFromSDK
             this.XAny(ORDER.Names);
 
             // These need to be done last and in this order (XWrit differs from processing of other files, as it generates sub-modules also)
-            this.XAny(ORDER.Chapter);
             this.XAny(ORDER.Book);
+            this.XAny(ORDER.Chapter);
             this.XAny(ORDER.Written);
 
             this.Maps.Print();
@@ -562,7 +562,7 @@ namespace SerializeFromSDK
 
                     writer.Write("\t" + rtype + "{ ");
 
-                    UInt32 normalizedIdx = writIdx - ConsoleApp.BookIndex[b].writ_idx;
+                    UInt32 normalizedIdx = writIdx - BookIndex[b].writ_idx;
                     writer.Write("writ_idx: "  + Pad(normalizedIdx, 5) + ", ");
                     writer.Write("writ_cnt: "  + Pad(writCnt,  4) + ", ");
                     writer.Write("verse_idx: " + Pad(verseIdx, 5) + ", ");
@@ -692,7 +692,7 @@ namespace SerializeFromSDK
                 for (int x = 1; x <= bom.recordCount; x++)
                 {
                     var wkey = breader.ReadUInt16();
-                    string meanings = ConsoleApp.ReadByteString(breader, maxLen: 4096);
+                    string meanings = AVXManager.ReadByteString(breader, maxLen: 4096);
 //                  string[] meaningArray = meanings.Split('|', StringSplitOptions.RemoveEmptyEntries);
 
                     writer.Write("\t" + rtype + " { ");
@@ -817,9 +817,9 @@ namespace SerializeFromSDK
                         var val = breader.ReadUInt32();
                         poses[p] = val;
                     }
-                    var search = ConsoleApp.ReadByteString(breader);
-                    var display = ConsoleApp.ReadByteString(breader);
-                    var modern = ConsoleApp.ReadByteString(breader);
+                    var search = AVXManager.ReadByteString(breader);
+                    var display = AVXManager.ReadByteString(breader);
+                    var modern = AVXManager.ReadByteString(breader);
 
                     writer.Write("\t" + rtype + " { ");
 
