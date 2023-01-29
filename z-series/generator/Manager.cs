@@ -14,32 +14,66 @@
 
     public abstract class AVXManager
     {
+        internal static string Release_Manager = BOM.Z_31;
         public static void Main()
         {
-            IInventoryManager z31 = new ManageZ31();
-            z31.Manage();
+            // The global bom gets messed up when we build 3.1 and 3.2 at the same time.
+            // Choose which one:
 
-#if NEVER
-            IInventoryManager z32 = new ManageZ32();
-            z32.Manage();
+            if (Release_Manager == BOM.Z_31)
+            {
+                IInventoryManager z31 = new ManageZ31();
+                z31.Manage();
+            }
+            else
+            {
+                IInventoryManager z32 = new ManageZ32();
+                z32.Manage();
 
-            IInventoryManager omega = new ManageOmega();
-            omega.Manage();
+                IInventoryManager omega = new ManageOmega();
+                omega.Manage();
+            }
 
             var cpp = new CSrcGen(BOM.baseSDK, BOM.csrc_z);
             cpp.Generate();
 
             var rust = new RustSrcGen(BOM.baseSDK, BOM.rsrc_z);
             rust.Generate();
-#endif
         }
-        internal static BinaryWriter? OpenTextWriter(string suffix, string extent)
+        internal static BinaryWriter? OpenBinaryWriter(string suffix, string extent, string baseName = "AV-Inventory")
         {
             try
             {
-                string file = BOM.baseSDK + "AV-Inventory" + suffix + extent;
+                string file = BOM.baseSDK + baseName + suffix + extent;
                 var stream = new FileStream(file, FileMode.Create);
                 return new BinaryWriter(stream, Encoding.ASCII);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        internal static TextWriter? OpenTextWriter(string suffix, string extent, string baseName = "AV-Inventory")
+        {
+            try
+            {
+                var omega = suffix == BOM.Omega_Version || suffix.ToLower().Contains("omega");
+                string file = (omega ? BOM.omegaSDK : BOM.baseSDK) + baseName + suffix + extent;
+                TextWriter textWriter = new StreamWriter(file);
+                return textWriter;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        internal static TextReader? OpenTextReader(string suffix, string extent, string baseName = "AV-Inventory")
+        {
+            try
+            {
+                string file = BOM.baseSDK + baseName + suffix + extent;
+                TextReader textReader = new StreamReader(file);
+                return textReader;
             }
             catch
             {
@@ -121,12 +155,12 @@
             {
                 return (UInt32) (((digits[1] - (int) '0') * 10) + (digits[2] - (int)'0'));
             }
-            else switch (filename)
+            else switch (filename.Substring(3, 4))
                 {
-                    case "writ":    return 24;
-                    case "book":    return 48;
-                    case "chapter": return  6;
-                    case "verse":   return  4;
+                    case "writ": return 24;
+                    case "book": return 48;
+                    case "chap": return  6;
+                    case "vers": return  4;
                 }
             return 0;
         }

@@ -23,25 +23,24 @@ namespace FoundationsGenerator
         public static string rsrc_o  { get; private set; }   = @"C:\src\Digital-AV\omega\foundations\rust\src\avx";
         public static string csrc_o  { get; private set; }   = @"C:\src\Digital-AV\omega\foundations\cpp";
         public static string omega_o { get; private set; }   = @"C:\src\Digital-AV\omega\data";
-        public static string baseSDK { get; private set; }   = @"C:\src\Digital-AV\z-series\";
+        public static string baseSDK { get; private set; } = @"C:\src\Digital-AV\z-series\";
+        public static string omegaSDK { get; private set; } = @"C:\src\Digital-AV\omega\";
 
         public const byte IGNORE    = 0xEE;
         public const byte UNDEFINED = 0xFF;
         public const byte DIRECTORY = 0;
-        public const byte Revision  = 1;
-        public const byte Book      = 2;
-        public const byte Chapter   = 3;
+        public const byte Book      = 1;
+        public const byte Chapter   = 2;
+        public const byte Written   = 3;
+        public const byte Lexicon   = 4;
+        public const byte Lemmata   = 5;
+        public const byte OOV       = 6;
+        public const byte Names     = 7;
         public const byte Verse     = UNDEFINED;    // not defined in 3.2 versions
-        public const byte Written   = 4;
-        public const byte Lexicon   = 5;
-        public const byte Lemmata   = 6;
-        public const byte OOV       = 7;
-        public const byte Names     = 8;
 
         public static Dictionary<byte, Directory> Inventory = new()
         {
             {BOM.DIRECTORY,      new Directory("Directory") },
-            {BOM.Revision,       new Directory("Revision") },
             {BOM.Book,           new Directory("Book") },
             {BOM.Chapter,        new Directory("Chapter") },
             {BOM.Written,        new Directory("Written") },
@@ -56,7 +55,6 @@ namespace FoundationsGenerator
             switch (id)
             {
                 case ORDER.Directory:   return 64;
-                case ORDER.Revision:    return  4;
                 case ORDER.Book:        return  version.Contains("32") ? 48 : 50;
                 case ORDER.Chapter:     return  version.Contains("32") ?  6 : 10;   // Z14 is also 8 bytes; only Z31 was 10 bytes
                 case ORDER.UNDEFINED:   return  4; // Verse 
@@ -242,7 +240,6 @@ namespace FoundationsGenerator
     {
         UNDEFINED    = BOM.UNDEFINED,
         Directory    = BOM.DIRECTORY,
-        Revision     = BOM.Revision,
         Book         = BOM.Book,
         Chapter      = BOM.Chapter,
         Written      = BOM.Written,

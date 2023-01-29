@@ -8,7 +8,7 @@
 static AVXBookIndex_Rust_Edition    :u16 = 23108;
 static AVXBookIndex_SDK_ZEdition    :u16 = 23107;
 
-static AVXBookIndex_File: &'static str = "AV-Book.ix";
+static AVXBookIndex_File: &'static str = "AV-Book-50.ix";
 static AVXBookIndex_RecordLen   :usize =       50;
 static AVXBookIndex_RecordCnt   :usize =       67;
 static AVXBookIndex_FileLen     :usize =     3350;

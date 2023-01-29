@@ -138,12 +138,13 @@ namespace SerializeFromSDK
                     }
                     case OP_META:
                     {
+                        var ifile = Path.GetFileName(BOM.GetZ_Path(id, release: BOM.Z_31));
                         writer.WriteLine(META[BEGIN]);
                         writer.WriteLine("static " + vartype + "_Rust_Edition    :u16 = 23108;");
                         writer.WriteLine("static " + vartype + "_SDK_ZEdition    :u16 = 23107;");
                         writer.WriteLine();
-                        writer.WriteLine("static " + vartype + "_File: &'static str = \"" + Path.GetFileName(BOM.GetZ_Path(id)) + "\";");
-                        writer.WriteLine("static " + vartype + "_RecordLen   :usize = " + Pad(bom.recordLength, 8) + ";");
+                        writer.WriteLine("static " + vartype + "_File: &'static str = \"" + ifile + "\";");
+                        writer.WriteLine("static " + vartype + "_RecordLen   :usize = " + Pad(AVXManager.GetRecordLength(ifile), 8) + ";");
                         writer.WriteLine("static " + vartype + "_RecordCnt   :usize = " + Pad(bom.recordCount, 8) + ";");
                         writer.WriteLine("static " + vartype + "_FileLen     :usize = " + Pad(bom.length, 8) + ";");
                         writer.WriteLine(META[END]);
@@ -165,7 +166,7 @@ namespace SerializeFromSDK
                             case BOM.Lexicon:     this.XLexicon(  writer, "AVXLexItem",   bom); break; // TBD: Temporary
                             case BOM.Names:       this.XNames(    writer, "AVXName",      bom); break;
                             case BOM.Written:     {
-                                                    var fstream = new StreamReader(BOM.GetZ_Path(id));
+                                                    var fstream = new StreamReader(BOM.GetZ_Path(id, release: BOM.Z_31));
                                                     using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
                                                     {
                                                         for (byte bk = 1; bk <= 66; bk++)
@@ -189,7 +190,7 @@ namespace SerializeFromSDK
         }
         private void XBook(TextWriter writer, string rtype, FoundationsGenerator.Directory bom, bool useZ14 = false, bool genNext = false) // change default values to change behavior
         {
-            var fpath = BOM.GetZ_Path(ORDER.Book);
+            var fpath = BOM.GetZ_Path(ORDER.Book, release: BOM.Z_31);
 
             writer.WriteLine("static " + "books" + ": [" + rtype + "; " + 67.ToString() + "] = [");
 
@@ -518,7 +519,7 @@ namespace SerializeFromSDK
         private void XChapter(TextWriter writer, string rtype, FoundationsGenerator.Directory bom)
         {
             var outname = BOM.GetC_Type(ORDER.Chapter);
-            var fpath = BOM.GetZ_Path(ORDER.Chapter);
+            var fpath = BOM.GetZ_Path(ORDER.Chapter, release: BOM.Z_31);
 
             writer.WriteLine("static " + outname + ": [" + rtype + "; " + bom.recordCount.ToString() + "] = [");
 
@@ -883,7 +884,6 @@ namespace SerializeFromSDK
         {
             (string variable, UInt16 count, byte book) result;
 
-            var fpath = BOM.GetZ_Path(ORDER.Written);
             var dirname = BOM.GetC_Type(ORDER.Written);
             var outname = dirname + "_" + book.ToString("D02");
             var vartype = "AVX" + bom.label.Replace("-", "");

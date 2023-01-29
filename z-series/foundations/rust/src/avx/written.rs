@@ -8,7 +8,7 @@
 static AVXWritten_Rust_Edition    :u16 = 23108;
 static AVXWritten_SDK_ZEdition    :u16 = 23107;
 
-static AVXWritten_File: &'static str = "AV-Writ.dx";
+static AVXWritten_File: &'static str = "AV-Writ-22.dx";
 static AVXWritten_RecordLen   :usize =       22;
 static AVXWritten_RecordCnt   :usize =   789651;
 static AVXWritten_FileLen     :usize = 17372322;

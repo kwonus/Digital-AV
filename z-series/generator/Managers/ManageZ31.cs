@@ -57,8 +57,18 @@
             this.bomLines.Add(record);
             var entry = BOM.Inventory.ContainsKey(order) ? BOM.Inventory[order] : new FoundationsGenerator.Directory("");
             entry.recordCount = cnt;
-            entry.recordLength = len;
-            entry.length = size;
+            if (fname.EndsWith(".dx"))  // AV-Writ-*.dx ... we need to do this for code-generation ... otherwise length gets set to 4 ... and size is also very small
+            {
+                if (len > entry.recordLength)
+                    entry.recordLength = len;
+                if (size > entry.length)
+                    entry.length = size;
+            }
+            else
+            {
+                entry.recordLength = len;
+                entry.length = size;
+            }
             entry.hash = hash;
 
             entry.offset = (order > 0 && order != BOM.UNDEFINED && order != BOM.IGNORE)
@@ -95,7 +105,7 @@
                 bom.hash = hashStr;
             }
             if (bom.recordLength == 0)
-                bom.recordCount = rlen;
+                bom.recordLength = rlen;
 
             this.AddInventoryRecord(filename, hashStr, rlen, (UInt32)rcnt, (UInt32)size, (byte)order);
         }

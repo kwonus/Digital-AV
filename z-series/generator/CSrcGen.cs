@@ -89,7 +89,7 @@ namespace SerializeFromSDK
 
             TextWriter writer = XInitialize(ORDER.Book, inializerVar);
 
-            var fstream = new StreamReader(BOM.GetZ_Path(ORDER.Book));
+            var fstream = new StreamReader(BOM.GetZ_Path(ORDER.Book, release: BOM.Z_31));
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
                 string delimiter = "\n";
@@ -185,7 +185,7 @@ namespace SerializeFromSDK
             var bom = BOM.Inventory[BOM.Chapter];
 
             TextWriter writer = XInitialize(ORDER.Chapter, inializerVar);
-            var fstream = new StreamReader(BOM.GetZ_Path(ORDER.Chapter));
+            var fstream = new StreamReader(BOM.GetZ_Path(ORDER.Chapter, release: BOM.Z_31));
 
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
@@ -455,7 +455,7 @@ namespace SerializeFromSDK
         }
         private void XWrit(string inializerVar, string memberVar)
         {
-            var file = BOM.GetZ_Path(ORDER.Written);
+            var file = BOM.GetZ_Path(ORDER.Written, release: BOM.Z_31);
             var fstream = new StreamReader(file);
 
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))

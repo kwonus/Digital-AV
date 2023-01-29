@@ -1,6 +1,6 @@
 filename         hash                            rlen    rcnt     size
 ---------------- -------------------------------- --- ------- --------
-AV-Verse.ix      12D57CF0F718D16BE798B7D1E38C0BC5   0   31102   124408
+AV-Verse.ix      12D57CF0F718D16BE798B7D1E38C0BC5   4   31102   124408
 AV-Book-50.ix    2FA48823BF12F70E7793E0CA4D451A35  50      67     3350
 AV-Chapter-10.ix BDE15818272ACDB3EE16DF7F9D136F53  10    1189    11890
 AV-Lemma.dxi     B64F907ABC54470F2D227D8AC5703E33   0   15171   182344

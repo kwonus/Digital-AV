@@ -19,8 +19,8 @@
 
         internal ManageOmega()
         {
-            this.bomOmega_MD5 = AVXManager.OpenTextWriter(BOM.Omega_Version, ".md5", "AVX");
-            this.bomOmega = AVXManager.OpenTextWriter(BOM.Omega_Version, ".txt", "AVX");
+            this.bomOmega_MD5 = AVXManager.OpenTextWriter("-Omega", ".md5", "AVX");
+            this.bomOmega = AVXManager.OpenTextWriter("-Omega", ".txt", "AVX");
             this.bomZ32 = AVXManager.OpenTextReader(BOM.Z_32, ".bom");
         }
         private static char[] whitespace = new char[] { ' ', '\t' };
