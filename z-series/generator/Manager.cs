@@ -14,9 +14,27 @@
 
     public abstract class AVXManager
     {
-        internal static string Release_Manager = BOM.Z_31;
+        public static string RUST_SOURCE
+        {
+            get => (Release_Manager == BOM.Z_32) ? @"C:\src\Digital-AV\omega\foundations\rust\src\avx" : @"C:\src\Digital-AV\z-series\foundations\rust\src\avx";
+        }
+        public static string CPP_SOURCE
+        {
+            get => (Release_Manager == BOM.Z_32) ? @"C:\src\Digital-AV\omega\foundations\cpp" : @"C:\src\Digital-AV\z-series\foundations\cpp";
+        }
+        public static string SDK_BASELINE
+        {
+            get => (Release_Manager == BOM.Z_32) ? omegaSDK : baseSDK;
+        }
+        public static string baseSDK { get; private set; } = @"C:\src\Digital-AV\z-series\";
+        public static string omegaSDK { get; private set; } = @"C:\src\Digital-AV\omega\";
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        public const string Release_Manager = BOM.Z_32;
         public static void Main()
         {
+            System.IO.Directory.CreateDirectory(CPP_SOURCE);
+            System.IO.Directory.CreateDirectory(RUST_SOURCE);
+
             // The global bom gets messed up when we build 3.1 and 3.2 at the same time.
             // Choose which one:
 
@@ -34,17 +52,18 @@
                 omega.Manage();
             }
 
-            var cpp = new CSrcGen(BOM.baseSDK, BOM.csrc_z);
+            var cpp = new CSrcGen(AVXManager.baseSDK, AVXManager.CPP_SOURCE);
             cpp.Generate();
 
-            var rust = new RustSrcGen(BOM.baseSDK, BOM.rsrc_z);
+            var rust = new RustSrcGen(AVXManager.baseSDK, AVXManager.RUST_SOURCE);
             rust.Generate();
         }
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         internal static BinaryWriter? OpenBinaryWriter(string suffix, string extent, string baseName = "AV-Inventory")
         {
             try
             {
-                string file = BOM.baseSDK + baseName + suffix + extent;
+                string file = AVXManager.baseSDK + baseName + suffix + extent;
                 var stream = new FileStream(file, FileMode.Create);
                 return new BinaryWriter(stream, Encoding.ASCII);
             }
@@ -58,7 +77,7 @@
             try
             {
                 var omega = suffix == BOM.Omega_Version || suffix.ToLower().Contains("omega");
-                string file = (omega ? BOM.omegaSDK : BOM.baseSDK) + baseName + suffix + extent;
+                string file = (omega ? AVXManager.omegaSDK : AVXManager.baseSDK) + baseName + suffix + extent;
                 TextWriter textWriter = new StreamWriter(file);
                 return textWriter;
             }
@@ -71,7 +90,7 @@
         {
             try
             {
-                string file = BOM.baseSDK + baseName + suffix + extent;
+                string file = AVXManager.baseSDK + baseName + suffix + extent;
                 TextReader textReader = new StreamReader(file);
                 return textReader;
             }

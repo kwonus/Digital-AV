@@ -342,7 +342,7 @@ namespace SerializeFromSDK
 
             if (genNext)
             {
-                var opath = BOM.csrc_z + "FOO";
+                var opath = AVXManager.SDK_BASELINE + "_NEXT";
                 // Update SDK file to Z31-B/11
                 var ostream = new StreamWriter(opath + "-" + this.BookIndex[0].name, false, Encoding.ASCII);
                 using (var bwriter = new System.IO.BinaryWriter(ostream.BaseStream))

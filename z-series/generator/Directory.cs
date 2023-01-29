@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DigitalAV.Migration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -17,14 +18,6 @@ namespace FoundationsGenerator
 #pragma warning disable SYSLIB0045
         public static HashAlgorithm? hasher { get; private set; } = HashAlgorithm.Create(HashAlgorithmName.MD5.ToString());
 #pragma warning restore SYSLIB0045
-
-        public static string rsrc_z  { get; private set; }   = @"C:\src\Digital-AV\z-series\foundations\rust\src\avx";
-        public static string csrc_z  { get; private set; }   = @"C:\src\Digital-AV\z-series\foundations\cpp";
-        public static string rsrc_o  { get; private set; }   = @"C:\src\Digital-AV\omega\foundations\rust\src\avx";
-        public static string csrc_o  { get; private set; }   = @"C:\src\Digital-AV\omega\foundations\cpp";
-        public static string omega_o { get; private set; }   = @"C:\src\Digital-AV\omega\data";
-        public static string baseSDK { get; private set; } = @"C:\src\Digital-AV\z-series\";
-        public static string omegaSDK { get; private set; } = @"C:\src\Digital-AV\omega\";
 
         public const byte IGNORE    = 0xEE;
         public const byte UNDEFINED = 0xFF;
@@ -81,15 +74,15 @@ namespace FoundationsGenerator
         }
         private static string IX(string itype)
         {
-            return BOM.baseSDK + "AV-" + itype + ".ix";
+            return AVXManager.baseSDK + "AV-" + itype + ".ix";
         }
         private static string DX(string itype)
         {
-            return BOM.baseSDK + "AV-" + itype + ".dx";
+            return AVXManager.baseSDK + "AV-" + itype + ".dx";
         }
         private static string DXI(string itype)
         {
-            return BOM.baseSDK + "AV-" + itype + ".dxi";
+            return AVXManager.baseSDK + "AV-" + itype + ".dxi";
         }
         public static string GetC_Type(ORDER id)
         {
@@ -207,8 +200,8 @@ namespace FoundationsGenerator
 
             switch (version[1])
             {
-                case 'Ω':   return Path.Combine(BOM.rsrc_o, filename);
-                case 'Z':   return Path.Combine(BOM.rsrc_z, filename);
+                case 'Ω':   return Path.Combine(AVXManager.RUST_SOURCE, filename);
+                case 'Z':   return Path.Combine(AVXManager.RUST_SOURCE, filename);
             }
             return "ERROR" + extent;
         }
@@ -229,8 +222,8 @@ namespace FoundationsGenerator
 
             switch (version[0])
             {
-                case 'Ω': return Path.Combine(BOM.csrc_o, filename);
-                case 'Z': return Path.Combine(BOM.csrc_z, filename);
+                case 'Ω': return Path.Combine(AVXManager.CPP_SOURCE, filename);
+                case 'Z': return Path.Combine(AVXManager.CPP_SOURCE, filename);
             }
             return "ERROR" + extent;
         }
