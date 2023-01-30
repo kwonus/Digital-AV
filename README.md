@@ -6,16 +6,16 @@ You can rely on its foundation, with decades of deployments and text validation.
 
 It's been over four hundred years since the original printing of the KJV bible, but I can assure you that I will not be maintaining Digital-AV four hundred years from know.
 
-However, I am pleased to announce the availability of the new Alpha-Release of Digital-AV. The format has been drastically simplified to enable easy deserialization, but with no loss of features. The new 3.2 release is being dubbed the Omega Series of the SDK.  The documentation and format is different enough that it warranted a new name (the most recent set of releases had been bubbed the Z-Series; and there is only one letter that obviously is after Z).
+However, I am pleased to announce the availability of the new Alpha-Release of Digital-AV. The format has been drastically simplified to enable easy deserialization, but with no loss of features. The new 3.2 release is being dubbed the Omega Series of the SDK.  The documentation and format is different enough that it warranted a new name (it functionally replaces Z-Series; and there is obviously only one letter that follows Z).
 
-Each revision of the SDK can be found in this repository. Current releases can be found in ./omega/; the 3.1 release is still available in ./z-series/; and more historical releases can be found in ./legacy/.
+Each revision of the SDK can be found in this repository. Current releases can be found in the /omega/ folder; the 3.1 release is still available in /z-series/ and more historical releases can be found in /legacy/
 
-The Digital-AV SDK is a single 21mb file that can be used to manifest the entire text of the the bible, including Strong's numbers, Lemmatizations, and Part-of-Speech tags, and other linguistic features. But even with all of that, it's still the KJV Bible at the core.
+The Digital-AV SDK is a single 19mb file that can be used to manifest the entire text of the bible, including Strong's numbers, Lemmatizations, Part-of-Speech tags, and other linguistic features. But even with all of that, it's still the KJV Bible at the core.
 
 The new SDK documentation can be found here:
 https://github.com/kwonus/Digital-AV/blob/master/omega/Digital-AV-Ω32.pdf
 
-The SDK now includes a foundations folder, with language-specific implementations of SDK artifacts. Initially, these include C++ and Rust. If you poke around in the repo, you will find the source generators in the z-series/generation folder. However, the generated source itself can be found in /omega/foundations
+The SDK now includes a foundations folder, with language-specific implementations of SDK artifacts. Initially, these include C++ and Rust. If you poke around in the repo, you will find the source generators in the /z-series/generation folder. However, the generated source itself can be found in /omega/foundations
 
 An additional reference implementation for C# can be found in a companion repo named AVXText. It is based upon the Z14 release. It is soon to be replaced with a foundations release as per the above documentation link.
 
