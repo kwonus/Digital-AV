@@ -4,7 +4,7 @@ It's been over twenty-five years since the release of AV-Bible for Windows (also
 
 You can rely on its foundation, with decades of deployments and text validation. Digital-AV has travelled the world with usage and feedback from Christian missionaries who used it as part of their ministries. Never making a dime, and pouring in a healthy chuck of my life, it has been a labor of love.
 
-It's been over four hundred years since the original printing of the KJV bible, but I can assure you that I will not be maintaining Digital-AV four hundred years from know.
+It's been over four hundred years since the original printing of the KJV bible, but I can assure you that I will not be maintaining Digital-AV four hundred years from now.
 
 However, I am pleased to announce the availability of the new Alpha-Release of Digital-AV. The format has been drastically simplified to enable easy deserialization, but with no loss of features. The new 3.2 release is being dubbed the Omega Series of the SDK.  The documentation and format is different enough that it warranted a new name (it functionally replaces Z-Series; and there is obviously only one letter that follows Z).
 
