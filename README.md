@@ -1,20 +1,23 @@
 # Digital AV
 
-The Digital AV is a software development kit (SDK) for the Authorized Version (AV) of the King James Bible. It was first digitally released in 2008, but after a handful of bug fixes and minor revisions it became known as the 2011 edition.  The original SDK was just three binary files and a document that described the binary record layouts.
+It's been over twenty-five years since the release of AV-Bible for Windows (also known as AV-1995). In its day, it was the first free bible software with a graphical user interface that ran on Microsoft Windows. Over the years, it evolved into a software development kit (SDK). As such, it was renamed the Digital-AV SDK some years ago.
 
-Later the SDK was enhanced with additional features and released again as the 2018 edition.  The 2018 edition increased the number of binary files.  Each file manifests additional features and capabilities.  The latest SDK is known as the Z-series edition.  With still more binary files, it vastly improves the number of intrinsic language features. Its release can be found here.
+You can rely on its foundation, with decades of deployments and text validation. Digital-AV has travelled the world with usage and feedback from Christian missionaries who used it as part of their ministries. Never making a dime, and pouring in a healthy chuck of my life, it has been a labor of love.
 
-Each revision of the SDK can be found in this repository.  This repo also contains the earlier legacy releases: each with its own SDK specifications (Legacy editions can be found in the folder named ./legacy/; versioning of the current Z-series edition uses normal revisions in a folder named ./z-series/).
+It's been over four hundred years since the original printing of the KJV bible, but I can assure you that I will not be maintaining Digital-AV four hundred years from know.
 
-The SDK is primarily a set of binary files that can be used to manifest the entire text of the the bible, along with Strong's numbers, Lemmatizations, and Part-of-Speech tags.  For details, consult the included documentation at:
+However, I am pleased to announce the availability of the new Alpha-Release of Digital-AV. The format has been drastically simplified to enable easy deserialization, but with no loss of features. The new 3.2 release is being dubbed the Omega Series of the SDK.  The documentation and format is different enough that it warranted a new name (the most recent set of releases had been bubbed the Z-Series; and there is only one letter that obviously is after Z).
 
-https://github.com/kwonus/Digital-AV/blob/master/z-series/Digital-AV-Z31.pdf
+Each revision of the SDK can be found in this repository. Current releases can be found in ./omega/; the 3.1 release is still available in ./z-series/; and more historical releases can be found in ./legacy/.
 
-Only files explicitly mentioned in the above spec are part of the official baseline SDK. Some files, and the Z-series/pos folder in particular, are informational. Many are inputs to the generation of the baseline SDK itself.
+The Digital-AV SDK is a single 21mb file that can be used to manifest the entire text of the the bible, including Strong's numbers, Lemmatizations, and Part-of-Speech tags, and other linguistic features. But even with all of that, it's still the KJV Bible at the core.
 
-New in the Z31 release is the addition of the z-series/foundations folder. The SDK foundations folder contains language-specific implementations of SDK artifacts as native arrays of structs. Initially, these include C++ and Rust. If you poke around in the repo, you will find the source generators in the z-series/generation folder.
+The new SDK documentation can be found here:
+https://github.com/kwonus/Digital-AV/blob/master/omega/Digital-AV-Ω32.pdf
 
-An additional reference implementation for C# can be found in a companion repo named AVXText. It is based upon the Z14 release.  The C# AVText project performs deserialization of the SDK files. This is differennt from the /foundations/ implementations which require no deserialization.  Current plans are to create an updated C# reference implementation using the FlatSharp serialization artifacts.
+The SDK now includes a foundations folder, with language-specific implementations of SDK artifacts. Initially, these include C++ and Rust. If you poke around in the repo, you will find the source generators in the z-series/generation folder. However, the generated source itself can be found in /omega/foundations
+
+An additional reference implementation for C# can be found in a companion repo named AVXText. It is based upon the Z14 release. It is soon to be replaced with a foundations release as per the above documentation link.
 
 Finally, all of the text in each of these digital editions remains faithful to the original AV Bible and the orthography is consistent with the 1769 edition.
 
