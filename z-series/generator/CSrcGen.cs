@@ -39,16 +39,30 @@ namespace SerializeFromSDK
         {
             Console.WriteLine("Create source initializers for C.");
 
-            this.XBook(     "AVXBookIndex::AVXBook const AVXBookIndex::index[]");              
-            this.XChapter(  "AVXChapterIndex::AVXChapter const AVXChapterIndex::index[]");     
-            this.XVerse(    "AVXVerseIndex::AVXVerse const AVXVerseIndex::index[]");
+            if (AVXManager.Release_Manager == BOM.Z_31)
+                this.XBook_V31("AVXBookIndex::AVXBook const AVXBookIndex::index[]");
+            else
+                this.XBook_V32("AVXBookIndex::AVXBook const AVXBookIndex::index[]");
+
+            if (AVXManager.Release_Manager == BOM.Z_31)
+                this.XChapter_V31("AVXChapterIndex::AVXChapter const AVXChapterIndex::index[]");
+            else
+                this.XChapter_V32("AVXChapterIndex::AVXChapter const AVXChapterIndex::index[]");
+
+            if (AVXManager.Release_Manager == BOM.Z_31)
+                this.XVerse(    "AVXVerseIndex::AVXVerse const AVXVerseIndex::index[]");
+
             this.XLemma(    "AVXLemmataRecords::AVXLemmata const AVXLemmataRecords::records[]");
             this.XLemmaOOV( "AVXLemmataOOV::AVXLemmaOOV const AVXLemmataOOV::vocabulary[]");   
             this.XLexicon(  "AVXLexicon::AVXLexItem const AVXLexicon::items[]");               
-            this.XNames(    "AVXNames::AVXName const AVXNames::names[]");                      
+            this.XNames(    "AVXNames::AVXName const AVXNames::names[]");
 
             // This needs to be done last and in this order (XWrit differs from processing of other files)
-            this.XWrit(     "AVXWritten::AVXWrit const AVXWritten::written[]", "static AVXWrit const written[]");
+            if (AVXManager.Release_Manager == BOM.Z_31)
+                this.XWrit_V31("AVXWritten::AVXWrit const AVXWritten::written[]", "static AVXWrit const written[]");
+            else
+                this.XWrit_V32("AVXWritten::AVXWrit const AVXWritten::written[]", "static AVXWrit const written[]");
+
             return true;
         }
         private string Pad<T>(T num, int width)
@@ -62,8 +76,8 @@ namespace SerializeFromSDK
         {
             var bom = BOM.Inventory[BOM.Written];
             var suffix = (bookNum <= 9 ? "_0" : "_") + bookNum.ToString();
-            var path = bom.GetCppSource(BOM.Z_31, suffix + ".cpp");
-            var header = Path.GetFileName(bom.GetCppSource(BOM.Z_31, ".h"));
+            var path = bom.GetCppSource(AVXManager.Release_Manager, suffix + ".cpp");
+            var header = Path.GetFileName(bom.GetCppSource(AVXManager.Release_Manager, ".h"));
 
             TextWriter writer = File.CreateText(path);
             writer.WriteLine("#include \"" + header + "\"");
@@ -83,7 +97,90 @@ namespace SerializeFromSDK
 
             return writer;
         }
-        private void XBook(string inializerVar)
+        private void XBook_V32(string inializerVar)
+        {
+            var bom = BOM.Inventory[BOM.Book];
+
+            TextWriter writer = XInitialize(ORDER.Book, inializerVar);
+
+            var fstream = new StreamReader(BOM.GetZ_Path(ORDER.Book, release: BOM.Z_32));
+            using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
+            {
+                string delimiter = "\n";
+                byte bookNum = 0;
+                for (int x = 0; x <= 66; x++)
+                {
+                    writer.Write(delimiter);
+                    if (delimiter.Length < 2)
+                        delimiter = ",\n";
+
+                    bookNum = breader.ReadByte();
+                    var chapterCnt = breader.ReadByte();
+                    var chapterIdx = breader.ReadUInt16();
+                    var verseCnt = breader.ReadUInt16();
+                    var writCnt = breader.ReadUInt32();
+                    var writIdx = breader.ReadUInt32();
+                    var bname = breader.ReadBytes(16);
+                    var babbr = breader.ReadBytes(18);
+                    if (x != bookNum)
+                        break;
+
+                    this.BookIndex[bookNum].chapter_cnt = chapterCnt;
+                    this.BookIndex[bookNum].chapter_idx = chapterIdx;
+                    this.BookIndex[bookNum].verse_cnt = verseCnt;
+                    this.BookIndex[bookNum].verse_idx = 0;
+                    this.BookIndex[bookNum].writ_cnt = writCnt;
+                    this.BookIndex[bookNum].writ_idx = writIdx;
+                    var name = new StringBuilder();
+                    var abbr = new StringBuilder();
+
+                    for (int i = 0; i < bname.Length && bname[i] != 0; i++)
+                        name.Append((char)bname[i]);
+
+                    writer.Write("\t{ ");
+
+                    writer.Write(Pad(bookNum, 2) + ", ");
+                    writer.Write(Pad(chapterCnt, 3) + ", ");
+                    writer.Write(Pad(chapterIdx, 4) + ", ");
+                    writer.Write(Pad(verseCnt, 5) + ", ");
+                    writer.Write(Pad(writCnt, 5) + ", ");
+                    writer.Write(Pad(writIdx, 5) + ", ");
+                    writer.Write("\"" + name.ToString() + "\", ");
+
+                    if (bookNum > 0)
+                    {
+                        int idx;
+                        var abbreviations = RustSrcGen.BK[bookNum];
+                        if ((idx = abbreviations.a2.IndexOf('-')) >= 0)
+                            abbreviations.a2 = (idx > 0) ? abbreviations.a2.Substring(0, idx) : string.Empty;
+                        if ((idx = abbreviations.a3.IndexOf('-')) >= 0)
+                            abbreviations.a3 = (idx > 0) ? abbreviations.a3.Substring(0, idx) : string.Empty;
+                        if ((idx = abbreviations.a4.IndexOf('-')) >= 0)
+                            abbreviations.a4 = (idx > 0) ? abbreviations.a4.Substring(0, idx) : string.Empty;
+                        if ((idx = abbreviations.alternates.IndexOf('-')) >= 0)
+                            abbreviations.alternates = (idx > 0) ? abbreviations.alternates.Substring(0, idx) : string.Empty;
+
+                        var alts = abbreviations.alternates.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                        var alt1 = alts.Length >= 1 ? alts[0] : abbreviations.alternates;
+                        var alt2 = alts.Length >= 2 ? alts[1] : string.Empty;
+
+                        writer.Write("\"" + abbreviations.a2 + "\", ");
+                        writer.Write("\"" + abbreviations.a3 + "\", ");
+                        writer.Write("\"" + abbreviations.a4 + "\", ");
+                        writer.Write("\"" + alt1 + "\", ");
+                        writer.Write("\"" + alt2 + "\", ");
+                    }
+                    else
+                    {
+                        writer.Write("\"\", \"\", \"\", \"\", \"\"");
+                    }
+                    writer.Write(" }");
+                }
+            }
+            writer.WriteLine("\n};");
+            writer.Close();
+        }
+        private void XBook_V31(string inializerVar)
         {
             var bom = BOM.Inventory[BOM.Book];
 
@@ -180,7 +277,41 @@ namespace SerializeFromSDK
             }
             return writIdx - BookIndex[bk].writ_idx; ;
         }
-        private void XChapter(string inializerVar)
+        private void XChapter_V32(string inializerVar)
+        {
+            var bom = BOM.Inventory[BOM.Chapter];
+
+            TextWriter writer = XInitialize(ORDER.Chapter, inializerVar);
+            var fstream = new StreamReader(BOM.GetZ_Path(ORDER.Chapter, release: BOM.Z_32));
+
+            using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
+            {
+                string delimiter = "\n";
+                for (int x = 1; x <= bom.recordCount; x++)
+                {
+                    writer.Write(delimiter);
+                    if (delimiter.Length < 2)
+                        delimiter = ",\n";
+
+                    var writIdx = breader.ReadUInt16();
+                    var writCnt = breader.ReadUInt16();
+                    var bookNum = breader.ReadByte();
+                    var verseCnt = breader.ReadByte();
+
+                    writer.Write("\t{ ");
+
+                    writer.Write(Pad(NormalizeWritIdx(writIdx), 4) + ", ");
+                    writer.Write(Pad(writCnt, 4) + ", ");
+                    writer.Write(Pad(bookNum, 2) + ", ");
+                    writer.Write(Pad(verseCnt, 2));
+
+                    writer.Write(" }");
+                }
+            }
+            writer.WriteLine("\n};");
+            writer.Close();
+        }
+        private void XChapter_V31(string inializerVar)
         {
             var bom = BOM.Inventory[BOM.Chapter];
 
@@ -453,7 +584,60 @@ namespace SerializeFromSDK
                 writer.Close();
             }
         }
-        private void XWrit(string inializerVar, string memberVar)
+        private void XWrit_V32(string inializerVar, string memberVar)
+        {
+            var file = BOM.GetZ_Path(ORDER.Written, release: BOM.Z_32);
+            var fstream = new StreamReader(file);
+
+            using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
+            {
+                for (byte n = 1; n <= 66; n++)
+                {
+                    string delimiter = "\n";
+
+                    TextWriter writer = XInitializeWrit(inializerVar, memberVar, n);
+                    for (UInt32 w = 0; w < BookIndex[n].writ_cnt; w++)
+                    {
+                        writer.Write(delimiter);
+                        if (delimiter.Length < 2)
+                            delimiter = ",\n";
+
+                        var Strongs = breader.ReadUInt64();
+                        var VerseInfo = breader.ReadBytes(4);
+                        var Word = breader.ReadUInt16();
+                        var Punc = breader.ReadByte();
+                        var Trans = breader.ReadByte();
+                        var Pnwc = breader.ReadUInt16();
+                        var Pos = breader.ReadUInt32();
+                        var Lemma = breader.ReadUInt16();
+
+                        writer.Write("\t{ ");
+
+                        int shift = 3 * 16;
+                        for (int index = 0; index < 4; shift -= 16, index++)
+                        {
+                            var strongs = (UInt16)((Strongs >> shift) & 0xFFFF);
+                            writer.Write(Pad(strongs, 4) + ", ");
+                        }
+                        for (int index = 0; index < 4; index++)
+                        {
+                            writer.Write(Pad(VerseInfo[index], 2) + ", ");
+                        }
+                        writer.Write("0x" + Word.ToString("X04") + ", ");
+                        writer.Write("0x" + Punc.ToString("X02") + ", ");
+                        writer.Write("0x" + Trans.ToString("X02") + ", ");
+                        writer.Write("0x" + Pnwc.ToString("X04") + ", ");
+                        writer.Write("0x" + Pos.ToString("X08") + ", ");
+                        writer.Write("0x" + Lemma.ToString("X04"));
+
+                        writer.Write(" }");
+                    }
+                    writer.WriteLine("\n};");
+                    writer.Close();
+                }
+            }
+        }
+        private void XWrit_V31(string inializerVar, string memberVar)
         {
             var file = BOM.GetZ_Path(ORDER.Written, release: BOM.Z_31);
             var fstream = new StreamReader(file);

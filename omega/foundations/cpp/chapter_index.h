@@ -9,10 +9,10 @@ class AVXChapterIndex
 public:
     class AVXChapter {
     public:
-        const uint16 bk_writ_idx;
+        const uint16 writ_idx;
         const uint16 writ_cnt;
-        const uint16 verse_idx;
-        const uint16 verse_cnt;
+        const uint8  book_num;
+        const uint8  verse_cnt;
     };
 
     AVXChapterIndex()

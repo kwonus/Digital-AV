@@ -88,28 +88,16 @@ static Segments_RealSegmentEnd            :u8 =   0x06; // . ? ! :
 
 pub struct AVXWrit {
     strongs:  [u16; 4],
-    verse_idx: u16,
+    b:         u8,  // book
+    c:         u8,  // chapter
+    v:         u8,  // verse
+    wc:        u8, // word-count / count-down
     word:      u16,
     punc:      u8,
     trans:     u8,
     pnwc:      u16,
     pos:       u32,
     lemma:     u16,
-}
-impl Default for AVXWrit {
-    #[inline]
-    fn default() -> AVXWrit {
-        AVXWrit {
-            strongs: [0,0,0,0],
-            verse_idx: 0,
-            word: 0,
-            punc: 0,
-            trans:0,
-            pnwc: 0,
-            pos: 0,
-            lemma: 0,
-        }
-    }
 }
 
 pub struct AVXWritItem {

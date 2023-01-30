@@ -134,7 +134,7 @@
             string ifile = BOM.GetZ_Path(id, release: BOM.Z_31);
             string ofile = BOM.GetZ_Path(id, release: BOM.Z_32);
 
-            // Update SDK file fo Z32
+            // Update SDK file to Z32
             var ostream = new StreamWriter(ofile, false, Encoding.ASCII);
             using (var bwriter = new System.IO.BinaryWriter(ostream.BaseStream))
             {
@@ -154,8 +154,16 @@
                         var bname = breader.ReadBytes(16);     //16 = 32
                         var babbr = breader.ReadBytes(18);     //18 = 50
 
-                        var name = new StringBuilder();
+                        if (bookNum == 0)
+                        {
+                            string release = "Z32";
+                            for (int i = 0; i < release.Length; i++)
+                                bname[i] = (byte)(release[i]);
+                            for (int i = release.Length; i < bname.Length; i++)
+                                bname[i] = (byte) 0;
+                        }
 
+                        var name = new StringBuilder();
                         for (int i = 0; i < bname.Length && bname[i] != 0; i++)
                             name.Append(bname[i]);
 
@@ -163,33 +171,18 @@
                         BookIndex[bookNum].chapter_idx = chapterIdx;
                         BookIndex[bookNum].verse_cnt = verseCnt;
                         BookIndex[bookNum].verse_idx = verseIdx;
-                        BookIndex[bookNum].writ_cnt = writCnt;
-                        BookIndex[bookNum].writ_idx = writIdx;
+                        BookIndex[bookNum].writ_cnt = bookNum > 0 ? writCnt : (UInt32) 0;
+                        BookIndex[bookNum].writ_idx = bookNum > 0 ? writIdx : (UInt32) 0x3201;
                         BookIndex[bookNum].name = name.ToString();
 
-                        bwriter.Write(bookNum);
-                        bwriter.Write(chapterCnt);
-                        bwriter.Write(chapterIdx);
-                        bwriter.Write(verseCnt);
-
-                        if (bookNum > 0)
-                        {
-                            bwriter.Write(writCnt);
-                            bwriter.Write(writIdx);
-                            bwriter.Write(bname);
-                        }
-                        else
-                        {
-                            bwriter.Write(48);
-                            bwriter.Write((UInt32) 0x3200);
-
-                            string release = "Z32";
-                            for (int i = 0; i < release.Length; i++)
-                                bwriter.Write((byte)(release[i]));
-                            for (int i = release.Length; i < 16; i++)
-                                bwriter.Write((byte)0);
-                        }
-                        bwriter.Write(babbr);
+                        bwriter.Write(bookNum);     // 1
+                        bwriter.Write(chapterCnt);  // 1 = 2
+                        bwriter.Write(chapterIdx);  // 2 = 4
+                        bwriter.Write(verseCnt);    // 2 = 6
+                        bwriter.Write(writCnt);     // 4 = 10
+                        bwriter.Write(writIdx);     // 4 = 14
+                        bwriter.Write(bname);       //16 = 30
+                        bwriter.Write(babbr);       //18 = 48
 
                     }   while (bookNum < 66);
 

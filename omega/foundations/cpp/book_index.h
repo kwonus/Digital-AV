@@ -16,7 +16,6 @@ public:
         const uint8     chapter_cnt;
         const uint16    chapter_idx;
         const uint16    verse_cnt;
-        const uint16    verse_idx;
         const uint16    writ_cnt;
         const uint32    sdk_writ_idx;   // this value is directly from the SDK, and is global across all of AV-Writ.dx. In C++ implementation, this is 0 for verse 1:1 of each book. But we retain the SDK value here.
         const char      name[17];

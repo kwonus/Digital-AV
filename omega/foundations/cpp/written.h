@@ -82,6 +82,10 @@ public:
     class AVXWrit {
     public:
         const uint16 strongs[4];
+        const uint8  b;
+        const uint8  c;
+        const uint8  v;
+        const uint8  wc;
         const uint16 verse_idx;
         const uint16 word;
         const uint8  punc;

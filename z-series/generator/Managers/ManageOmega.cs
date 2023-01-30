@@ -100,7 +100,7 @@
         private void CreateDirectory(BinaryWriter writer)
         {
             FoundationsGenerator.Directory directory = BOM.Inventory[BOM.DIRECTORY];
-            directory.hash = "00000000000000000000000000003200";
+            directory.hash = "00000000000000000000000000003201";
             directory.offset =  0;
             directory.recordLength = 64;
             directory.recordCount  =  8;
@@ -135,7 +135,7 @@
             Console.WriteLine("Read Inventory from the Z32 bom");
             this.ReadInventory();
 
-            string ofile = Path.Combine(BOM.omegaSDK, "AVX-Omega.data");
+            string ofile = Path.Combine(AVXManager.SDK_BASELINE, "AVX-Omega.data");
             var ostream = new StreamWriter(ofile, false, Encoding.ASCII);
             using (BinaryWriter writer = new BinaryWriter(ostream.BaseStream))
             {

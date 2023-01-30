@@ -217,10 +217,11 @@ namespace FoundationsGenerator
                 case "Verse":
                 case "Chapter":
                 case "Book": filename += "_index"; break;
+                case "Written": filename = Path.Combine(filename, this.label); break;
             }
             filename += extent;
 
-            switch (version[0])
+            switch (version[1])
             {
                 case 'Ω': return Path.Combine(AVXManager.CPP_SOURCE, filename);
                 case 'Z': return Path.Combine(AVXManager.CPP_SOURCE, filename);
