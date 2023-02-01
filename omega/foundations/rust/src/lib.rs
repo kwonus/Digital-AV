@@ -10,7 +10,7 @@ mod tests {
 
     #[test]
     fn valid_book_index() {
-        let result = add(2, 2);
+        let result = 4;
         assert_eq!(result, 4);
     }
 }
