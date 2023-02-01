@@ -80,7 +80,12 @@
             writer.Write(bom.recordLength);
             writer.Write(bom.recordCount);
 
-            if (bom.hash.Length == 32)
+            if (bom.label == "Directory")
+            {
+                writer.Write((UInt64)0);
+                writer.Write((UInt64)0x3201);
+            }
+            else if (bom.hash.Length == 32)
             {
                 var left = bom.hash.Substring(0, 16);
                 var right = bom.hash.Substring(16);
@@ -102,9 +107,9 @@
             FoundationsGenerator.Directory directory = BOM.Inventory[BOM.DIRECTORY];
             directory.hash = "00000000000000000000000000003201";
             directory.offset =  0;
-            directory.recordLength = 64;
+            directory.recordLength = 48;
             directory.recordCount  =  8;
-            directory.length = 64*8;
+            directory.length = (UInt32) (directory.recordLength * directory.recordCount);
 
             this.AddDirectoryRecord(writer, directory);
 
