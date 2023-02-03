@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AVX.Numerics;
+using AVXLib.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.PortableExecutable;
@@ -9,7 +11,6 @@ namespace AVXLib
 {
     public class Artifact
     {
-        public static Dictionary<string, Artifact> Directory { get; private set; } = new();
         public Artifact(string label)
         {
             this.label = label;
@@ -21,7 +22,7 @@ namespace AVXLib
             this.ERROR = false;
             this.DONE = false;
         }
-        public Artifact(System.IO.BinaryReader reader)
+        public Artifact(System.IO.BinaryReader reader, Dictionary<string, Artifact> directory)
         {
             this.label = "";
             this.offset = 0;
@@ -30,11 +31,11 @@ namespace AVXLib
             this.recordCount = 0;
             this.recordLength = 0;
 
-            Artifact? dir = Artifact.Directory.ContainsKey("Directory") ? Artifact.Directory["Directory"] : null;
+            Artifact? dir = directory.ContainsKey("Directory") ? directory["Directory"] : null;
             this.DONE = false;
 
             byte[] label = new byte[16];
-            this.ERROR = (Artifact.Directory.Count > 0 && dir == null) || (Artifact.Directory.Count > 0 && reader.BaseStream.Position > dir.length) || (16 != reader.Read(label));
+            this.ERROR = (directory.Count > 0 && dir == null) || (directory.Count > 0 && reader.BaseStream.Position > dir.length) || (16 != reader.Read(label));
 
             int len = 0;
             if (!this.ERROR)
@@ -53,7 +54,7 @@ namespace AVXLib
                 this.hash = hash1.ToString("X016") + hash2.ToString("X016");
                 this.ERROR = dir != null && len != dir.recordLength;
 
-                Artifact.Directory[this.label] = this;
+                directory[this.label] = this;
 
                 if (dir != null)
                     this.DONE = (dir.length <= reader.BaseStream.Position);
