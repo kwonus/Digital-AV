@@ -61,7 +61,18 @@ namespace AVXLib.Framework
                                     break;
                             }
 
-                            var books = Framework.Book.Read(reader, this.Directory);
+                            var written = Framework.Written.Read(reader, this.Directory);
+                            if (written.okay)
+                            {
+                                this.Written = written.result;
+                            }
+                            else
+                            {
+                                Console.WriteLine(written.message);
+                                goto DATA_READ_ERROR;
+                            }
+
+                            var books = Framework.Book.Read(reader, this.Directory, written.result);
                             if (books.okay)
                             {
                                 this.Book = books.result;
@@ -80,17 +91,6 @@ namespace AVXLib.Framework
                             else
                             {
                                 Console.WriteLine(chapters.message);
-                                goto DATA_READ_ERROR;
-                            }
-
-                            var written = Framework.Written.Read(reader, this.Directory);
-                            if (written.okay)
-                            {
-                                this.Written = written.result;
-                            }
-                            else
-                            {
-                                Console.WriteLine(written.message);
                                 goto DATA_READ_ERROR;
                             }
 

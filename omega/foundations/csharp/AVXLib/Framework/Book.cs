@@ -23,8 +23,9 @@ namespace AVXLib.Framework
         public ReadOnlyMemory<char> abbr4;
         public ReadOnlyMemory<char> abbrAltA;
         public ReadOnlyMemory<char> abbrAltB;
+        public ReadOnlyMemory<Written> written;
 
-        public static (ReadOnlyMemory<Book> result, bool okay, string message) Read(System.IO.BinaryReader reader, Dictionary<string, Artifact> directory)
+        public static (ReadOnlyMemory<Book> result, bool okay, string message) Read(System.IO.BinaryReader reader, Dictionary<string, Artifact> directory, ReadOnlyMemory<Written> written)
         {
             if (!directory.ContainsKey("Book"))
                 return (Memory<Book>.Empty, false, "Book is missing from directory");
@@ -59,6 +60,7 @@ namespace AVXLib.Framework
                 book[b].abbr2 = Deserialization.GetMemoryString(babbr, 0, 2);
                 book[b].abbr3 = Deserialization.GetMemoryString(babbr, 2, 3);
                 book[b].abbr4 = Deserialization.GetMemoryString(babbr, 5, 4);
+                book[b].written = written.Slice((int)book[b].writIdx, (int)book[b].writCnt);
 
                 if (babbr[9] > 0)
                 {
