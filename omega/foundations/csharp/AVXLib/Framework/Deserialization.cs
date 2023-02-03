@@ -138,6 +138,8 @@ namespace AVXLib.Framework
                                 goto DATA_READ_ERROR;
                             }
                         }
+                        this.valid = true;
+                        return;
                     }
                     catch
                     {
@@ -151,7 +153,8 @@ DATA_READ_ERROR:
                 this.Lexicon = Memory<Framework.Lexicon>.Empty;
                 this.Lemmata = Memory<Framework.Lemmata>.Empty;
                 this.OOVLemmata = new();
-                this.Names      = new();
+                this.Names = new();
+                this.valid = false;
             }
         }
 
