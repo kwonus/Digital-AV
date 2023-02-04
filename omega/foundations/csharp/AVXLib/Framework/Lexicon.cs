@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace AVXLib.Framework
+﻿namespace AVXLib.Framework
 {
+    using System.Text;
+    using static AVX.Numerics.Written;
+
     public struct Lexicon
     {
         public ReadOnlyMemory<char> Search;
@@ -15,7 +11,6 @@ namespace AVXLib.Framework
         public ReadOnlyMemory<UInt32> POS;
         public UInt16 Entities;
         public bool ModernSameAsOriginal;
-
         public static (ReadOnlyMemory<Lexicon> result, bool okay, string message) Read(System.IO.BinaryReader reader, Dictionary<string, Artifact> directory)
         {
             if (!directory.ContainsKey("Lexicon"))
@@ -48,6 +43,8 @@ namespace AVXLib.Framework
 
                 lexicon[i].Display = display.Length > 0 ? display : lexicon[i].Search;
                 lexicon[i].Modern  = modern.Length  > 0 ? modern  : lexicon[i].Display;
+                lexicon[i].ModernSameAsOriginal = Orthographical.ProcessReversals((UInt16)i, lexicon[i].Search.ToString(), lexicon[i].Display.ToString(), lexicon[i].Modern.ToString());
+
             }
             return (new ReadOnlyMemory<Lexicon>(lexicon), true, "");
         }

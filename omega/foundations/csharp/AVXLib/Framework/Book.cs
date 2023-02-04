@@ -11,8 +11,8 @@ namespace AVXLib.Framework
 {
     public struct Book
     {
-        public byte   bookNum;
-        public byte   chapterCnt;
+        public byte bookNum;
+        public byte chapterCnt;
         public UInt16 chapterIdx;
         public UInt16 verseCnt;
         public UInt32 writCnt;
@@ -45,18 +45,18 @@ namespace AVXLib.Framework
 
             for (int b = 0; b < artifact.recordCount; b++)
             {
-                book[b].bookNum    = reader.ReadByte();      //  1 =  1
+                book[b].bookNum = reader.ReadByte();      //  1 =  1
                 book[b].chapterCnt = reader.ReadByte();      //  1 =  2
                 book[b].chapterIdx = reader.ReadUInt16();    //  2 =  4
-                book[b].verseCnt   = reader.ReadUInt16();    //  2 =  6
-                book[b].writCnt    = reader.ReadUInt32();    //  4 = 10
-                book[b].writIdx    = reader.ReadUInt32();    //  4 = 14
+                book[b].verseCnt = reader.ReadUInt16();    //  2 =  6
+                book[b].writCnt = reader.ReadUInt32();    //  4 = 10
+                book[b].writIdx = reader.ReadUInt32();    //  4 = 14
 
                 if (reader.Read(bname) != bname.Length || reader.Read(babbr) != babbr.Length) // 16 + 18 + 14 = 48
                 {
                     return (ReadOnlyMemory<Book>.Empty, false, "Could not read bytes from nput stream");
                 }
-                book[b].name  = Deserialization.GetMemoryString(bname, 0, bname.Length);
+                book[b].name = Deserialization.GetMemoryString(bname, 0, bname.Length);
                 book[b].abbr2 = Deserialization.GetMemoryString(babbr, 0, 2);
                 book[b].abbr3 = Deserialization.GetMemoryString(babbr, 2, 3);
                 book[b].abbr4 = Deserialization.GetMemoryString(babbr, 5, 4);

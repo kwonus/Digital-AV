@@ -16,7 +16,7 @@ namespace AVX.Numerics
             public const UInt16 WordKey          = 0x3FFF;  // trailing 14 bits
          }
 
-        public abstract class Puncutation   // uint8 {
+        public abstract class Punctuation   // uint8 {
         {
             public const byte Clause        = 0xE0;
             public const byte Exclamatory   = 0x80;

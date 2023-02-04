@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
+using static AVX.Numerics.Written;
 
 namespace AVXLib.Framework
 {
@@ -150,5 +151,4 @@ namespace AVXLib.Framework
             return (new ReadOnlyMemory<Written>(written), true, "");
         }
     }
-
 }
