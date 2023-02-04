@@ -161,7 +161,7 @@ DATA_READ_ERROR:
         internal static Memory<char> GetMemoryString(ReadOnlySpan<byte> bytes, int offset, int length)
         {
             int len = 0;
-            for (int i = 0; i < length && bytes[i + offset] != 0; i++)
+            for (int i = 0; i < length && i+offset < bytes.Length && bytes[i + offset] != 0; i++)
                 len++;
 
             if (len == 0)
@@ -169,7 +169,7 @@ DATA_READ_ERROR:
 
             var chars = new char[len];
             for (int i = 0; i < len; i++)
-                chars[i] = (char)bytes[i];
+                chars[i] = (char)bytes[offset+i];
             return new Memory<char>(chars);
         }
         internal static (Memory<char> text, int length, bool overflow) ReadDelimitedMemory(System.IO.BinaryReader reader, char delimiter, Span<byte> scratchPad)
