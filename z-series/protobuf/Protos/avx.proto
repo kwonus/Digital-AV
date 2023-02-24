@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package DigitalAV.ProtoBuf;
+
+message AVXName {
+    uint32          word_key    = 1; // uint16
+    repeated string meaning     = 2;
+}
+
+message AVXLemma {
+    uint32          word_key    = 1; // uint16
+    uint32          pn_pos12    = 4; // leave room to decompose this value
+    uint32          pos32       = 5;
+    repeated uint32 lemma       = 6;
+}
+
+message AVXLemmaOOV {
+    uint32          word_key    = 1; // uint16
+    string          word        = 2;
+}
+
+message AVXWrit {
+    uint64          strongs     = 1;
+    uint32          verse_idx   = 2; // uint16
+    uint32          word_key    = 3; // uint16
+//  byte            punc        = 4;
+//  byte            transition  = 5;
+//  uint16          pn_pos16    = 6;
+    uint32          p8t8_pn4_pos12 = 7; // allow for refactoring
+    uint32          pos32       = 8;
+    uint32          lemma       = 9; // uint16
+}
+
+message AVXVerse {
+//  byte            book        = 1;
+//  byte            chapter     = 2;
+//  byte            verse       = 3;
+//  byte            word_cnt    = 4;
+    uint32          bcvw        = 1;
+}
+
+message AVXChapter {
+//  uint16          writ_idx    = 1;
+//  uint16          writ_cnt    = 2;
+//  uint16          verse_idx   = 2;
+//  uint16          verse_cnt   = 2;
+    uint32          writ_cnt_idx  = 1;
+    uint32          verse_cnt_idx = 2;
+}	
+
+message AVXBook {
+    uint32          num        = 1; // uint8
+    uint32          chapter_cnt= 2; // uint8
+    uint32          chapter_idx= 3; // uint16
+    uint32          verse_cnt  = 4; // uint16
+    uint32          verse_idx  = 5; // uint16
+    uint32          writ_cnt   = 6; // uint16 
+    uint32          writ_idx   = 7;
+    string          name       = 8;
+    string          abbr2      = 9;
+    string          abbr3      = 10;
+    string          abbr4      = 11;
+    repeated string abbrAlt    = 12;
+	repeated AVXWrit writ      = 14;
+}
+
+message AVXLexicon {
+    uint32          entities   = 1; // uint16;
+    string          search     = 2;
+    string          display    = 3;
+    string          modern     = 4;
+    repeated uint32 pos        = 5;
+}
+
+message AVXDirectory {
+    repeated AVXBook        bible         = 1;
+	repeated AVXLexicon     lexicon       = 2;
+	repeated AVXChapter     chapter_index = 3;
+	repeated AVXVerse       verse_index   = 4;
+	repeated AVXName        name_index    = 5;
+	repeated AVXLemma       lemmata       = 6;
+	repeated AVXLemmaOOV    oov           = 7;
+}
