@@ -13,6 +13,8 @@ namespace AVXLib.Framework
         public UInt16 pnPOS12;
         public ReadOnlyMemory<UInt16> Lemmas;
 
+        private static ReadOnlyMemory<Lemmata> Data = new ReadOnlyMemory<Lemmata>(new Lemmata[0]);
+
         public static (ReadOnlyMemory<Lemmata> result, bool okay, string message) Read(System.IO.BinaryReader reader, Dictionary<string, Artifact> directory)
         {
             if (!directory.ContainsKey("Lemmata"))
@@ -40,7 +42,24 @@ namespace AVXLib.Framework
                     lemmas[j] = reader.ReadUInt16();
                 lemmata[i].Lemmas = new ReadOnlyMemory<UInt16>(lemmas);
             }
-            return (new ReadOnlyMemory<Lemmata>(lemmata), true, "");
+            Lemmata.Data = new ReadOnlyMemory<Lemmata>(lemmata);
+            return (Lemmata.Data, true, "");
+        }
+        UInt16[] FindLemmataUsingWordKey(UInt16 key)
+        {
+            HashSet<UInt16> lemmata = new();
+            foreach (var record in Lemmata.Data.Span)
+            {
+                if (record.WordKey == key)
+                {
+                    foreach (var lemma in record.Lemmas.Span)
+                    {
+                        if (!lemmata.Contains(lemma))
+                            lemmata.Add(lemma);
+                    }
+                }
+            }
+            return lemmata.ToArray();
         }
     }
 }

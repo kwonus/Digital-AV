@@ -6,7 +6,7 @@ namespace AVXLib
 {
     internal class Program
     {
-        static void Main(string[] args)
+        void LibTest(string[] args)
         {
             var data = new Deserialization.Data(@"C:\src\Digital-AV\omega\AVX-Omega.data");
 
