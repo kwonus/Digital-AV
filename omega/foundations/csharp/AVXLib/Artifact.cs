@@ -1,14 +1,8 @@
-﻿using AVX.Numerics;
-using AVXLib.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AVXLib
+﻿namespace AVXLib
 {
+    using static AVXLib.Framework.Numerics;
+    using System.Text;
+
     public class Artifact
     {
         public Artifact(string label)

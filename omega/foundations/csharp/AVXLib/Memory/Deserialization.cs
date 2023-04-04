@@ -1,57 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace AVXLib.Framework
+﻿namespace AVXLib.Memory
 {
     public abstract class Deserialization
     {
         private static FileStreamOptions FileReadOptions;
         static Deserialization()
         {
-            Deserialization.FileReadOptions        = new();
-            Deserialization.FileReadOptions.Share  = FileShare.Read;
-            Deserialization.FileReadOptions.Access = FileAccess.Read;
-            Deserialization.FileReadOptions.Mode   = FileMode.Open;
+            FileReadOptions = new();
+            FileReadOptions.Share = FileShare.Read;
+            FileReadOptions.Access = FileAccess.Read;
+            FileReadOptions.Mode = FileMode.Open;
         }
 
         public static Dictionary<string, Artifact> Directory { get; private set; } = new();
-        private static System.IO.BinaryReader CreateReader(string input = @"C:\src\Digital-AV\omega\AVX-Omega.data")
+        private static BinaryReader CreateReader(string input = @"C:\src\Digital-AV\omega\AVX-Omega.data")
         {
-            var fstream = new StreamReader(input, Deserialization.FileReadOptions);
-            var reader = new System.IO.BinaryReader(fstream.BaseStream);
+            var fstream = new StreamReader(input, FileReadOptions);
+            var reader = new BinaryReader(fstream.BaseStream);
 
             return reader;
         }
         public class Data
         {
             public Dictionary<string, Artifact> Directory { get; private init; }
-            public readonly ReadOnlyMemory<Framework.Written>  Written;
-            public readonly ReadOnlyMemory<Framework.Book>     Book;
-            public readonly ReadOnlyMemory<Framework.Chapter>  Chapter;
-            public readonly ReadOnlyMemory<Framework.Lexicon>  Lexicon;
-            public readonly ReadOnlyMemory<Framework.Lemmata>  Lemmata;
-            public readonly Dictionary<UInt16, ReadOnlyMemory<char>>  OOVLemmata;
-            public readonly Dictionary<UInt16, ReadOnlyMemory<ReadOnlyMemory<char>>> Names;
+            public readonly ReadOnlyMemory<Written> Written;
+            public readonly ReadOnlyMemory<Book> Book;
+            public readonly ReadOnlyMemory<Chapter> Chapter;
+            public readonly ReadOnlyMemory<Lexicon> Lexicon;
+            public readonly ReadOnlyMemory<Lemmata> Lemmata;
+            public readonly Dictionary<ushort, ReadOnlyMemory<char>> OOVLemmata;
+            public readonly Dictionary<ushort, ReadOnlyMemory<ReadOnlyMemory<char>>> Names;
             public readonly bool valid;
 
-            public Data(string dataPath = @"C:\src\Digital-AV\omega\AVX-Omega.data")
+            public Data(IAVXObjectSetter objects, string dataPath = @"C:\src\Digital-AV\omega\AVX-Omega.data")
             {
-                this.Directory = new();
-                this.valid = false;
+                Directory = new();
+                valid = false;
 
-                if (System.IO.File.Exists(dataPath))
+                if (File.Exists(dataPath))
                 {
                     try
                     {
-                        using (var reader = Deserialization.CreateReader(dataPath))
+                        using (var reader = CreateReader(dataPath))
                         {
-                            for (var entry = new Artifact(reader, this.Directory); !entry.ERROR; entry = new Artifact(reader, this.Directory))
+                            for (var entry = new Artifact(reader, Directory); !entry.ERROR; entry = new Artifact(reader, Directory))
                             {
                                 Console.WriteLine(entry.hash + ": " + entry.label);
 
@@ -61,10 +52,11 @@ namespace AVXLib.Framework
                                     break;
                             }
 
-                            var written = Framework.Written.Read(reader, this.Directory);
+                            var written = AVXLib.Memory.Written.Read(reader, Directory);
                             if (written.okay)
                             {
-                                this.Written = written.result;
+                                Written = written.result;
+                                objects.Written = new AVXLib.Framework.Written(this);
                             }
                             else
                             {
@@ -72,10 +64,10 @@ namespace AVXLib.Framework
                                 goto DATA_READ_ERROR;
                             }
 
-                            var books = Framework.Book.Read(reader, this.Directory, written.result);
+                            var books = AVXLib.Memory.Book.Read(reader, Directory, written.result);
                             if (books.okay)
                             {
-                                this.Book = books.result;
+                                Book = books.result;
                             }
                             else
                             {
@@ -83,10 +75,10 @@ namespace AVXLib.Framework
                                 goto DATA_READ_ERROR;
                             }
 
-                            var chapters = Framework.Chapter.Read(reader, this.Directory);
+                            var chapters = AVXLib.Memory.Chapter.Read(reader, Directory);
                             if (chapters.okay)
                             {
-                                this.Chapter = chapters.result;
+                                Chapter = chapters.result;
                             }
                             else
                             {
@@ -94,10 +86,11 @@ namespace AVXLib.Framework
                                 goto DATA_READ_ERROR;
                             }
 
-                            var lexicon = Framework.Lexicon.Read(reader, this.Directory);
+                            var lexicon = AVXLib.Memory.Lexicon.Read(reader, Directory);
                             if (lexicon.okay)
                             {
-                                this.Lexicon = lexicon.result;
+                                Lexicon = lexicon.result;
+                                objects.Lexicon = new AVXLib.Framework.Lexicon(this);
                             }
                             else
                             {
@@ -105,10 +98,11 @@ namespace AVXLib.Framework
                                 goto DATA_READ_ERROR;
                             }
 
-                            var lemmata = Framework.Lemmata.Read(reader, this.Directory);
+                            var lemmata = AVXLib.Memory.Lemmata.Read(reader, Directory);
                             if (lemmata.okay)
                             {
-                                this.Lemmata = lemmata.result;
+                                Lemmata = lemmata.result;
+                                objects.Lemmata = new AVXLib.Framework.Lemmata(this);
                             }
                             else
                             {
@@ -116,10 +110,11 @@ namespace AVXLib.Framework
                                 goto DATA_READ_ERROR;
                             }
 
-                            var oov = Framework.OOV.Read(reader, this.Directory);
+                            var oov = AVXLib.Memory.OOV.Read(reader, Directory);
                             if (oov.okay)
                             {
-                                this.OOVLemmata = oov.result;
+                                OOVLemmata = oov.result;
+                                objects.OOV = new AVXLib.Framework.OOV(this);
                             }
                             else
                             {
@@ -127,10 +122,10 @@ namespace AVXLib.Framework
                                 goto DATA_READ_ERROR;
                             }
 
-                            var names = Framework.Name.Read(reader, this.Directory);
+                            var names = AVXLib.Memory.Name.Read(reader, Directory);
                             if (names.okay)
                             {
-                                this.Names = names.result;
+                                Names = names.result;
                             }
                             else
                             {
@@ -138,7 +133,8 @@ namespace AVXLib.Framework
                                 goto DATA_READ_ERROR;
                             }
                         }
-                        this.valid = true;
+                        valid = true;
+
                         return;
                     }
                     catch
@@ -146,22 +142,23 @@ namespace AVXLib.Framework
                         valid = false;
                     }
                 }
-DATA_READ_ERROR:
-                this.Written = Memory<Framework.Written>.Empty;
-                this.Book    = Memory<Framework.Book>   .Empty;
-                this.Chapter = Memory<Framework.Chapter>.Empty;
-                this.Lexicon = Memory<Framework.Lexicon>.Empty;
-                this.Lemmata = Memory<Framework.Lemmata>.Empty;
-                this.OOVLemmata = new();
-                this.Names = new();
-                this.valid = false;
+            DATA_READ_ERROR:
+                Written = Memory<Written>.Empty;
+                Book = Memory<Book>.Empty;
+                Chapter = Memory<Chapter>.Empty;
+                Lexicon = Memory<Lexicon>.Empty;
+                Lemmata = Memory<Lemmata>.Empty;
+                OOVLemmata = new();
+                Names = new();
+                valid = false;
+                return;
             }
         }
 
         internal static Memory<char> GetMemoryString(ReadOnlySpan<byte> bytes, int offset, int length)
         {
             int len = 0;
-            for (int i = 0; i < length && i+offset < bytes.Length && bytes[i + offset] != 0; i++)
+            for (int i = 0; i < length && i + offset < bytes.Length && bytes[i + offset] != 0; i++)
                 len++;
 
             if (len == 0)
@@ -169,10 +166,10 @@ DATA_READ_ERROR:
 
             var chars = new char[len];
             for (int i = 0; i < len; i++)
-                chars[i] = (char)bytes[offset+i];
+                chars[i] = (char)bytes[offset + i];
             return new Memory<char>(chars);
         }
-        internal static (Memory<char> text, int length, bool overflow) ReadDelimitedMemory(System.IO.BinaryReader reader, char delimiter, Span<byte> scratchPad)
+        internal static (Memory<char> text, int length, bool overflow) ReadDelimitedMemory(BinaryReader reader, char delimiter, Span<byte> scratchPad)
         {
             int len = 0;
             for (byte val = reader.ReadByte(); val != delimiter; val = reader.ReadByte())
@@ -206,14 +203,14 @@ DATA_READ_ERROR:
             int delimitIdx = 0;
             for (idx = 0, cnt = 0; idx < mem.Length && cnt < items.Length; idx++)
             {
-                if (idx == mem.Length-1)
+                if (idx == mem.Length - 1)
                 {
-                    items[cnt++] = mem.Slice(delimitIdx, idx-delimitIdx);
+                    items[cnt++] = mem.Slice(delimitIdx, idx - delimitIdx);
                 }
                 else if (mem.Span[idx] == delimiter)
                 {
                     items[cnt++] = mem.Slice(delimitIdx, idx - delimitIdx);
-                    delimitIdx = idx+1;
+                    delimitIdx = idx + 1;
                 }
             }
             return (new ReadOnlyMemory<ReadOnlyMemory<char>>(items), true);

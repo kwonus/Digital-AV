@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AVXLib.Framework
+﻿namespace AVXLib.Memory
 {
     public struct Chapter
     {
-        public UInt16 writIdx;
-        public UInt16 writCnt;
-        public byte   bookNum;
-        public byte   verseCnt;
+        public ushort writIdx;
+        public ushort writCnt;
+        public byte bookNum;
+        public byte verseCnt;
 
-        public static (ReadOnlyMemory<Chapter> result, bool okay, string message) Read(System.IO.BinaryReader reader, Dictionary<string, Artifact> directory)
+        public static (ReadOnlyMemory<Chapter> result, bool okay, string message) Read(BinaryReader reader, Dictionary<string, Artifact> directory)
         {
             if (!directory.ContainsKey("Chapter"))
                 return (Memory<Chapter>.Empty, false, "Chapter is missing from directory");
 
-            Artifact artifact =directory["Chapter"];
+            Artifact artifact = directory["Chapter"];
 
             var needed = artifact.offset + artifact.length;
 

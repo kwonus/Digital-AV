@@ -1,154 +1,394 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Runtime.ExceptionServices;
-using System.Text;
-using System.Threading.Tasks;
-using static AVX.Numerics.Written;
-
-namespace AVXLib.Framework
+﻿namespace AVXLib.Framework
 {
-    public struct BCVW
-    {
-        public UInt32 elements { get; private set; }
+    using System.Text;
+    using AVXLib.Memory;
+    using static System.Net.Mime.MediaTypeNames;
+    using static AVXLib.Framework.Numerics;
 
-        internal byte this[int idx]
+    public class Written
+    {
+        private Deserialization.Data Data;
+        private ReadOnlyMemory<AVXLib.Memory.Written> Writ { get => this.Data.Written; }
+        private ReadOnlyMemory<AVXLib.Memory.Lexicon> Lex  { get => this.Data.Lexicon; }
+        private ReadOnlyMemory<AVXLib.Memory.Book>    Book { get => this.Data.Book;    }
+
+        public static bool ProcessReversals(ushort key, string search, string display, string modern)
         {
-            get
+            var same = display == modern;
+
+            ReverseLex[Keyify(search)] = key;
+            ReverseLexModern[Keyify(modern)] = key;
+
+            return same;
+        }
+
+        private static Dictionary<string, UInt16> ReverseLexModern = new();
+        private static Dictionary<string, UInt16> ReverseLex = new();
+        private static string[] subtract = new string[] { "-", " ", "'", "(", ")", ".", ":", ";", "!", "?", "," };
+
+        public Written(Deserialization.Data data)
+        {
+            this.Data = data;
+        }
+
+        private static string Keyify(ReadOnlyMemory<char> input)
+        {
+            return input.ToString();
+        }
+        private static string Keyify(string input)
+        {
+            string result = input.ToLower();
+
+            foreach (var c in subtract)
             {
-                var shift = (idx - 1) * 8;
-                switch (idx)
+                if (result.IndexOf(c[0]) >= 0)
+                    result = result.Replace(c, "");
+            }
+            return result;
+        }
+        public string GetLexNormalized(ushort id)
+        {
+            ushort caps = (ushort)(id & WordKeyBits.CAPS);
+            int key = id & WordKeyBits.WordKey;
+
+            if (key > 0 && key < this.Lex.Length)
+            {
+                var lex = this.Lex.Span[key].Search.ToString();
+                if (lex.Length > 1)
                 {
-                    case 3:
-                    case 2:
-                    case 1:
-                    case 0: return (Byte)((this.elements >> shift) & 0xFF);
+                    if (caps == WordKeyBits.CAPS_FirstLetter)
+                        return lex.Substring(0, 1).ToUpper() + lex.Substring(1);
+                    else if (caps == WordKeyBits.CAPS_AllLetters)
+                        return lex.ToUpper();
                 }
+                else if (caps != 0)
+                {
+                    return lex.ToUpper();
+                }
+                return lex;
+            }
+            return "";
+        }
+        public string GetLexDisplay(ushort id)
+        {
+            ushort caps = (ushort)(id & WordKeyBits.CAPS);
+            int key = id & WordKeyBits.WordKey;
+
+            if (key > 0 && key < this.Lex.Length)
+            {
+                var lex = this.Lex.Span[key].Display.ToString();
+                if (lex.Length > 1)
+                {
+                    if (caps == WordKeyBits.CAPS_FirstLetter)
+                        return lex.Substring(0, 1).ToUpper() + lex.Substring(1);
+                    else if (caps == WordKeyBits.CAPS_AllLetters)
+                        return lex.ToUpper();
+                }
+                else if (caps != 0)
+                {
+                    return lex.ToUpper();
+                }
+                return lex;
+            }
+            return "";
+        }
+        public string GetLexModern(ushort id)
+        {
+            ushort caps = (ushort)(id & WordKeyBits.CAPS);
+            int key = id & WordKeyBits.WordKey;
+
+            if (key > 0 && key < this.Lex.Length)
+            {
+                var lex = this.Lex.Span[key].Modern.ToString();
+                if (lex.Length > 1)
+                {
+                    if (caps == WordKeyBits.CAPS_FirstLetter)
+                        return lex.Substring(0, 1).ToUpper() + lex.Substring(1);
+                    else if (caps == WordKeyBits.CAPS_AllLetters)
+                        return lex.ToUpper();
+                }
+                else if (caps != 0)
+                {
+                    return lex.ToUpper();
+                }
+                return lex;
+            }
+            return "";
+        }
+        public (ushort key, Memory.Lexicon lex, bool found) GetReverseLexRecord(string text)
+        {
+            var lookup = Keyify(text);
+            if (ReverseLex.ContainsKey(lookup))
+            {
+                ushort key = ReverseLex[lookup];
+                return (key, this.Lex.Span[key], true);
+            }
+            if (this.Lex.Length > 0)
+            {
+                return (0, this.Lex.Span[0], false);
+            }
+            return (0, new Memory.Lexicon(), false);
+        }
+        public (ushort key, Memory.Lexicon lex, bool found) GetReverseLexRecordModern(string text)
+        {
+            var lookup = Keyify(text);
+            if (ReverseLexModern.ContainsKey(lookup))
+            {
+                ushort key = ReverseLexModern[lookup];
+                return (key, this.Lex.Span[key], true);
+            }
+            if (this.Lex.Span.Length > 0)
+            {
+                return (0, this.Lex.Span[0], false);
+            }
+            return (0, new Memory.Lexicon(), false);
+        }
+        public (ushort key, Memory.Lexicon lex, bool found) GetReverseLexRecordExtensive(string text, bool strict = false)
+        {
+            var record = this.GetReverseLexRecord(text);
+            if ((!record.found) && !strict)
+            {
+                record = this.GetReverseLexRecordModern(text);
+            }
+            if (!record.found)
+            { 
+                var dehyphenated = text.Replace("-", "");
+                record = this.GetReverseLexRecord(dehyphenated);
+                if ((!record.found) && !strict)
+                {
+                    record = this.GetReverseLexRecordModern(dehyphenated);
+                }
+            }
+            return record;
+        }
+        public (ushort key, Memory.Lexicon lex, bool found) GetLexRecord(ushort id)
+        {
+            ushort key = (ushort)(id & WordKeyBits.WordKey);
+
+            if (key > 0 && key < this.Lex.Span.Length)
+            {
+                return (key, this.Lex.Span[key], true);
+            }
+            if (this.Lex.Span.Length > 0)
+            {
+                return (0, this.Lex.Span[0], false);
+            }
+            return (0, new Memory.Lexicon(), false);
+        }
+        private static string PrePunc(ushort previousPunctuation, ushort currentPunctuation)
+        {
+            bool prevParen = (previousPunctuation & Punctuation.Parenthetical) != 0;
+            bool thisParen = (currentPunctuation & Punctuation.Parenthetical) != 0;
+
+            return thisParen && !prevParen ? "(" : "";
+        }
+        private static string PostPunc(ushort punctuation, bool s)
+        {
+            bool eparen = (punctuation & Punctuation.CloseParen) == Punctuation.CloseParen;
+            bool posses = (punctuation & Punctuation.Possessive) == Punctuation.Possessive;
+            bool exclaim = (punctuation & Punctuation.Clause) == Punctuation.Exclamatory;
+            bool declare = (punctuation & Punctuation.Clause) == Punctuation.Declarative;
+            bool dash = (punctuation & Punctuation.Clause) == Punctuation.Dash;
+            bool semi = (punctuation & Punctuation.Clause) == Punctuation.Semicolon;
+            bool colon = (punctuation & Punctuation.Clause) == Punctuation.Colon;
+            bool comma = (punctuation & Punctuation.Clause) == Punctuation.Comma;
+            bool quest = (punctuation & Punctuation.Clause) == Punctuation.Interrogative;
+
+            string punc = posses ? !s ? "'s" : "'" : "";
+            if (eparen)
+                punc += ")";
+            if (declare)
+                punc += ".";
+            else if (comma)
+                punc += ",";
+            else if (semi)
+                punc += ";";
+            else if (colon)
+                punc += ":";
+            else if (quest)
+                punc += "?";
+            else if (exclaim)
+                punc += "!";
+            else if (dash)
+                punc += "--";
+
+            return punc;
+        }
+        public string GetDisplayWithPunctuation(byte bookNum, uint writIdx)
+        {
+            if (this.Writ.Length > 0 && bookNum < this.Book.Length)
+            {
+                var book = this.Book.Span[bookNum];
+
+                if (writIdx < book.written.Length)
+                {
+                    var writ = book.written.Span[(int)writIdx];
+                    var text = GetLexDisplay(writ.WordKey);
+
+                    var punc = writ.Punctuation;
+                    var puncPrev = writIdx >= 1 ? book.written.Span[(int)writIdx].Punctuation : (byte)0x00;
+                    var s = text.EndsWith("s", StringComparison.InvariantCultureIgnoreCase);
+
+                    return PrePunc(puncPrev, punc) + text + PostPunc(punc, s);
+                }
+            }
+            return "";
+        }
+        public string GetModernWithPunctuation(byte bookNum, ushort writIdx)
+        {
+            if (this.Writ.Length > 0 && bookNum < this.Book.Length)
+            {
+                var book = this.Book.Span[bookNum];
+
+                if (writIdx < book.written.Length)
+                {
+                    var writ = book.written.Span[writIdx];
+                    var text = GetLexModern(writ.WordKey);
+
+                    var punc = writ.Punctuation;
+                    var puncPrev = writIdx >= 1 ? book.written.Span[writIdx].Punctuation : (byte)0x00;
+                    var s = text.EndsWith("s", StringComparison.InvariantCultureIgnoreCase);
+
+                    return PrePunc(puncPrev, punc) + text + PostPunc(punc, s);
+                }
+            }
+            return "";
+        }
+        public (Book book, bool found) FindBook(string name)
+        {
+            int len = name.Length;
+
+            if (len <= 2)
+            {
+                for (int b = 1; b <= 66; b++)
+                {
+                    var abbr = this.Book.Span[b].abbr2.ToString();
+                    if (name.Equals(abbr, StringComparison.InvariantCultureIgnoreCase))
+                        return (this.Book.Span[b], true);
+                }
+            }
+            if (len <= 3)
+            {
+                for (int b = 1; b <= 66; b++)
+                {
+                    var abbr = this.Book.Span[b].abbr3.ToString();
+                    if (name.Equals(abbr, StringComparison.InvariantCultureIgnoreCase))
+                        return (this.Book.Span[b], true);
+                }
+            }
+            if (len <= 4)
+            {
+                for (int b = 1; b <= 66; b++)
+                {
+                    var abbr = this.Book.Span[b].abbr4.ToString();
+                    if (name.Equals(abbr, StringComparison.InvariantCultureIgnoreCase))
+                        return (this.Book.Span[b], true);
+                }
+            }
+            for (int b = 1; b <= 66; b++)
+            {
+                string test = this.Book.Span[b].name.ToString();
+                if (name.Equals(test, StringComparison.InvariantCultureIgnoreCase))
+                    return (this.Book.Span[b], true);
+
+                test = this.Book.Span[b].abbrAltA.ToString();
+                if (name.Equals(test, StringComparison.InvariantCultureIgnoreCase))
+                    return (this.Book.Span[b], true);
+
+                test = this.Book.Span[b].abbrAltB.ToString();
+                if (name.Equals(test, StringComparison.InvariantCultureIgnoreCase))
+                    return (this.Book.Span[b], true);
+            }
+            return (new Book(), false);
+        }
+        // For Part-of-Speech:
+        public static uint EncodePOS(string input7charsMaxWithHyphen)
+        { // input string must be ascii
+            var len = input7charsMaxWithHyphen.Length;
+            if (len < 1 || len > 7)
                 return 0;
-            }
-            set
-            {
-                switch (idx)
-                {
-                    case 3:
-                    case 2:
-                    case 1:
-                    case 0:  break;
-                    default: return; // silent errors
-                }
-                UInt64 others = 0x00FFFFFF;
-                UInt64 shifted = (UInt32)(value << (3 * 8));
-                for (int segment = 0; segment < idx; segment++)
-                {
-                    shifted >>= 8;
-                    others  >>= 8;
-                    others |= 0xFF000000;
-                }
-                this.elements = (UInt32)(shifted | others);
-            }
-        }
-        public byte B
-        {
-            get => (byte)(this.elements >> 3*8);
-        }
-        public byte C
-        {
-            get => (byte)((this.elements >> 2 * 8) & 0xFF);
-        }
-        public byte V
-        {
-            get => (byte)((this.elements >> 8) & 0xFF);
-        }
-        public byte WC
-        {
-            get => (byte)(this.elements & 0xFF);
-        }
-    }
-    public struct STRONGS
-    {
-        public UInt64 elements { get; private set; }
-        public UInt16 this[int idx]
-        {
-            get
-            {
-                var shift = (idx-1) * 16;
-                switch(idx)
-                {
-                    case 3:
-                    case 2:
-                    case 1:
-                    case 0: return (UInt16)((this.elements >> shift) & 0xFFFF);
-                }
+
+            var input = input7charsMaxWithHyphen.Trim().ToLower();
+            len = input7charsMaxWithHyphen.Length;
+            if (len < 1 || len > 7)
                 return 0;
-            }
-            internal set
+
+            var encoded = (uint)0x0;
+            var hyphen = (uint)input.IndexOf('-');
+            if (hyphen > 0 && hyphen <= 3)
+                hyphen <<= 30;
+            else if (len > 6)   // 6 characters max if a compliant hyphen is not part of the string
+                return 0;
+            else
+                hyphen = 0x0;
+
+            int c = 0;
+            char[] buffer = new char[6]; // 6x 5bit characters
+            for (var i = 0; i < len; i++)
             {
-                switch (idx)
+                var b = input[i];
+                switch (b)
                 {
-                    case 3:
-                    case 2:
-                    case 1:
-                    case 0:  break;
-                    default: return; // silent errors
+                    case '-':
+                        continue;
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                        b -= '0';
+                        b += (char)27;
+                        break;
                 }
-                UInt64 others = 0x0000FFFFFFFFFFFF;
-                UInt64 shifted = (UInt64)(value << (3 * 16));
-                for (int segment = 0; segment < idx; segment++)
-                {
-                    shifted >>= 16;
-                    others  >>= 16;
-                    others |= 0xFFFF000000000000;
-                }
-                this.elements = (UInt64)(shifted | others);
+                buffer[c++] = b;
             }
+            var position = (uint)0x02000000;
+            for (var i = 0; i < 6 - len; i++)
+            {
+                position >>= 5;
+            }
+            for (var i = 0; i < len; i++)
+            {
+                char letter = (char)(buffer[i] & 0x1F);
+                if (letter == 0)
+                    break;
+
+                encoded |= letter * position;
+                position >>= 5;
+            }
+            return encoded | hyphen;
         }
-    }
-    public struct Written
-    {
-        public STRONGS Strongs; // UInt64 accessible as UInt16[]
-        public BCVW    BCVWc;   // UInt32 accessible as Byte[]
-        public UInt16  WordKey;
-        public UInt16  pnPOS12;
-        public UInt32  POS32;
-        public UInt32  Lemma;
-        public byte    Punctuation;
-        public byte    Transition;
-
-        public static (ReadOnlyMemory<Written> result, bool okay, string message) Read(System.IO.BinaryReader reader, Dictionary<string, Artifact> directory)
+        //  For Part-of-Speech:
+        public static string DecodePOS(uint encoding)
         {
-            if (!directory.ContainsKey("Written"))
-                return (Memory<Written>.Empty, false, "Written is missing from directory");
+            char[] buffer = new char[7]; // 6x 5bit characters + 2bits for hyphen position = 32 bits;
 
-            Artifact artifact = directory["Written"];
+            var hyphen = encoding & 0xC0000000;
+            if (hyphen > 0)
+                hyphen >>= 30;
 
-            var needed = artifact.offset + artifact.length;
-
-            if (reader.BaseStream.Length < needed)
-                return (ReadOnlyMemory<Written>.Empty, false, "Input stream has insufficient data");
-
-            reader.BaseStream.Seek(artifact.offset, SeekOrigin.Begin);
-
-            var written = new Written[artifact.recordCount];
-
-            for (int w = 0; w < artifact.recordCount; w++)
+            var index = 0;
+            for (var mask = (uint)(0x1F << 25); mask >= 0x1F; mask >>= 5)
             {
-                UInt16[] strongs = new UInt16[] { reader.ReadUInt16(), reader.ReadUInt16(), reader.ReadUInt16(), reader.ReadUInt16() }; // 8 = 8;
-                for (int i = 0; i < strongs.Length; i++)
-                    written[w].Strongs[i] = strongs[i];
-                byte[] bcvw = new byte[] { reader.ReadByte(), reader.ReadByte(), reader.ReadByte(), reader.ReadByte() }; // 4 = 12;
-                for (int i = 0; i < bcvw.Length; i++)
-                    written[w].BCVWc[i] = bcvw[i];
-
-                written[w].WordKey     = reader.ReadUInt16(); //  2 = 14
-                written[w].Punctuation = reader.ReadByte();   //  1 = 15
-                written[w].Transition  = reader.ReadByte();   //  1 = 16
-                written[w].pnPOS12     = reader.ReadUInt16(); //  2 = 18
-                written[w].POS32       = reader.ReadUInt32(); //  4 = 22
-                written[w].Lemma       = reader.ReadUInt16(); //  2 = 24
+                var digit = encoding & mask >> 5 * (5 - index);
+                if (digit == 0)
+                    continue;
+                byte b = (byte)digit;
+                if (b <= 26)
+                    b |= 0x60;
+                else
+                {
+                    b -= 27;
+                    b += (byte)'0';
+                }
+                if (hyphen == index)
+                    buffer[index++] = '-';
+                buffer[index++] = (char)b;
             }
-            return (new ReadOnlyMemory<Written>(written), true, "");
+            var decoded = new StringBuilder(index + 1);
+            for (int i = 0; i < index; i++)
+                decoded.Append(buffer[i]);
+            return decoded.ToString();
         }
     }
 }

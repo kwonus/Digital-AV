@@ -1,34 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AVXLib.Framework
+﻿namespace AVXLib.Memory
 {
     public class Name
     {
-        public UInt16 NameKey;
+        public ushort NameKey;
         public ReadOnlyMemory<ReadOnlyMemory<char>> meanings;
 
-        private static Dictionary<UInt16, ReadOnlyMemory<ReadOnlyMemory<char>>> map = new();
+        private static Dictionary<ushort, ReadOnlyMemory<ReadOnlyMemory<char>>> map = new();
 
-        public static (Name name, bool valid) GetEntry(UInt16 key)
+        public static (Name name, bool valid) GetEntry(ushort key)
         {
             (Name name, bool valid) result = (new Name(), false);
 
-            if (Name.map.ContainsKey(key))
+            if (map.ContainsKey(key))
             {
                 result.name.NameKey = key;
-                result.name.meanings = Name.map[key];
+                result.name.meanings = map[key];
                 result.valid = true;
             }
             return result;
         }
- 
-        public static (Dictionary<UInt16, ReadOnlyMemory<ReadOnlyMemory<char>>> result, bool okay, string message) Read(System.IO.BinaryReader reader, Dictionary<string, Artifact> directory)
+
+        public static (Dictionary<ushort, ReadOnlyMemory<ReadOnlyMemory<char>>> result, bool okay, string message) Read(BinaryReader reader, Dictionary<string, Artifact> directory)
         {
-            Name.map.Clear();
+            map.Clear();
 
             if (!directory.ContainsKey("Names"))
                 return (map, false, "Names is missing from directory");
@@ -52,7 +46,7 @@ namespace AVXLib.Framework
                 {
                     var meaningCollection = Deserialization.SplitDelimitedMemory('|', meanings.text);
 
-                    if ((key > 0) && meaningCollection.valid)
+                    if (key > 0 && meaningCollection.valid)
                         map[key] = meaningCollection.texts;
                 }
             }

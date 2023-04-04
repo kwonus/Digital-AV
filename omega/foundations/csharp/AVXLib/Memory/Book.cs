@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace AVXLib.Framework
+﻿namespace AVXLib.Memory
 {
     public struct Book
     {
         public byte bookNum;
         public byte chapterCnt;
-        public UInt16 chapterIdx;
-        public UInt16 verseCnt;
-        public UInt32 writCnt;
-        public UInt32 writIdx;
+        public ushort chapterIdx;
+        public ushort verseCnt;
+        public uint writCnt;
+        public uint writIdx;
         public ReadOnlyMemory<char> name;
         public ReadOnlyMemory<char> abbr2;
         public ReadOnlyMemory<char> abbr3;
@@ -25,7 +16,7 @@ namespace AVXLib.Framework
         public ReadOnlyMemory<char> abbrAltB;
         public ReadOnlyMemory<Written> written;
 
-        public static (ReadOnlyMemory<Book> result, bool okay, string message) Read(System.IO.BinaryReader reader, Dictionary<string, Artifact> directory, ReadOnlyMemory<Written> written)
+        public static (ReadOnlyMemory<Book> result, bool okay, string message) Read(BinaryReader reader, Dictionary<string, Artifact> directory, ReadOnlyMemory<Written> written)
         {
             if (!directory.ContainsKey("Book"))
                 return (Memory<Book>.Empty, false, "Book is missing from directory");
