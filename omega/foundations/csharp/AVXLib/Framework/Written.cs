@@ -24,7 +24,9 @@
 
         private static Dictionary<string, UInt16> ReverseLexModern = new();
         private static Dictionary<string, UInt16> ReverseLex = new();
-        private static char[] subtract = new char[] { '-', ' ', '\'', '(', ')', '.', ':', ';', '!', '?', ',' };
+        private static char[] csubtract = new char[] { '-', ' ', '\'', '(', ')', '.', ':', ';', '!', '?', ',' };
+        private static string[] subtract = new string[] { "-", " ", "'", "(", ")", ".", ":", ";", "!", "?", "," };
+
 
         public Written(Deserialization.Data data)
         {
@@ -39,12 +41,14 @@
         {
             string result = input.ToLower();
 
-            if (result.IndexOfAny(subtract) >= 0)
+            if (result.IndexOfAny(csubtract) >= 0)
             {
+                int i = 0;
                 foreach (var c in subtract)
                 {
                     if (result.IndexOf(c) >= 0)
-                        result = result.Remove(c);
+                        result = result.Replace(subtract[i], "");
+                    i++;
                 }
             }
             return result;
