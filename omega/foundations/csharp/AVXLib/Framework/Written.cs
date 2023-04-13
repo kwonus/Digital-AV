@@ -24,7 +24,7 @@
 
         private static Dictionary<string, UInt16> ReverseLexModern = new();
         private static Dictionary<string, UInt16> ReverseLex = new();
-        private static string[] subtract = new string[] { "-", " ", "'", "(", ")", ".", ":", ";", "!", "?", "," };
+        private static char[] subtract = new char[] { '-', ' ', '\'', '(', ')', '.', ':', ';', '!', '?', ',' };
 
         public Written(Deserialization.Data data)
         {
@@ -33,16 +33,19 @@
 
         private static string Keyify(ReadOnlyMemory<char> input)
         {
-            return input.ToString();
+            return Keyify(input.ToString());
         }
-        private static string Keyify(string input)
+        public static string Keyify(string input)
         {
             string result = input.ToLower();
 
-            foreach (var c in subtract)
+            if (result.IndexOfAny(subtract) >= 0)
             {
-                if (result.IndexOf(c[0]) >= 0)
-                    result = result.Replace(c, "");
+                foreach (var c in subtract)
+                {
+                    if (result.IndexOf(c) >= 0)
+                        result = result.Remove(c);
+                }
             }
             return result;
         }
@@ -115,65 +118,43 @@
             }
             return "";
         }
-        public (ushort key, Memory.Lexicon lex, bool found) GetReverseLexRecord(string text)
+        public UInt16 GetReverseLex(string text)
         {
             var lookup = Keyify(text);
             if (ReverseLex.ContainsKey(lookup))
             {
-                ushort key = ReverseLex[lookup];
-                return (key, this.Lex.Span[key], true);
+                UInt16 key = ReverseLex[lookup];
+                return key;
             }
-            if (this.Lex.Length > 0)
-            {
-                return (0, this.Lex.Span[0], false);
-            }
-            return (0, new Memory.Lexicon(), false);
+            return 0;
         }
-        public (ushort key, Memory.Lexicon lex, bool found) GetReverseLexRecordModern(string text)
+        public UInt16 GetReverseLexModern(string text)
         {
             var lookup = Keyify(text);
             if (ReverseLexModern.ContainsKey(lookup))
             {
-                ushort key = ReverseLexModern[lookup];
-                return (key, this.Lex.Span[key], true);
+                UInt16 key = ReverseLexModern[lookup];
+                return key;
             }
-            if (this.Lex.Span.Length > 0)
-            {
-                return (0, this.Lex.Span[0], false);
-            }
-            return (0, new Memory.Lexicon(), false);
+            return 0;
         }
-        public (ushort key, Memory.Lexicon lex, bool found) GetReverseLexRecordExtensive(string text, bool strict = false)
+        public UInt16 GetReverseLexExtensive(string text, bool strict = false)
         {
-            var record = this.GetReverseLexRecord(text);
-            if ((!record.found) && !strict)
+            var lex = this.GetReverseLex(text);
+            if ((lex == 0) && !strict)
             {
-                record = this.GetReverseLexRecordModern(text);
+                lex = this.GetReverseLexModern(text);
             }
-            if (!record.found)
+            if (lex == 0)
             { 
-                var dehyphenated = text.Replace("-", "");
-                record = this.GetReverseLexRecord(dehyphenated);
-                if ((!record.found) && !strict)
+                var keyified = AVXLib.Framework.Written.Keyify(text);
+                lex = this.GetReverseLex(keyified);
+                if ((lex == 0) && !strict)
                 {
-                    record = this.GetReverseLexRecordModern(dehyphenated);
+                    lex = this.GetReverseLexModern(keyified);
                 }
             }
-            return record;
-        }
-        public (ushort key, Memory.Lexicon lex, bool found) GetLexRecord(ushort id)
-        {
-            ushort key = (ushort)(id & WordKeyBits.WordKey);
-
-            if (key > 0 && key < this.Lex.Span.Length)
-            {
-                return (key, this.Lex.Span[key], true);
-            }
-            if (this.Lex.Span.Length > 0)
-            {
-                return (0, this.Lex.Span[0], false);
-            }
-            return (0, new Memory.Lexicon(), false);
+            return lex;
         }
         private static string PrePunc(ushort previousPunctuation, ushort currentPunctuation)
         {

@@ -4,58 +4,59 @@ namespace AVXLib.Memory
 {
     public struct BCVW
     {
-        public uint elements { get; private set; }
+        public UInt32 elements { get; private set; }
 
         internal byte this[int idx]
         {
             get
             {
-                var shift = (idx - 1) * 8;
                 switch (idx)
                 {
-                    case 3:
-                    case 2:
-                    case 1:
-                    case 0: return (byte)(elements >> shift & 0xFF);
+                    case 0:  return this.B;
+                    case 1:  return this.C;
+                    case 2:  return this.V;
+                    case 3:  return this.WC;
+                    default: return 0; // silent error (except, obviously bad value)
                 }
-                return 0;
             }
             set
             {
+                UInt32 nibbles = value;
+
                 switch (idx)
                 {
-                    case 3:
-                    case 2:
-                    case 1:
-                    case 0: break;
-                    default: return; // silent errors
+                    case 0:  elements &= 0x00FFFFFF;
+                             elements |= (nibbles << (8 * 3));
+                             return;
+                    case 1:  elements &= 0xFF00FFFF;
+                             elements |= (nibbles << (8 * 2));
+                             return;
+                    case 2:  elements &= 0xFFFF00FF;
+                             elements |= (nibbles << 8);
+                             return;
+                    case 3:  elements &= 0xFFFFFF00;
+                             elements |= nibbles;
+                             return;
+                    default: elements = 0xFFFFFF00;
+                             return; // silent error (except, obviously bad value)
                 }
-                ulong others = 0x00FFFFFF;
-                ulong shifted = (uint)(value << 3 * 8);
-                for (int segment = 0; segment < idx; segment++)
-                {
-                    shifted >>= 8;
-                    others >>= 8;
-                    others |= 0xFF000000;
-                }
-                elements = (uint)(shifted | others);
             }
         }
         public byte B
         {
-            get => (byte)(elements >> 3 * 8);
+            get => (byte) (this.elements >> (8 * 3));
         }
         public byte C
         {
-            get => (byte)(elements >> 2 * 8 & 0xFF);
+            get => (byte) ((this.elements >> (8 * 2)) & 0xFF);
         }
         public byte V
         {
-            get => (byte)(elements >> 8 & 0xFF);
+            get => (byte) ((this.elements >> 8) & 0xFF);
         }
         public byte WC
         {
-            get => (byte)(elements & 0xFF);
+            get => (byte) (this.elements & 0xFF);
         }
     }
     public struct STRONGS

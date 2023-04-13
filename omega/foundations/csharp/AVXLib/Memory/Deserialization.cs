@@ -55,7 +55,7 @@
                             var written = AVXLib.Memory.Written.Read(reader, Directory);
                             if (written.okay)
                             {
-                                Written = written.result;
+                                this.Written = written.result;
                                 objects.Written = new AVXLib.Framework.Written(this);
                             }
                             else
@@ -67,7 +67,7 @@
                             var books = AVXLib.Memory.Book.Read(reader, Directory, written.result);
                             if (books.okay)
                             {
-                                Book = books.result;
+                                this.Book = books.result;
                             }
                             else
                             {
@@ -78,7 +78,7 @@
                             var chapters = AVXLib.Memory.Chapter.Read(reader, Directory);
                             if (chapters.okay)
                             {
-                                Chapter = chapters.result;
+                                this.Chapter = chapters.result;
                             }
                             else
                             {
@@ -89,7 +89,7 @@
                             var lexicon = AVXLib.Memory.Lexicon.Read(reader, Directory);
                             if (lexicon.okay)
                             {
-                                Lexicon = lexicon.result;
+                                this.Lexicon = lexicon.result;
                                 objects.Lexicon = new AVXLib.Framework.Lexicon(this);
                             }
                             else
@@ -101,7 +101,7 @@
                             var lemmata = AVXLib.Memory.Lemmata.Read(reader, Directory);
                             if (lemmata.okay)
                             {
-                                Lemmata = lemmata.result;
+                                this.Lemmata = lemmata.result;
                                 objects.Lemmata = new AVXLib.Framework.Lemmata(this);
                             }
                             else
@@ -113,7 +113,7 @@
                             var oov = AVXLib.Memory.OOV.Read(reader, Directory);
                             if (oov.okay)
                             {
-                                OOVLemmata = oov.result;
+                                this.OOVLemmata = oov.result;
                                 objects.OOV = new AVXLib.Framework.OOV(this);
                             }
                             else
@@ -125,7 +125,7 @@
                             var names = AVXLib.Memory.Name.Read(reader, Directory);
                             if (names.okay)
                             {
-                                Names = names.result;
+                                this.Names = names.result;
                             }
                             else
                             {
@@ -142,6 +142,7 @@
                         valid = false;
                     }
                 }
+                return;
             DATA_READ_ERROR:
                 Written = Memory<Written>.Empty;
                 Book = Memory<Book>.Empty;
