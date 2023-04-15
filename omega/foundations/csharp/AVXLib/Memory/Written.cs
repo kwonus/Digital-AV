@@ -111,10 +111,13 @@ namespace AVXLib.Memory
 
         public static (ReadOnlyMemory<Written> result, bool okay, string message) Read(BinaryReader reader, Dictionary<string, Artifact> directory)
         {
-            if (!directory.ContainsKey("Written"))
+            if (!directory.ContainsKey(typeof(Written).Name))
                 return (Memory<Written>.Empty, false, "Written is missing from directory");
 
-            Artifact artifact = directory["Written"];
+            Artifact artifact = directory[typeof(Written).Name];
+
+            if (artifact.SKIP)
+                return (Memory<Written>.Empty, true, "Written is explicitly skipped by request");
 
             var needed = artifact.offset + artifact.length;
 

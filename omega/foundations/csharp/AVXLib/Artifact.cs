@@ -7,6 +7,7 @@
     {
         public Artifact(string label)
         {
+            this.SKIP = true;
             this.label = label;
             this.offset = 0;
             this.length = 0;
@@ -16,8 +17,9 @@
             this.ERROR = false;
             this.DONE = false;
         }
-        public Artifact(System.IO.BinaryReader reader, Dictionary<string, Artifact> directory)
+        public Artifact(System.IO.BinaryReader reader, Dictionary<string, Artifact> directory, Type[]? selections)
         {
+            this.SKIP = (selections != null);
             this.label = "";
             this.offset = 0;
             this.length = 0;
@@ -42,6 +44,13 @@
                 this.length = reader.ReadUInt32(); len += 4;
                 this.recordLength  = reader.ReadUInt32(); len += 4;
                 this.recordCount   = reader.ReadUInt32(); len += 4;
+                if (selections != null)
+                    foreach (var selection in selections)
+                        if (this.label.StartsWith(selection.Name, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            this.SKIP = false;
+                            break;
+                        }
 
                 UInt64 hash1 = reader.ReadUInt64(); len += 8;
                 UInt64 hash2 = reader.ReadUInt64(); len += 8;
@@ -54,6 +63,7 @@
                     this.DONE = (dir.length <= reader.BaseStream.Position);
             }
         }
+        public bool   SKIP;
         public bool   DONE;
         public bool   ERROR;
         public string label;

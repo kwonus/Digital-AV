@@ -18,9 +18,12 @@
 
         public static (ReadOnlyMemory<Book> result, bool okay, string message) Read(BinaryReader reader, Dictionary<string, Artifact> directory, ReadOnlyMemory<Written> written)
         {
-            if (!directory.ContainsKey("Book"))
+            if (!directory.ContainsKey(typeof(Book).Name))
                 return (Memory<Book>.Empty, false, "Book is missing from directory");
-            Artifact artifact = directory["Book"];
+            Artifact artifact = directory[typeof(Book).Name];
+
+            if (artifact.SKIP)
+                return (Memory<Book>.Empty, true, "Book is explicitly skipped by request");
 
             Span<byte> bname = stackalloc byte[16];
             Span<byte> babbr = stackalloc byte[18];

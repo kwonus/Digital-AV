@@ -11,10 +11,13 @@
 
         public static (ReadOnlyMemory<Lemmata> result, bool okay, string message) Read(BinaryReader reader, Dictionary<string, Artifact> directory)
         {
-            if (!directory.ContainsKey("Lemmata"))
+            if (!directory.ContainsKey(typeof(Lemmata).Name))
                 return (Memory<Lemmata>.Empty, false, "Lemmata is missing from directory");
 
-            Artifact artifact = directory["Lemmata"];
+            Artifact artifact = directory[typeof(Lemmata).Name];
+
+            if (artifact.SKIP)
+                return (Memory<Lemmata>.Empty, true, "Lemmata is explicitly skipped by request");
 
             var needed = artifact.offset + artifact.length;
 

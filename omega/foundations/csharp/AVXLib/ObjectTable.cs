@@ -21,11 +21,13 @@
             public Framework.Written Written { set => _written = value; }
             public Framework.Lexicon Lexicon { set => _lexicon = value; }
             public Framework.Lemmata Lemmata { set => _lemmata = value; }
-            public Framework.OOV     OOV     { set => _oov     = value; }
+            public Framework.OOV OOV { set => _oov = value; }
+
+            private static Type[] requirements = new Type[] { typeof(Memory.Book), typeof(Memory.Written), typeof(Memory.Lexicon), typeof(Memory.Lemmata), typeof(Memory.OOV) };
 
             internal InternalObjectTable(string input): base()
             {
-                this.Mem = new AVXLib.Memory.Deserialization.Data(this, @"C:\src\Digital-AV\omega\AVX-Omega.data");
+                this.Mem = new AVXLib.Memory.Deserialization.Data(this, @"C:\src\Digital-AV\omega\AVX-Omega.data", requirements);
             }
         }
         public AVXLib.Memory.Deserialization.Data Mem { get; protected set; }

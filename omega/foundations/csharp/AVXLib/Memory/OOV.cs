@@ -11,6 +11,8 @@
             if (!directory.ContainsKey("OOV-Lemmata"))
                 return (map, false, "OOV-Lemmata is missing from directory");
             Artifact artifact = directory["OOV-Lemmata"];
+            if (artifact.SKIP)
+                return (map, true, "OOV-Lemmata is explicitly skipped by request");
 
             Span<byte> buffer = stackalloc byte[24];
 

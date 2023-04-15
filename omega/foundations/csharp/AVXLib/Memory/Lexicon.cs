@@ -14,10 +14,13 @@ namespace AVXLib.Memory
         public bool ModernSameAsOriginal;
         public static (ReadOnlyMemory<Lexicon> result, bool okay, string message) Read(BinaryReader reader, Dictionary<string, Artifact> directory)
         {
-            if (!directory.ContainsKey("Lexicon"))
+            if (!directory.ContainsKey(typeof(Lexicon).Name))
                 return (Memory<Lexicon>.Empty, false, "Lexicon is missing from directory");
 
-            Artifact artifact = directory["Lexicon"];
+            Artifact artifact = directory[typeof(Lexicon).Name];
+
+            if (artifact.SKIP)
+                return (Memory<Lexicon>.Empty, true, "Lexicon is explicitly skipped by request");
 
             var needed = artifact.offset + artifact.length;
 

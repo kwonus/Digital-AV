@@ -31,10 +31,10 @@
             public readonly Dictionary<ushort, ReadOnlyMemory<ReadOnlyMemory<char>>> Names;
             public readonly bool valid;
 
-            public Data(IAVXObjectSetter objects, string dataPath = @"C:\src\Digital-AV\omega\AVX-Omega.data")
+            public Data(IAVXObjectSetter objects, string dataPath = @"C:\src\Digital-AV\omega\AVX-Omega.data", Type[]? selections = null)
             {
-                Directory = new();
-                valid = false;
+                this.Directory = new();
+                this.valid = false;
 
                 if (File.Exists(dataPath))
                 {
@@ -42,7 +42,7 @@
                     {
                         using (var reader = CreateReader(dataPath))
                         {
-                            for (var entry = new Artifact(reader, Directory); !entry.ERROR; entry = new Artifact(reader, Directory))
+                            for (var entry = new Artifact(reader, Directory, selections); !entry.ERROR; entry = new Artifact(reader, Directory, selections))
                             {
                                 Console.WriteLine(entry.hash + ": " + entry.label);
 
@@ -122,7 +122,7 @@
                                 goto DATA_READ_ERROR;
                             }
 
-                            var names = AVXLib.Memory.Name.Read(reader, Directory);
+                            var names = AVXLib.Memory.Names.Read(reader, Directory);
                             if (names.okay)
                             {
                                 this.Names = names.result;

@@ -9,10 +9,13 @@
 
         public static (ReadOnlyMemory<Chapter> result, bool okay, string message) Read(BinaryReader reader, Dictionary<string, Artifact> directory)
         {
-            if (!directory.ContainsKey("Chapter"))
+            if (!directory.ContainsKey(typeof(Chapter).Name))
                 return (Memory<Chapter>.Empty, false, "Chapter is missing from directory");
 
-            Artifact artifact = directory["Chapter"];
+            Artifact artifact = directory[typeof(Chapter).Name];
+
+            if (artifact.SKIP)
+                return (Memory<Chapter>.Empty, true, "Chapter is explicitly skipped by request");
 
             var needed = artifact.offset + artifact.length;
 

@@ -24,8 +24,8 @@
 
         private static Dictionary<string, UInt16> ReverseLexModern = new();
         private static Dictionary<string, UInt16> ReverseLex = new();
-        private static char[] csubtract = new char[] { '-', ' ', '\'', '(', ')', '.', ':', ';', '!', '?', ',' };
-        private static string[] subtract = new string[] { "-", " ", "'", "(", ")", ".", ":", ";", "!", "?", "," };
+//      private static char[] subtract = new char[] { '-', ' ', '\'', '(', ')', '.', ':', ';', '!', '?', ',' };
+        private static HashSet<char> subtract = new() { '-', ' ' };
 
 
         public Written(Deserialization.Data data)
@@ -41,15 +41,24 @@
         {
             string result = input.ToLower();
 
-            if (result.IndexOfAny(csubtract) >= 0)
+            int idx = -1;
+            foreach (var c in subtract)
             {
-                int i = 0;
-                foreach (var c in subtract)
-                {
-                    if (result.IndexOf(c) >= 0)
-                        result = result.Replace(subtract[i], "");
-                    i++;
-                }
+                int tmp = result.IndexOf(c);
+                if (tmp < 0)
+                    continue;
+                if (tmp < idx || idx < 0)
+                    idx = tmp;
+            }
+            if (idx >= 0)
+            {
+                int len = result.Length;
+                var replacement = (idx == 0) ? new StringBuilder(len-1) : new StringBuilder(result.Substring(0, idx), len-1);
+
+                for (++idx; idx < len; idx++)
+                    if (!subtract.Contains(result[idx]))
+                        replacement.Append(result[idx]);
+                return replacement.ToString();
             }
             return result;
         }

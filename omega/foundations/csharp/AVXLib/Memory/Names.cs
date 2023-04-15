@@ -1,15 +1,15 @@
 ﻿namespace AVXLib.Memory
 {
-    public class Name
+    public class Names
     {
         public ushort NameKey;
         public ReadOnlyMemory<ReadOnlyMemory<char>> meanings;
 
         private static Dictionary<ushort, ReadOnlyMemory<ReadOnlyMemory<char>>> map = new();
 
-        public static (Name name, bool valid) GetEntry(ushort key)
+        public static (Names name, bool valid) GetEntry(ushort key)
         {
-            (Name name, bool valid) result = (new Name(), false);
+            (Names name, bool valid) result = (new Names(), false);
 
             if (map.ContainsKey(key))
             {
@@ -24,9 +24,11 @@
         {
             map.Clear();
 
-            if (!directory.ContainsKey("Names"))
+            if (!directory.ContainsKey(typeof(Names).Name))
                 return (map, false, "Names is missing from directory");
-            Artifact artifact = directory["Names"];
+            Artifact artifact = directory[typeof(Names).Name];
+            if (artifact.SKIP)
+                return (map, true, "Names is explicitly skipped by request");
 
             Span<byte> buffer = stackalloc byte[512];
 
