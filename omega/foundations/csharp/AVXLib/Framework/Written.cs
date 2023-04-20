@@ -151,7 +151,7 @@
             }
             return 0;
         }
-        public UInt16 GetReverseLexExtensive(string text, bool strict = false)
+        public UInt16[] GetReverseLexExtensive(string text, bool strict = false)
         {
             var lex = this.GetReverseLex(text);
             if ((lex == 0) && !strict)
@@ -167,7 +167,7 @@
                     lex = this.GetReverseLexModern(keyified);
                 }
             }
-            return lex;
+            return new UInt16[] { lex }; // to do: need to handle multi-result ... i.e. you where exactt == false should return [ you, ye, thou ]
         }
         private static string PrePunc(ushort previousPunctuation, ushort currentPunctuation)
         {
