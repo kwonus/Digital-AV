@@ -22,13 +22,17 @@
         public class Data
         {
             public Dictionary<string, Artifact> Directory { get; private init; }
+#if INCLUDE_DEPRECATED_BEHAVIOR
             public readonly ReadOnlyMemory<Written> Written;
             public readonly ReadOnlyMemory<Book> Book;
             public readonly ReadOnlyMemory<Chapter> Chapter;
+#endif
             public readonly ReadOnlyMemory<Lexicon> Lexicon;
             public readonly ReadOnlyMemory<Lemmata> Lemmata;
             public readonly Dictionary<ushort, ReadOnlyMemory<char>> OOVLemmata;
+#if INCLUDE_DEPRECATED_BEHAVIOR
             public readonly Dictionary<ushort, ReadOnlyMemory<ReadOnlyMemory<char>>> Names;
+#endif
             public readonly bool valid;
 
             public Data(IAVXObjectSetter objects, string dataPath = @"C:\src\Digital-AV\omega\AVX-Omega.data", Type[]? selections = null)
@@ -51,7 +55,7 @@
                                 if (entry.DONE)
                                     break;
                             }
-
+#if INCLUDE_DEPRECATED_BEHAVIOR
                             var written = AVXLib.Memory.Written.Read(reader, Directory);
                             if (written.okay)
                             {
@@ -85,7 +89,7 @@
                                 Console.WriteLine(chapters.message);
                                 goto DATA_READ_ERROR;
                             }
-
+#endif
                             var lexicon = AVXLib.Memory.Lexicon.Read(reader, Directory);
                             if (lexicon.okay)
                             {
@@ -121,7 +125,7 @@
                                 Console.WriteLine(oov.message);
                                 goto DATA_READ_ERROR;
                             }
-
+#if INCLUDE_DEPRECATED_BEHAVIOR
                             var names = AVXLib.Memory.Names.Read(reader, Directory);
                             if (names.okay)
                             {
@@ -132,6 +136,7 @@
                                 Console.WriteLine(names.message);
                                 goto DATA_READ_ERROR;
                             }
+#endif
                         }
                         valid = true;
 
@@ -144,18 +149,19 @@
                 }
                 return;
             DATA_READ_ERROR:
+#if INCLUDE_DEPRECATED_BEHAVIOR
                 Written = Memory<Written>.Empty;
                 Book = Memory<Book>.Empty;
                 Chapter = Memory<Chapter>.Empty;
+                Names = new();
+#endif
                 Lexicon = Memory<Lexicon>.Empty;
                 Lemmata = Memory<Lemmata>.Empty;
                 OOVLemmata = new();
-                Names = new();
                 valid = false;
                 return;
             }
         }
-
         internal static Memory<char> GetMemoryString(ReadOnlySpan<byte> bytes, int offset, int length)
         {
             int len = 0;

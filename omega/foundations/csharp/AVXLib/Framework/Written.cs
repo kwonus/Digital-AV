@@ -8,31 +8,17 @@
     public class Written
     {
         private Deserialization.Data Data;
+#if INCLUDE_DEPRECATED_BEHAVIOR
+        private ReadOnlyMemory<AVXLib.Memory.Book> Book { get => this.Data.Book; }
         private ReadOnlyMemory<AVXLib.Memory.Written> Writ { get => this.Data.Written; }
-        private ReadOnlyMemory<AVXLib.Memory.Lexicon> Lex  { get => this.Data.Lexicon; }
-        private ReadOnlyMemory<AVXLib.Memory.Book>    Book { get => this.Data.Book;    }
-
-        public static bool ProcessReversals(ushort key, string search, string display, string modern)
-        {
-            var same = display == modern;
-
-            ReverseLex[Keyify(search)] = key;
-            ReverseLexModern[Keyify(modern)] = key;
-
-            return same;
-        }
-
-        private static Dictionary<string, UInt16> ReverseLexModern = new();
-        private static Dictionary<string, UInt16> ReverseLex = new();
+#endif
 //      private static char[] subtract = new char[] { '-', ' ', '\'', '(', ')', '.', ':', ';', '!', '?', ',' };
         private static HashSet<char> subtract = new() { '-', ' ' };
-
 
         public Written(Deserialization.Data data)
         {
             this.Data = data;
         }
-
         private static string Keyify(ReadOnlyMemory<char> input)
         {
             return Keyify(input.ToString());
@@ -62,113 +48,7 @@
             }
             return result;
         }
-        public string GetLexNormalized(ushort id)
-        {
-            ushort caps = (ushort)(id & WordKeyBits.CAPS);
-            int key = id & WordKeyBits.WordKey;
-
-            if (key > 0 && key < this.Lex.Length)
-            {
-                var lex = this.Lex.Span[key].Search.ToString();
-                if (lex.Length > 1)
-                {
-                    if (caps == WordKeyBits.CAPS_FirstLetter)
-                        return lex.Substring(0, 1).ToUpper() + lex.Substring(1);
-                    else if (caps == WordKeyBits.CAPS_AllLetters)
-                        return lex.ToUpper();
-                }
-                else if (caps != 0)
-                {
-                    return lex.ToUpper();
-                }
-                return lex;
-            }
-            return "";
-        }
-        public string GetLexDisplay(ushort id)
-        {
-            ushort caps = (ushort)(id & WordKeyBits.CAPS);
-            int key = id & WordKeyBits.WordKey;
-
-            if (key > 0 && key < this.Lex.Length)
-            {
-                var lex = this.Lex.Span[key].Display.ToString();
-                if (lex.Length > 1)
-                {
-                    if (caps == WordKeyBits.CAPS_FirstLetter)
-                        return lex.Substring(0, 1).ToUpper() + lex.Substring(1);
-                    else if (caps == WordKeyBits.CAPS_AllLetters)
-                        return lex.ToUpper();
-                }
-                else if (caps != 0)
-                {
-                    return lex.ToUpper();
-                }
-                return lex;
-            }
-            return "";
-        }
-        public string GetLexModern(ushort id)
-        {
-            ushort caps = (ushort)(id & WordKeyBits.CAPS);
-            int key = id & WordKeyBits.WordKey;
-
-            if (key > 0 && key < this.Lex.Length)
-            {
-                var lex = this.Lex.Span[key].Modern.ToString();
-                if (lex.Length > 1)
-                {
-                    if (caps == WordKeyBits.CAPS_FirstLetter)
-                        return lex.Substring(0, 1).ToUpper() + lex.Substring(1);
-                    else if (caps == WordKeyBits.CAPS_AllLetters)
-                        return lex.ToUpper();
-                }
-                else if (caps != 0)
-                {
-                    return lex.ToUpper();
-                }
-                return lex;
-            }
-            return "";
-        }
-        public UInt16 GetReverseLex(string text)
-        {
-            var lookup = Keyify(text);
-            if (ReverseLex.ContainsKey(lookup))
-            {
-                UInt16 key = ReverseLex[lookup];
-                return key;
-            }
-            return 0;
-        }
-        public UInt16 GetReverseLexModern(string text)
-        {
-            var lookup = Keyify(text);
-            if (ReverseLexModern.ContainsKey(lookup))
-            {
-                UInt16 key = ReverseLexModern[lookup];
-                return key;
-            }
-            return 0;
-        }
-        public UInt16[] GetReverseLexExtensive(string text, bool strict = false)
-        {
-            var lex = this.GetReverseLex(text);
-            if ((lex == 0) && !strict)
-            {
-                lex = this.GetReverseLexModern(text);
-            }
-            if (lex == 0)
-            { 
-                var keyified = AVXLib.Framework.Written.Keyify(text);
-                lex = this.GetReverseLex(keyified);
-                if ((lex == 0) && !strict)
-                {
-                    lex = this.GetReverseLexModern(keyified);
-                }
-            }
-            return new UInt16[] { lex }; // to do: need to handle multi-result ... i.e. you where exactt == false should return [ you, ye, thou ]
-        }
+#if INCLUDE_DEPRECATED_BEHAVIOR
         private static string PrePunc(ushort previousPunctuation, ushort currentPunctuation)
         {
             bool prevParen = (previousPunctuation & Punctuation.Parenthetical) != 0;
@@ -295,94 +175,6 @@
             }
             return (new Book(), false);
         }
-        // For Part-of-Speech:
-        public static uint EncodePOS(string input7charsMaxWithHyphen)
-        { // input string must be ascii
-            var len = input7charsMaxWithHyphen.Length;
-            if (len < 1 || len > 7)
-                return 0;
-
-            var input = input7charsMaxWithHyphen.Trim().ToLower();
-            len = input7charsMaxWithHyphen.Length;
-            if (len < 1 || len > 7)
-                return 0;
-
-            var encoded = (uint)0x0;
-            var hyphen = (uint)input.IndexOf('-');
-            if (hyphen > 0 && hyphen <= 3)
-                hyphen <<= 30;
-            else if (len > 6)   // 6 characters max if a compliant hyphen is not part of the string
-                return 0;
-            else
-                hyphen = 0x0;
-
-            int c = 0;
-            char[] buffer = new char[6]; // 6x 5bit characters
-            for (var i = 0; i < len; i++)
-            {
-                var b = input[i];
-                switch (b)
-                {
-                    case '-':
-                        continue;
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                        b -= '0';
-                        b += (char)27;
-                        break;
-                }
-                buffer[c++] = b;
-            }
-            var position = (uint)0x02000000;
-            for (var i = 0; i < 6 - len; i++)
-            {
-                position >>= 5;
-            }
-            for (var i = 0; i < len; i++)
-            {
-                char letter = (char)(buffer[i] & 0x1F);
-                if (letter == 0)
-                    break;
-
-                encoded |= letter * position;
-                position >>= 5;
-            }
-            return encoded | hyphen;
-        }
-        //  For Part-of-Speech:
-        public static string DecodePOS(uint encoding)
-        {
-            char[] buffer = new char[7]; // 6x 5bit characters + 2bits for hyphen position = 32 bits;
-
-            var hyphen = encoding & 0xC0000000;
-            if (hyphen > 0)
-                hyphen >>= 30;
-
-            var index = 0;
-            for (var mask = (uint)(0x1F << 25); mask >= 0x1F; mask >>= 5)
-            {
-                var digit = encoding & mask >> 5 * (5 - index);
-                if (digit == 0)
-                    continue;
-                byte b = (byte)digit;
-                if (b <= 26)
-                    b |= 0x60;
-                else
-                {
-                    b -= 27;
-                    b += (byte)'0';
-                }
-                if (hyphen == index)
-                    buffer[index++] = '-';
-                buffer[index++] = (char)b;
-            }
-            var decoded = new StringBuilder(index + 1);
-            for (int i = 0; i < index; i++)
-                decoded.Append(buffer[i]);
-            return decoded.ToString();
-        }
+#endif
     }
 }

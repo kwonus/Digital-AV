@@ -47,7 +47,7 @@ namespace AVXLib.Memory
 
                 lexicon[i].Display = display.Length > 0 ? display : lexicon[i].Search;
                 lexicon[i].Modern = modern.Length > 0 ? modern : lexicon[i].Display;
-                lexicon[i].ModernSameAsOriginal = Framework.Written.ProcessReversals((ushort)i, lexicon[i].Search.ToString(), lexicon[i].Display.ToString(), lexicon[i].Modern.ToString());
+                lexicon[i].ModernSameAsOriginal = Framework.Lexicon.ProcessReversals((ushort)i, lexicon[i].Search.ToString(), lexicon[i].Display.ToString(), lexicon[i].Modern.ToString());
 
             }
             return (new ReadOnlyMemory<Lexicon>(lexicon), true, "");
