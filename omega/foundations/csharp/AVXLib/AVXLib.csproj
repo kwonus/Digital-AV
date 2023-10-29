@@ -8,4 +8,8 @@
 	<PublishAot>true</PublishAot>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\NUPhone\PhonemeEmbeddings\PhonemeEmbeddings.csproj" />
+  </ItemGroup>
+
 </Project>

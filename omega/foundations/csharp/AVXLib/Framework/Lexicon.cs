@@ -69,6 +69,18 @@
             }
             return result;
         }
+        public (AVXLib.Memory.Lexicon entry, bool valid) GetRecord(UInt16 id)
+        {
+            int key = id & WordKeyBits.WordKey;
+
+            bool valid = ((key > 0) && (key < this.Lex.Length));
+            if (!valid)
+                key = 0;
+
+            return (this.Lex.Slice(key, 1).Span[0], valid); 
+        }
+        public UInt16 RecordCount { get => (UInt16) this.Lex.Length; }
+
         public string GetLexNormalized(ushort id)
         {
             ushort caps = (ushort)(id & WordKeyBits.CAPS);
@@ -159,13 +171,13 @@
             return null;
         }
         // TO DO: fix cardinality issues or reverse lex lookups
-        public UInt16[] GetReverseLexExtensive(string text, bool strict = false)
+        public UInt16[] GetReverseLexExtensive(string text, bool useAV = true, bool useAVX = true, byte phonicsThreshold = 0, byte textThreshold = 100)
         {
             HashSet<UInt16>? lex = null;
 
             var keyified = Lexicon.Keyify(text);
 
-            if (!strict)
+            if (useAVX)
             {
                 lex = this.GetReverseLexModern(keyified);
             }

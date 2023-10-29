@@ -18,6 +18,10 @@
             }
             return result;
         }
+        public IEnumerable<UInt16> Keys
+        {
+            get => this.map.Keys;
+        }
         public UInt16 GetReverseEntry(string text)
         {
             if (this.reverseMap.ContainsKey(text))

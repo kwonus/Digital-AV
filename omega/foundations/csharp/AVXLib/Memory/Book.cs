@@ -4,16 +4,14 @@
     {
         public byte bookNum;
         public byte chapterCnt;
-        public ushort chapterIdx;
-        public ushort verseCnt;
+        public UInt16 chapterIdx;
         public uint writCnt;
         public uint writIdx;
         public ReadOnlyMemory<char> name;
         public ReadOnlyMemory<char> abbr2;
         public ReadOnlyMemory<char> abbr3;
         public ReadOnlyMemory<char> abbr4;
-        public ReadOnlyMemory<char> abbrAltA;
-        public ReadOnlyMemory<char> abbrAltB;
+        public ReadOnlyMemory<char> abbrAlternates;
         public ReadOnlyMemory<Written> written;
 
         public static (ReadOnlyMemory<Book> result, bool okay, string message) Read(BinaryReader reader, Dictionary<string, Artifact> directory, ReadOnlyMemory<Written> written)
@@ -26,7 +24,7 @@
                 return (Memory<Book>.Empty, true, "Book is explicitly skipped by request");
 
             Span<byte> bname = stackalloc byte[16];
-            Span<byte> babbr = stackalloc byte[18];
+            Span<byte> babbr = stackalloc byte[22];
 
             var needed = artifact.offset + artifact.length;
 
@@ -39,41 +37,27 @@
 
             for (int b = 0; b < artifact.recordCount; b++)
             {
-                book[b].bookNum = reader.ReadByte();      //  1 =  1
-                book[b].chapterCnt = reader.ReadByte();      //  1 =  2
-                book[b].chapterIdx = reader.ReadUInt16();    //  2 =  4
-                book[b].verseCnt = reader.ReadUInt16();    //  2 =  6
-                book[b].writCnt = reader.ReadUInt32();    //  4 = 10
-                book[b].writIdx = reader.ReadUInt32();    //  4 = 14
+                int len = 0;
+                book[b].bookNum = reader.ReadByte();      len ++;
+                book[b].chapterCnt = reader.ReadByte();   len ++;  
+                book[b].chapterIdx = reader.ReadUInt16(); len += 2;
+                book[b].writCnt = reader.ReadUInt16();    len += 2;
+                book[b].writIdx = reader.ReadUInt32();    len += 4;
 
-                if (reader.Read(bname) != bname.Length || reader.Read(babbr) != babbr.Length) // 16 + 18 + 14 = 48
+                if (reader.Read(bname) != bname.Length || reader.Read(babbr) != babbr.Length)
                 {
-                    return (ReadOnlyMemory<Book>.Empty, false, "Could not read bytes from nput stream");
+                    return (ReadOnlyMemory<Book>.Empty, false, "Could not read bytes from input stream");
                 }
+                len += bname.Length;
+                len += babbr.Length;
+                
                 book[b].name = Deserialization.GetMemoryString(bname, 0, bname.Length);
                 book[b].abbr2 = Deserialization.GetMemoryString(babbr, 0, 2);
-                book[b].abbr3 = Deserialization.GetMemoryString(babbr, 2, 3);
-                book[b].abbr4 = Deserialization.GetMemoryString(babbr, 5, 4);
+                book[b].abbr3 = Deserialization.GetMemoryString(babbr, 3, 3);
+                book[b].abbr4 = Deserialization.GetMemoryString(babbr, 7, 4);
+                book[b].abbrAlternates = Deserialization.GetMemoryString(babbr, 12, 10);
+                
                 book[b].written = written.Slice((int)book[b].writIdx, (int)book[b].writCnt);
-
-                if (babbr[9] > 0)
-                {
-                    var alts = Deserialization.GetMemoryString(babbr, 9, 9).ToString().Split(',');
-                    if (alts.Length == 1)
-                    {
-                        book[b].abbrAltA = alts[0].AsMemory();
-                        book[b].abbrAltB = Memory<char>.Empty;
-                        continue;
-                    }
-                    if (alts.Length >= 2)
-                    {
-                        book[b].abbrAltA = alts[0].AsMemory();
-                        book[b].abbrAltB = alts[1].AsMemory();
-                        continue;
-                    }
-                }
-                book[b].abbrAltA = Memory<char>.Empty;
-                book[b].abbrAltB = Memory<char>.Empty;
             }
             return (new ReadOnlyMemory<Book>(book), true, "");
         }

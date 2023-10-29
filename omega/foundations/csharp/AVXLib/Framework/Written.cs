@@ -8,10 +8,9 @@
     public class Written
     {
         private Deserialization.Data Data;
-#if INCLUDE_DEPRECATED_BEHAVIOR
         private ReadOnlyMemory<AVXLib.Memory.Book> Book { get => this.Data.Book; }
         private ReadOnlyMemory<AVXLib.Memory.Written> Writ { get => this.Data.Written; }
-#endif
+
 //      private static char[] subtract = new char[] { '-', ' ', '\'', '(', ')', '.', ':', ';', '!', '?', ',' };
         private static HashSet<char> subtract = new() { '-', ' ' };
 
