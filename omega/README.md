@@ -1,0 +1,1 @@
+The latest code for SDK generation can be found on the Digital-AV fork at http://github.com/AV-Text/AVX
