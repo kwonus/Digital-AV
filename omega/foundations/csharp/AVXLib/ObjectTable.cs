@@ -20,6 +20,7 @@ namespace AVXLib
     public class ObjectTable
     {
         private static ObjectTable? Instance = null;
+        public static string SDK { set; protected get; } = "";
         public static ObjectTable AVXObjects
         {
             get
@@ -28,7 +29,7 @@ namespace AVXLib
                 {
                     return ObjectTable.Instance;
                 }
-                ObjectTable.Instance = AVXLib.ObjectTable.Create(@"C:\src\AVX\omega\AVX-Omega-3911.data");
+                ObjectTable.Instance = AVXLib.ObjectTable.Create(ObjectTable.SDK);
 
                 return ObjectTable.Instance;
             }
