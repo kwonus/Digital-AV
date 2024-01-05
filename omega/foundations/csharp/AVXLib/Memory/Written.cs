@@ -1,4 +1,6 @@
 ﻿using AVXLib.Framework;
+using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 
 namespace AVXLib.Memory
 {
@@ -57,6 +59,94 @@ namespace AVXLib.Memory
         public byte WC
         {
             get => (byte) (this.elements & 0xFF);
+        }
+        public override bool Equals(object? obj)
+        {
+            return obj != null && obj.GetType() == typeof(BCVW) && ((BCVW)obj).elements == this.elements;
+        }
+        public static bool operator ==(BCVW bcvw1, BCVW bcvw2)
+        {
+            return bcvw1.Equals(bcvw2);
+        }
+        public static bool operator !=(BCVW bcvw1, BCVW bcvw2)
+        {
+            return !bcvw1.Equals(bcvw2);
+        }
+        public static bool operator <(BCVW left, BCVW right)
+        {
+            if (left.elements == right.elements)
+                return false;
+
+            UInt32 L_BCV = left.elements & 0xFFFFFF00;
+            UInt32 R_BCV = right.elements & 0xFFFFFF00;
+
+            if (L_BCV > R_BCV)
+                return false;
+
+            if (L_BCV < R_BCV)
+                return true;
+
+            UInt32 L_WC = left.elements & 0xFF;
+            UInt32 R_WC = right.elements & 0xFF;
+
+            return (R_WC < L_WC);    // WC is a countdown. Therefore when this condition is true, Left is less than right (positionally)
+        }
+        public static bool operator >(BCVW left, BCVW right)
+        {
+            if (left.elements == right.elements)
+                return false;
+
+            UInt32 L_BCV = left.elements & 0xFFFFFF00;
+            UInt32 R_BCV = right.elements & 0xFFFFFF00;
+
+            if (L_BCV < R_BCV)
+                return false;
+
+            if (L_BCV > R_BCV)
+                return true;
+
+            UInt32 L_WC = left.elements & 0xFF;
+            UInt32 R_WC = right.elements & 0xFF;
+
+            return (R_WC > L_WC);    // WC is a countdown. Therefore when this condition is true, Left is greater than right (positionally)
+        }
+        public static bool operator <=(BCVW left, BCVW right)
+        {
+            if (left.elements == right.elements)
+                return true;
+
+            UInt32 L_BCV = left.elements & 0xFFFFFF00;
+            UInt32 R_BCV = right.elements & 0xFFFFFF00;
+
+            if (L_BCV > R_BCV)
+                return false;
+
+            if (L_BCV < R_BCV)
+                return true;
+
+            UInt32 L_WC = left.elements & 0xFF;
+            UInt32 R_WC = right.elements & 0xFF;
+
+            return (R_WC < L_WC);    // WC is a countdown. Therefore when this condition is true, Left is less than right (positionally)
+        }
+        public static bool operator >=(BCVW left, BCVW right)
+        {
+            if (left.elements == right.elements)
+                return true;
+
+            UInt32 L_BCV = left.elements & 0xFFFFFF00;
+            UInt32 R_BCV = right.elements & 0xFFFFFF00;
+
+            if (L_BCV < R_BCV)
+                return false;
+
+            if (L_BCV > R_BCV)
+                return true;
+
+            UInt32 L_WC = left.elements & 0xFF;
+            UInt32 R_WC = right.elements & 0xFF;
+
+            return (R_WC > L_WC);    // WC is a countdown. Therefore when this condition is true, Left is greater than right (positionally)
         }
     }
     public struct STRONGS
