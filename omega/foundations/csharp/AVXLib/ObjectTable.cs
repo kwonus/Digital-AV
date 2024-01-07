@@ -41,11 +41,11 @@ namespace AVXLib
             public Framework.Lemmata Lemmata { set => _lemmata = value; }
             public Framework.OOV OOV { set => _oov = value; }
 
-            private static Type[] requirements = new Type[] { typeof(Memory.Book), typeof(Memory.Written), typeof(Memory.Lexicon), typeof(Memory.Lemmata), typeof(Memory.OOV), typeof(Memory.Phonetics) };
+            private static Type[] requirements = new Type[] { typeof(Memory.Book), typeof(Memory.Written), typeof(Memory.Lexicon), typeof(Memory.Lemmata), typeof(Memory.OOV), typeof(Memory.Phonetics), typeof(Memory.Chapter), typeof(Memory.Names) };
 
             internal InternalObjectTable(string input): base()
             {
-                this.Mem = new AVXLib.Memory.Deserialization.Data(this, @"C:\src\AVX\omega\AVX-Omega-3911.data", requirements); // Revision 3.9
+                this.Mem = new AVXLib.Memory.Deserialization.Data(this, input, requirements); // Revision 3.9
             }
         }
         public AVXLib.Memory.Deserialization.Data Mem { get; protected set; }
@@ -65,7 +65,7 @@ namespace AVXLib
             ;
         }
 
-        private static ObjectTable Create(string input = @"C:\src\AVX\omega\AVX-Omega-3911.data")
+        private static ObjectTable Create(string input) // e.g. @"C:\src\AVX\omega\AVX-Omega-3911.data"
         {
             var obj = new ObjectTable.InternalObjectTable(input);
             return obj;

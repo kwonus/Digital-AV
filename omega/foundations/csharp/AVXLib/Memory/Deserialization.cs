@@ -33,7 +33,7 @@
 
             public readonly bool valid;
 
-            public Data(IAVXObjectSetter objects, string dataPath = @"C:\src\AVX\omega\AVX-Omega-3911", Type[]? selections = null)
+            public Data(IAVXObjectSetter objects, string dataPath, Type[]? selections = null)
             {
                 this.Directory = new();
                 this.valid = false;
