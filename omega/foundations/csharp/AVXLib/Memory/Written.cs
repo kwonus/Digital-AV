@@ -72,6 +72,10 @@ namespace AVXLib.Memory
         {
             return !bcvw1.Equals(bcvw2);
         }
+        public override int GetHashCode()
+        {
+            return this.elements.GetHashCode();
+        }
         public static bool operator <(BCVW left, BCVW right)
         {
             if (left.elements == right.elements)
@@ -147,6 +151,51 @@ namespace AVXLib.Memory
             UInt32 R_WC = right.elements & 0xFF;
 
             return (R_WC > L_WC);    // WC is a countdown. Therefore when this condition is true, Left is greater than right (positionally)
+        }
+        public static Int64? operator -(BCVW left, BCVW right)
+        {
+            if (left.elements == right.elements)
+                return 0;
+
+            if (left < right)
+                return 0 - (right - left);
+
+            UInt32 L_BCV = left.elements  & 0xFFFFFF00;
+            UInt32 R_BCV = right.elements & 0xFFFFFF00;
+
+            UInt32 L_WC  = left.elements  & 0xFF;
+            UInt32 R_WC  = right.elements & 0xFF;
+
+            if (L_BCV == R_BCV)
+            {
+                return L_WC - R_WC;
+            }
+            return null;    // distance can only be calculated with Writ instance
+        }
+        public static Int64? operator -(ReadOnlySpan<Written> left, BCVW right)
+        {
+            if (left[0].BCVWc.elements == right.elements)
+                return 0;
+
+            if (left[0].BCVWc < right)
+                return 0 - (right - left[0].BCVWc); // can return null!!! // only guarenteed non-null return: is to pass written/left that is <= the BCVW right/comparison value
+
+            Int64? trivial = left[0].BCVWc - right;
+
+            if (trivial != null)
+            {
+                return trivial.Value;
+            }
+
+            // The first element [left] is always less than the second [right]
+            // count in forward direction;
+
+            Int64 cnt = 0;
+            for (int i = 0; left[0].BCVWc != right; i++, cnt++)
+            {
+                ;
+            }
+            return cnt;
         }
     }
     public struct STRONGS
