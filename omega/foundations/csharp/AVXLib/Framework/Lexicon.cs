@@ -88,7 +88,7 @@
 
             if (key > 0 && key < this.Lex.Length)
             {
-                var lex = this.Lex.Span[key].Search.ToString();
+                var lex = LEXICON.ToSearchString(this.Lex.Span[key]);
                 if (lex.Length > 1)
                 {
                     if (caps == WordKeyBits.CAPS_FirstLetter)
@@ -111,7 +111,7 @@
 
             if (key > 0 && key < this.Lex.Length)
             {
-                var lex = this.Lex.Span[key].Display.ToString();
+                var lex = LEXICON.ToDisplayString(this.Lex.Span[key]);
                 if (lex.Length > 1)
                 {
                     if (caps == WordKeyBits.CAPS_FirstLetter)
@@ -134,7 +134,7 @@
 
             if (key > 0 && key < this.Lex.Length)
             {
-                var lex = this.Lex.Span[key].Modern.ToString();
+                var lex = LEXICON.ToModernString(this.Lex.Span[key]);
                 if (lex.Length > 1)
                 {
                     if (caps == WordKeyBits.CAPS_FirstLetter)

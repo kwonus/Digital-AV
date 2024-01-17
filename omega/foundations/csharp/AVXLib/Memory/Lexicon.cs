@@ -41,16 +41,35 @@ namespace AVXLib.Memory
                     pos[j] = reader.ReadUInt32();
                 lexicon[i].POS = new ReadOnlyMemory<uint>(pos);
 
-                lexicon[i].Search = Deserialization.ReadDelimitedMemory(reader, '\0', buffer).text;
-                var display = Deserialization.ReadDelimitedMemory(reader, '\0', buffer).text;
-                var modern = Deserialization.ReadDelimitedMemory(reader, '\0', buffer).text;
-
-                lexicon[i].Display = display.Length > 0 ? display : lexicon[i].Search;
-                lexicon[i].Modern = modern.Length > 0 ? modern : lexicon[i].Display;
-                lexicon[i].ModernSameAsOriginal = Framework.Lexicon.ProcessReversals((ushort)i, lexicon[i].Search.ToString(), lexicon[i].Display.ToString(), lexicon[i].Modern.ToString());
-
+                lexicon[i].Search  = Deserialization.ReadDelimitedMemory(reader, '\0', buffer).text;
+                lexicon[i].Display = Deserialization.ReadDelimitedMemory(reader, '\0', buffer).text;
+                lexicon[i].Modern  = Deserialization.ReadDelimitedMemory(reader, '\0', buffer).text;
             }
             return (new ReadOnlyMemory<Lexicon>(lexicon), true, "");
+        }
+    }
+
+    public abstract class LEXICON
+    {
+        public static string ToSearchString(Lexicon lex)
+        {
+            return lex.Search.ToString();
+        }
+        public static string ToDisplayString(Lexicon lex)
+        {
+            return (lex.Display.Length > 0) ? lex.Display.ToString() : lex.Search.ToString(); 
+        }
+        public static string ToModernString(Lexicon lex)
+        {
+            return (lex.Modern.Length  > 0) ? lex.Modern.ToString()  : (lex.Display.Length > 0) ? lex.Display.ToString() : lex.Search.ToString();
+        }
+        public static bool IsModernSameAsDisplay(Lexicon lex)
+        {
+            return (lex.Modern.Length == 0);
+        }
+        public static bool IsHyphenated(Lexicon lex)
+        {
+            return (lex.Display.Length != 0);
         }
     }
 }
