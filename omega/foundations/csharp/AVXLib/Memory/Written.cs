@@ -241,10 +241,10 @@ namespace AVXLib.Memory
     {
         public STRONGS Strongs; // UInt64 accessible as UInt16[]
         public BCVW BCVWc;   // UInt32 accessible as Byte[]
-        public ushort WordKey;
-        public ushort pnPOS12;
-        public uint POS32;
-        public uint Lemma;
+        public UInt16 WordKey;
+        public UInt16 pnPOS12;
+        public UInt32 POS32;
+        public UInt16 Lemma;
         public byte Punctuation;
         public byte Transition;
 
