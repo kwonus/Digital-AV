@@ -46,12 +46,15 @@
                 this.recordCount   = reader.ReadUInt32(); len += 4;
                 if (selections != null)
                     foreach (var selection in selections)
-                        if (this.label.StartsWith(selection.Name, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        bool include = selection.Name.StartsWith(this.label, StringComparison.InvariantCultureIgnoreCase)
+                                    || this.label.StartsWith(selection.Name, StringComparison.InvariantCultureIgnoreCase);
+                        if (include)
                         {
                             this.SKIP = false;
                             break;
                         }
-
+                    }
                 UInt64 hash1 = reader.ReadUInt64(); len += 8;
                 UInt64 hash2 = reader.ReadUInt64(); len += 8;
                 this.hash = hash1.ToString("X016") + hash2.ToString("X016");
