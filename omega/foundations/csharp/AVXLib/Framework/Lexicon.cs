@@ -15,22 +15,25 @@
         {
             this.data = data;
         }
-        public static bool ProcessReversals(ushort key, string search, string display, string modern)
+        public static bool ProcessReversals(UInt16 key, string search, string display, string modern)
         {
-            var same = display == modern;
+            bool same = modern.Length == 0;
 
             ReverseLex[Keyify(search)] = key;
 
-            var modkey = Keyify(modern);
-            if (ReverseLexModern.ContainsKey(modkey))
+            if (!same)
             {
-                if (!ReverseLexModern[modkey].Contains(key))
-                    ReverseLexModern[modkey].Add(key);
-            }
-            else
-            {
-                var keys = new HashSet<ushort>() { key };
-                ReverseLexModern[modkey] = keys;
+                var modkey = Keyify(modern);
+                if (ReverseLexModern.ContainsKey(modkey))
+                {
+                    if (!ReverseLexModern[modkey].Contains(key))
+                        ReverseLexModern[modkey].Add(key);
+                }
+                else
+                {
+                    var keys = new HashSet<UInt16>() { key };
+                    ReverseLexModern[modkey] = keys;
+                }
             }
             return same;
         }
@@ -81,9 +84,9 @@
         }
         public UInt16 RecordCount { get => (UInt16) this.Lex.Length; }
 
-        public string GetLexNormalized(ushort id)
+        public string GetLexNormalized(UInt16 id)
         {
-            ushort caps = (ushort)(id & WordKeyBits.CAPS);
+            UInt16 caps = (UInt16)(id & WordKeyBits.CAPS);
             int key = id & WordKeyBits.WordKey;
 
             if (key > 0 && key < this.Lex.Length)
@@ -104,9 +107,9 @@
             }
             return "";
         }
-        public string GetLexDisplay(ushort id)
+        public string GetLexDisplay(UInt16 id)
         {
-            ushort caps = (ushort)(id & WordKeyBits.CAPS);
+            ushort caps = (UInt16)(id & WordKeyBits.CAPS);
             int key = id & WordKeyBits.WordKey;
 
             if (key > 0 && key < this.Lex.Length)
@@ -127,7 +130,7 @@
             }
             return "";
         }
-        public string GetLexModern(ushort id)
+        public string GetLexModern(UInt16 id)
         {
             ushort caps = (ushort)(id & WordKeyBits.CAPS);
             int key = id & WordKeyBits.WordKey;
@@ -150,7 +153,7 @@
             }
             return "";
         }
-        public UInt16 GetReverseLex(string text)
+        public static UInt16 GetReverseLex(string text)
         {
             var lookup = Keyify(text);
             if (ReverseLex.ContainsKey(lookup))
@@ -160,7 +163,7 @@
             }
             return 0;
         }
-        public HashSet<UInt16>? GetReverseLexModern(string text)
+        public static HashSet<UInt16>? GetReverseLexModern(string text)
         {
             var lookup = Keyify(text);
             if (ReverseLexModern.ContainsKey(lookup))
@@ -170,8 +173,8 @@
             }
             return null;
         }
-        // TO DO: fix cardinality issues or reverse lex lookups
-        public UInt16[] GetReverseLexExtensive(string text, bool useAV = true, bool useAVX = true, byte phonicsThreshold = 0, byte textThreshold = 100)
+        // TO DO: fix cardinality issues on reverse lex lookups
+        public static UInt16[] GetReverseLexExtensive(string text, bool useAV = true, bool useAVX = true, byte phonicsThreshold = 0, byte textThreshold = 100)
         {
             HashSet<UInt16>? lex = null;
 
@@ -179,9 +182,9 @@
 
             if (useAVX)
             {
-                lex = this.GetReverseLexModern(keyified);
+                lex = Lexicon.GetReverseLexModern(keyified);
             }
-            var kjv = this.GetReverseLex(keyified);
+            var kjv = Lexicon.GetReverseLex(keyified);
             if (kjv != 0)
             {
                 if (lex == null)
@@ -198,7 +201,7 @@
         }
 
         // For Part-of-Speech:
-        public static uint EncodePOS(string input7charsMaxWithHyphen)
+        public static UInt32 EncodePOS(string input7charsMaxWithHyphen)
         { // input string must be ascii
             var len = input7charsMaxWithHyphen.Length;
             if (len < 1 || len > 7)
@@ -209,8 +212,8 @@
             if (len < 1 || len > 7)
                 return 0;
 
-            var encoded = (uint)0x0;
-            var hyphen = (uint)input.IndexOf('-');
+            var encoded = (UInt32)0x0;
+            var hyphen = (UInt32)input.IndexOf('-');
             if (hyphen > 0 && hyphen <= 3)
                 hyphen <<= 30;
             else if (len > 6)   // 6 characters max if a compliant hyphen is not part of the string
@@ -238,7 +241,7 @@
                 }
                 buffer[c++] = b;
             }
-            var position = (uint)0x02000000;
+            UInt32 position = (UInt32)0x02000000;
             for (var i = 0; i < 6 - len; i++)
             {
                 position >>= 5;
@@ -255,7 +258,7 @@
             return encoded | hyphen;
         }
         //  For Part-of-Speech:
-        public static string DecodePOS(uint encoding)
+        public static string DecodePOS(UInt32 encoding)
         {
             char[] buffer = new char[7]; // 6x 5bit characters + 2bits for hyphen position = 32 bits;
 
@@ -264,7 +267,7 @@
                 hyphen >>= 30;
 
             var index = 0;
-            for (var mask = (uint)(0x1F << 25); mask >= 0x1F; mask >>= 5)
+            for (UInt32 mask = (UInt32)(0x1F << 25); mask >= 0x1F; mask >>= 5)
             {
                 var digit = encoding & mask >> 5 * (5 - index);
                 if (digit == 0)

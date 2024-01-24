@@ -32,18 +32,20 @@ namespace AVXLib.Memory
             var lexicon = new Lexicon[artifact.recordCount];
             Span<byte> buffer = stackalloc byte[24];
 
-            for (int i = 0; i < artifact.recordCount; i++)
+            for (UInt16 key = 0; key < artifact.recordCount; key++)
             {
-                lexicon[i].Entities = reader.ReadUInt16(); //  2 = 2
+                lexicon[key].Entities = reader.ReadUInt16(); //  2 = 2
                 var cnt = reader.ReadUInt16(); //  2 = 4
                 var pos = new uint[cnt];                 //  2 = 6
                 for (int j = 0; j < cnt; j++)
                     pos[j] = reader.ReadUInt32();
-                lexicon[i].POS = new ReadOnlyMemory<uint>(pos);
+                lexicon[key].POS = new ReadOnlyMemory<uint>(pos);
 
-                lexicon[i].Search  = Deserialization.ReadDelimitedMemory(reader, '\0', buffer).text;
-                lexicon[i].Display = Deserialization.ReadDelimitedMemory(reader, '\0', buffer).text;
-                lexicon[i].Modern  = Deserialization.ReadDelimitedMemory(reader, '\0', buffer).text;
+                lexicon[key].Search  = Deserialization.ReadDelimitedMemory(reader, '\0', buffer).text;
+                lexicon[key].Display = Deserialization.ReadDelimitedMemory(reader, '\0', buffer).text;
+                lexicon[key].Modern  = Deserialization.ReadDelimitedMemory(reader, '\0', buffer).text;
+
+                Framework.Lexicon.ProcessReversals(key, lexicon[key].Search.ToString(), lexicon[key].Display.ToString(), lexicon[key].Modern.ToString());
             }
             return (new ReadOnlyMemory<Lexicon>(lexicon), true, "");
         }
