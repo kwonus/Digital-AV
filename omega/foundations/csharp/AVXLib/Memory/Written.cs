@@ -1,6 +1,7 @@
 ﻿using AVXLib.Framework;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace AVXLib.Memory
 {
@@ -63,6 +64,14 @@ namespace AVXLib.Memory
         public override bool Equals(object? obj)
         {
             return obj != null && obj.GetType() == typeof(BCVW) && ((BCVW)obj).elements == this.elements;
+        }
+        public bool StartsWith(byte b, byte c = 0, byte v = 0)
+        {
+            if (this.B != b)
+                return false;
+            if (this.C != c || c == 0)
+                return (c == 0 && v == 0);
+            return (this.V == v || v == 0);
         }
         public static bool operator ==(BCVW bcvw1, BCVW bcvw2)
         {
