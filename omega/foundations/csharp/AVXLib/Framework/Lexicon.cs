@@ -153,7 +153,7 @@
             }
             return "";
         }
-        public static UInt16 GetReverseLex(string text)
+        private static UInt16 GetReverseLex(string text)
         {
             var lookup = Keyify(text);
             if (ReverseLex.ContainsKey(lookup))
@@ -163,7 +163,7 @@
             }
             return 0;
         }
-        public static HashSet<UInt16>? GetReverseLexModern(string text)
+        private static HashSet<UInt16> GetReverseLexModern(string text)
         {
             var lookup = Keyify(text);
             if (ReverseLexModern.ContainsKey(lookup))
@@ -173,31 +173,23 @@
             }
             return null;
         }
-        // TO DO: fix cardinality issues on reverse lex lookups
-        public static UInt16[] GetReverseLexExtensive(string text, bool useAV = true, bool useAVX = true, byte phonicsThreshold = 0, byte textThreshold = 100)
+        public static HashSet<UInt16> GetReverseLex(string text, bool useAV, bool useAVX)
         {
-            HashSet<UInt16>? lex = null;
-
             var keyified = Lexicon.Keyify(text);
+            HashSet<UInt16> lex = useAVX ? Lexicon.GetReverseLexModern(keyified) : new();
 
-            if (useAVX)
+            if (useAV)
             {
-                lex = Lexicon.GetReverseLexModern(keyified);
-            }
-            var kjv = Lexicon.GetReverseLex(keyified);
-            if (kjv != 0)
-            {
-                if (lex == null)
+                var kjv = Lexicon.GetReverseLex(keyified);
+                if (kjv != 0)
                 {
-                    lex = new HashSet<UInt16>();
-                    lex.Add(kjv);
-                }
-                else if (!lex.Contains(kjv))
-                {
-                    lex.Add(kjv);
+                    if (!lex.Contains(kjv))
+                    {
+                        lex.Add(kjv);
+                    }
                 }
             }
-            return lex != null ? lex.ToArray() : new UInt16[0];
+            return lex;
         }
 
         // For Part-of-Speech:
