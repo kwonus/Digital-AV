@@ -1,4 +1,5 @@
 ﻿using AVXLib.Framework;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -161,13 +162,13 @@ namespace AVXLib.Memory
 
             return (R_WC > L_WC);    // WC is a countdown. Therefore when this condition is true, Left is greater than right (positionally)
         }
-        public static Int64? operator -(BCVW left, BCVW right)
+        public static (int distance, bool valid) operator -(BCVW left, BCVW right)
         {
             if (left.elements == right.elements)
-                return 0;
+                return (0, true);
 
-            if (left < right)
-                return 0 - (right - left);
+            if (left.B != right.B)
+                return (0, false);
 
             UInt32 L_BCV = left.elements  & 0xFFFFFF00;
             UInt32 R_BCV = right.elements & 0xFFFFFF00;
@@ -177,35 +178,106 @@ namespace AVXLib.Memory
 
             if (L_BCV == R_BCV)
             {
-                return L_WC - R_WC;
+                return ((int)L_WC - (int)R_WC, true);
             }
-            return null;    // distance can only be calculated with Writ instance
+            return (0, false);    // distance can only be calculated with Writ instance
         }
-        public static Int64? operator -(ReadOnlySpan<Written> left, BCVW right)
+        public static UInt32 GetDistance(ReadOnlySpan<Written> left, BCVW right, UInt32 length)
         {
             if (left[0].BCVWc.elements == right.elements)
                 return 0;
 
-            if (left[0].BCVWc < right)
-                return 0 - (right - left[0].BCVWc); // can return null!!! // only guarenteed non-null return: is to pass written/left that is <= the BCVW right/comparison value
-
-            Int64? trivial = left[0].BCVWc - right;
-
-            if (trivial != null)
+            var trivial = left[0].BCVWc - right;
+            if (trivial.valid)
             {
-                return trivial.Value;
+                int distance = trivial.distance;
+                return (UInt32) (distance > 0 ? distance : 0 - distance);
+            }
+            if (length == 0)
+            {
+                return UInt32.MaxValue;
+            }
+            if (left[0].BCVWc.B != right.B)
+            {
+                return UInt32.MaxValue;
             }
 
-            // The first element [left] is always less than the second [right]
+            // The first element [left] should always be less than the second [right]
             // count in forward direction;
 
-            Int64 cnt = 0;
-            for (int i = 0; left[0].BCVWc != right; i++, cnt++)
+            if (left[0].BCVWc.elements < right.elements )
             {
-                ;
+                UInt32 cnt = 0;
+                bool equals;
+                do
+                {
+                    equals = cnt < length && left[(int)cnt].BCVWc != right;
+                }   while (!equals);
+
+                if (equals)
+                {
+                    return cnt;
+                }
+                Book book = ObjectTable.AVXObjects.Mem.Book.Slice(left[0].BCVWc.B, 1).Span[0];
+                Chapter chapterLeft = ObjectTable.AVXObjects.Mem.Chapter.Slice(book.chapterIdx + left[0].BCVWc.C - 1, 1).Span[0];
+                Chapter chapterRight = ObjectTable.AVXObjects.Mem.Chapter.Slice(book.chapterIdx + right.C - 1, 1).Span[0];
+                int newLength = chapterRight.writIdx - chapterLeft.writIdx + chapterRight.writCnt;
+                ReadOnlySpan<Written> searchable = ObjectTable.AVXObjects.Mem.Written.Slice(chapterLeft.writIdx, newLength).Span;
+
+                return GetDistance(searchable, right, (UInt32) newLength);
             }
-            return cnt;
+            else // right value was lesst than left ... fix
+            {
+                Book book = ObjectTable.AVXObjects.Mem.Book.Slice(left[0].BCVWc.B, 1).Span[0];
+                Chapter chapterLeft = ObjectTable.AVXObjects.Mem.Chapter.Slice(book.chapterIdx + right.C - 1, 1).Span[0];
+                Chapter chapterRight = ObjectTable.AVXObjects.Mem.Chapter.Slice(book.chapterIdx + left[0].BCVWc.C - 1, 1).Span[0];
+                int newLength = chapterRight.writIdx - chapterLeft.writIdx + chapterRight.writCnt;
+                ReadOnlySpan<Written> searchable = ObjectTable.AVXObjects.Mem.Written.Slice(chapterLeft.writIdx, newLength).Span;
+
+                return GetDistance(searchable, left[0].BCVWc, (UInt32)newLength);
+            }
         }
+        public static UInt32 GetDistance(BCVW left, BCVW right)
+        {
+            if (left.elements == right.elements)
+                return 0;
+
+            var trivial = left - right;
+            if (trivial.valid)
+            {
+                int distance = trivial.distance;
+                return (UInt32)(distance > 0 ? distance : 0 - distance);
+            }
+            if (left[0] != right.B)
+            {
+                return UInt32.MaxValue;
+            }
+
+            // The first element [left] should always be less than the second [right]
+            // count in forward direction;
+
+            if (left.elements < right.elements)
+            {
+                Book book = ObjectTable.AVXObjects.Mem.Book.Slice(left.B, 1).Span[0];
+                Chapter chapterLeft = ObjectTable.AVXObjects.Mem.Chapter.Slice(book.chapterIdx + left.C - 1, 1).Span[0];
+                Chapter chapterRight = ObjectTable.AVXObjects.Mem.Chapter.Slice(book.chapterIdx + right.C - 1, 1).Span[0];
+                int length = chapterRight.writIdx - chapterLeft.writIdx + chapterRight.writCnt;
+                ReadOnlySpan<Written> searchable = ObjectTable.AVXObjects.Mem.Written.Slice(chapterLeft.writIdx, length).Span;
+
+                return GetDistance(searchable, right, (UInt32)length);
+            }
+            else // right value was lesst than left ... fix
+            {
+                Book book = ObjectTable.AVXObjects.Mem.Book.Slice(left.B, 1).Span[0];
+                Chapter chapterLeft = ObjectTable.AVXObjects.Mem.Chapter.Slice(book.chapterIdx + right.C - 1, 1).Span[0];
+                Chapter chapterRight = ObjectTable.AVXObjects.Mem.Chapter.Slice(book.chapterIdx + left.C - 1, 1).Span[0];
+                int length = chapterRight.writIdx - chapterLeft.writIdx + chapterRight.writCnt;
+                ReadOnlySpan<Written> searchable = ObjectTable.AVXObjects.Mem.Written.Slice(chapterLeft.writIdx, length).Span;
+
+                return GetDistance(searchable, left, (UInt32)length);
+            }
+        }
+
     }
     public struct STRONGS
     {
