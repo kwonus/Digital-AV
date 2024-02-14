@@ -8,6 +8,10 @@ namespace AVXLib.Memory
 {
     public struct BCVW
     {
+        public BCVW(byte b, byte c, byte v, byte wc)
+        {
+            this.elements = (UInt32)(b << 24 | c << 16 | v << 8 | wc);
+        }
         public UInt32 elements { get; private set; }
 
         internal byte this[int idx]
@@ -182,6 +186,23 @@ namespace AVXLib.Memory
             }
             return (0, false);    // distance can only be calculated with Writ instance
         }
+        public bool InRange(byte b, byte c, byte v)
+        {
+            UInt32 elements = (UInt32)(b << 24 | c << 16 | v << 8);
+
+            return (elements & this.elements) == elements;
+        }
+        public bool InRange(byte b, byte c)
+        {
+            UInt32 elements = (UInt32)(b << 24 | c << 16);
+
+            return (elements & this.elements) == elements;
+        }
+        public bool InRange(byte b)
+        {
+            return this.B == b;
+        }
+
         public static UInt32 GetDistance(ReadOnlySpan<Written> left, BCVW right, UInt32 length)
         {
             if (left[0].BCVWc.elements == right.elements)
