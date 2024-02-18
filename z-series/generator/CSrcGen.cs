@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Runtime.ExceptionServices;
 using System.Text;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -469,7 +470,6 @@ namespace SerializeFromSDK
             TextWriter writer = XInitialize(ORDER.Names, inializerVar);
             var fstream = new StreamReader(BOM.GetZ_Path(ORDER.Names));
 
-            var buffer = new char[24];
             using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
             {
                 string delimiter = "\n";

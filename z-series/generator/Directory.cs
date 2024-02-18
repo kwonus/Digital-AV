@@ -11,6 +11,7 @@ namespace FoundationsGenerator
 {
     public static class BOM
     {
+        public const string Omega_Version_Updated = "-Ω3909";
         public const string Omega_Version = "-Ω32";
         public const string Z_31 = "-Z31";
         public const string Z_32 = "-Z32";
@@ -29,6 +30,7 @@ namespace FoundationsGenerator
         public const byte Lemmata   = 5;
         public const byte OOV       = 6;
         public const byte Names     = 7;
+        public const byte Phonetics = 8;
         public const byte Verse     = UNDEFINED;    // not defined in 3.2 versions
 
         public static Dictionary<byte, Directory> Inventory = new()
@@ -41,6 +43,7 @@ namespace FoundationsGenerator
             {BOM.Lemmata,        new Directory("Lemmata") },
             {BOM.OOV,            new Directory("OOV-Lemmata") },
             {BOM.Names,          new Directory("Names") },
+            {BOM.Phonetics,      new Directory("Phonetics") },
             {BOM.UNDEFINED,      new Directory("Verse") }
         };
         public static int GetRecordLength(ORDER id, string version)
@@ -240,6 +243,7 @@ namespace FoundationsGenerator
         Lexicon      = BOM.Lexicon,
         Lemmata      = BOM.Lemmata,
         OOV          = BOM.OOV,
-        Names        = BOM.Names
+        Names        = BOM.Names,
+        Phonetics    = BOM.Phonetics,
     }
 }

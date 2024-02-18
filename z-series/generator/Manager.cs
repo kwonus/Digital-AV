@@ -16,20 +16,21 @@
     {
         public static string RUST_SOURCE
         {
-            get => (Release_Manager == BOM.Z_32) ? @"C:\src\Digital-AV\omega\foundations\rust\src\avx" : @"C:\src\Digital-AV\z-series\foundations\rust\src\avx";
+            get => (Release_Manager == BOM.Z_32) ? @"C:\src\AVX\omega\foundations\rust\src\avx" : @"C:\src\AVX\z-series\foundations\rust\src\avx";
         }
         public static string CPP_SOURCE
         {
-            get => (Release_Manager == BOM.Z_32) ? @"C:\src\Digital-AV\omega\foundations\cpp" : @"C:\src\Digital-AV\z-series\foundations\cpp";
+            get => (Release_Manager == BOM.Z_32) ? @"C:\src\AVX\omega\foundations\cpp" : @"C:\src\AVX\z-series\foundations\cpp";
         }
         public static string SDK_BASELINE
         {
             get => (Release_Manager == BOM.Z_32) ? omegaSDK : baseSDK;
         }
-        public static string baseSDK { get; private set; } = @"C:\src\Digital-AV\z-series\";
-        public static string omegaSDK { get; private set; } = @"C:\src\Digital-AV\omega\";
+        public static string baseSDK { get; private set; } = @"C:\src\AVX\z-series\";
+        public static string omegaSDK { get; private set; } = @"C:\src\AVX\omega\";
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public const string Release_Manager = BOM.Z_32;
+
         public static void Main()
         {
             System.IO.Directory.CreateDirectory(CPP_SOURCE);
@@ -76,7 +77,7 @@
         {
             try
             {
-                var omega = suffix == BOM.Omega_Version || suffix.ToLower().Contains("omega");
+                var omega = suffix == BOM.Omega_Version_Updated || suffix.ToLower().Contains("omega");
                 string file = (omega ? AVXManager.omegaSDK : AVXManager.baseSDK) + baseName + suffix + extent;
                 TextWriter textWriter = new StreamWriter(file);
                 return textWriter;

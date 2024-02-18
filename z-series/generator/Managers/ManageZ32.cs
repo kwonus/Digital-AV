@@ -116,9 +116,15 @@
                 this.bomZ32.Write(bomBytes);
                 this.bomZ32.Close();
             }
+            // There must be a bug in the ComputeHash() or in subsequent lines of code,
+            // because the high-uint64 value is repeated into the low-uint64 value
+            // TO DO: redo this to operate on the string-return value insted, because
+            // that works in the Z-series .bom file
+            //
             var hash = BOM.hasher != null ? BOM.hasher.ComputeHash(bomBytes) : null;
             var md5 = hash != null ? AVXManager.BytesToHex(hash) : "ERROR";
             var md5Bytes = new byte[md5.Length];
+            // There must be a bug in teh C
             for (int i = 0; i < md5.Length; i++)
             {
                 md5Bytes[i] = (byte)(md5[i]);
@@ -153,6 +159,9 @@
                         var writIdx = breader.ReadUInt32();    // 4 = 16
                         var bname = breader.ReadBytes(16);     //16 = 32
                         var babbr = breader.ReadBytes(18);     //18 = 50
+
+                        if (bookNum == 1)
+                            verseCnt = 1533; // fix bug in 3.2 release (perhaps earlier releases also)
 
                         if (bookNum == 0)
                         {

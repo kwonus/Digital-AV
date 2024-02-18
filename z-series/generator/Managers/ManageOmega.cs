@@ -19,8 +19,8 @@
 
         internal ManageOmega()
         {
-            this.bomOmega_MD5 = AVXManager.OpenTextWriter("-Omega", ".md5", "AVX");
-            this.bomOmega = AVXManager.OpenTextWriter("-Omega", ".txt", "AVX");
+            this.bomOmega_MD5 = AVXManager.OpenTextWriter("-Omega-3910", ".md5", "AVX");
+            this.bomOmega = AVXManager.OpenTextWriter("-Omega-3910", ".txt", "AVX");
             this.bomZ32 = AVXManager.OpenTextReader(BOM.Z_32, ".bom");
         }
         private static char[] whitespace = new char[] { ' ', '\t' };
@@ -51,6 +51,8 @@
                             bom = BOM.Inventory[BOM.OOV];
                         else if (label.Contains("Lemma"))
                             bom = BOM.Inventory[BOM.Lemmata];
+                        else if (label.Contains("Phonetics"))
+                            bom = BOM.Inventory[BOM.Phonetics];
                     }
                     if (bom != null)
                     {
@@ -62,8 +64,42 @@
                 }
             }
         }
+        private void UpdatePhoneticsBOM()
+        {
+            var fstream = new StreamReader(BOM.GetZ_Path(ORDER.Phonetics));
+
+            var bom = BOM.Inventory[BOM.Phonetics];
+            bom.recordLength = 0;
+            bom.recordCount = BOM.Inventory[BOM.OOV].recordCount + BOM.Inventory[BOM.Lexicon].recordCount - 1; // subtract 1 for zeroth-entry in lexicon
+            UInt32 len = 0;
+
+            if (fstream.CurrentEncoding == Encoding.UTF8)
+            {
+                using (var breader = new System.IO.BinaryReader(fstream.BaseStream))
+                {
+                    for (int x = 1; x <= bom.recordCount; x++)
+                    {
+                        var wkey = breader.ReadUInt16();
+                        len += 2;
+
+                        for (byte c = breader.ReadByte(); c != 0; c = breader.ReadByte())
+                        {
+                            len++;
+                        }
+                        len++;
+                    }
+                }
+            }
+            bom.length = len;
+        }
         private void AddDirectoryRecord(BinaryWriter writer, FoundationsGenerator.Directory bom)
         {
+            // Phonetics bom was over-written, because it was not actually in Z SDK. Restore values here:
+            if (bom.length == 0)
+            {
+                UpdatePhoneticsBOM();
+            }
+
             this.bomOmega.Write(AVXManager.PadRight(bom.label, 16)); this.bomOmega.Write("\t");
             this.bomOmega.Write(AVXManager.PadLeft(bom.offset.ToString(), 8)); this.bomOmega.Write("\t");
             this.bomOmega.Write(AVXManager.PadLeft(bom.length.ToString(), 8)); this.bomOmega.Write("\t");
@@ -105,10 +141,10 @@
         private void CreateDirectory(BinaryWriter writer)
         {
             FoundationsGenerator.Directory directory = BOM.Inventory[BOM.DIRECTORY];
-            directory.hash = "00000000000000000000000000003201";
+            directory.hash = "00000000000000000000000000003909";
             directory.offset =  0;
             directory.recordLength = 48;
-            directory.recordCount  =  8;
+            directory.recordCount = 9;
             directory.length = (UInt32) (directory.recordLength * directory.recordCount);
 
             this.AddDirectoryRecord(writer, directory);
@@ -124,14 +160,22 @@
                 var bom = BOM.Inventory[id];
                 bom.offset = previous.offset + previous.length;
 
+                if (string.IsNullOrEmpty(bom.hash) && (BOM.hasher != null))
+                {
+                    var hash = BOM.hasher.ComputeHash(bytes);
+                    if (hash != null)
+                        bom.hash = AVXManager.BytesToHex(hash);
+                }
                 this.AddDirectoryRecord(writer, bom);
                 previous = bom;
             }
         }
+        public static Dictionary<byte, UInt32> Size { get; private set; } = new();
         private void CreateArtifact(BinaryWriter writer, ORDER order)
         {
             string file = BOM.GetZ_Path(order, release: BOM.Z_32);
             var bytes = System.IO.File.ReadAllBytes(file);
+            Size[(byte)order] = (UInt32) bytes.Length;
 
             writer.Write(bytes);
         }
@@ -140,7 +184,7 @@
             Console.WriteLine("Read Inventory from the Z32 bom");
             this.ReadInventory();
 
-            string ofile = Path.Combine(AVXManager.SDK_BASELINE, "AVX-Omega.data");
+            string ofile = Path.Combine(AVXManager.SDK_BASELINE, "AVX-Omega-3910.data");
             var ostream = new StreamWriter(ofile, false, Encoding.ASCII);
             using (BinaryWriter writer = new BinaryWriter(ostream.BaseStream))
             {
@@ -155,6 +199,7 @@
                 {
                     CreateArtifact(writer, order);
                 }
+                CreateArtifact(writer, ORDER.Phonetics);
             }
             this.bomZ32.Close();
             this.bomOmega.Close();
