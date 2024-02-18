@@ -176,7 +176,8 @@
         public static HashSet<UInt16> GetReverseLex(string text, bool useAV, bool useAVX)
         {
             var keyified = Lexicon.Keyify(text);
-            HashSet<UInt16> lex = useAVX ? Lexicon.GetReverseLexModern(keyified) : new();
+            HashSet<UInt16>? nullableLex = useAVX ? Lexicon.GetReverseLexModern(keyified) : new();
+            HashSet<UInt16> lex = (nullableLex != null) ? nullableLex : new();
 
             if (useAV)
             {
