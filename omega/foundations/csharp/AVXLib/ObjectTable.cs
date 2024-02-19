@@ -65,7 +65,7 @@ namespace AVXLib
             ;
         }
 
-        private static ObjectTable Create(string input) // e.g. @"C:\src\AVX\omega\AVX-Omega-3911.data"
+        private static ObjectTable Create(string input) // e.g. @"C:\src\AVX\omega\AVX-Omega-4217.data"
         {
             var obj = new ObjectTable.InternalObjectTable(input);
             return obj;

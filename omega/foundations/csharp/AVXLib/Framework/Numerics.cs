@@ -10,6 +10,15 @@
             public const UInt16 WordKey = 0x3FFF;  // trailing 14 bits
         }
 
+        public abstract class LemmaBits
+        {
+            public const UInt16 OOV_Marker = 0x8000;
+            public const UInt16 ModernizationSquelch_Marker = 0x4000;
+
+            public const UInt16 OOV_Lookup_Mask = 0xFFFF ^ ModernizationSquelch_Marker;
+            public const UInt16 Lexicon_Lookup_Mask = 0xFFFF ^ WordKeyBits.CAPS;
+        }
+
         public abstract class Punctuation   // uint8 {
         {
             public const byte Clause = 0xE0;

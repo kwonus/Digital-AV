@@ -12,7 +12,7 @@
         }
 
         public static Dictionary<string, Artifact> Directory { get; private set; } = new();
-        private static BinaryReader CreateReader(string input = @"C:\src\AVX\omega\AVX-Omega-3911")
+        private static BinaryReader CreateReader(string input)
         {
             var fstream = new StreamReader(input, FileReadOptions);
             var reader = new BinaryReader(fstream.BaseStream);

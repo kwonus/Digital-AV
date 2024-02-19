@@ -130,14 +130,15 @@
             }
             return "";
         }
-        public string GetLexModern(UInt16 id)
+        public string GetLexModern(UInt16 id, UInt16 lemma)
         {
             ushort caps = (ushort)(id & WordKeyBits.CAPS);
             int key = id & WordKeyBits.WordKey;
 
             if (key > 0 && key < this.Lex.Length)
             {
-                var lex = LEXICON.ToModernString(this.Lex.Span[key]);
+                bool modernize = ((lemma & Numerics.LemmaBits.ModernizationSquelch_Marker) == 0);
+                var lex = modernize ? LEXICON.ToModernString(this.Lex.Span[key]) : LEXICON.ToDisplayString(this.Lex.Span[key]);
                 if (lex.Length > 1)
                 {
                     if (caps == WordKeyBits.CAPS_FirstLetter)
