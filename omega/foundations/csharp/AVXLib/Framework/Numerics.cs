@@ -53,7 +53,7 @@
         {
             public const UInt16 NounOrPronoun = 0x030;
             public const UInt16 Noun = 0x010;
-            public const UInt16 Noun_nknownGender = 0x010;
+            public const UInt16 Noun_UnknownGender = 0x010;
             public const UInt16 ProperNoun = 0x030;
             public const UInt16 Pronoun = 0x020;
             public const UInt16 Pronoun_Neuter = 0x021;
@@ -78,6 +78,7 @@
             public const UInt16 Determiner = 0xD00;
             public const UInt16 Particle = 0xE00;
             public const UInt16 Adverb = 0xF00;
+            public const UInt16 NonNoun = 0xF00;
         }
 
         public abstract class Transitions // uint8 { // leading 5 bits
