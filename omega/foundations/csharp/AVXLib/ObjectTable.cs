@@ -20,7 +20,7 @@ namespace AVXLib
     public class ObjectTable
     {
         private static ObjectTable? Instance = null;
-        public static string SDK { set; protected get; } = "";
+        public static string SDK { set; protected get; }
         public static ObjectTable AVXObjects
         {
             get
@@ -65,7 +65,7 @@ namespace AVXLib
             ;
         }
 
-        private static ObjectTable Create(string input) // e.g. @"C:\src\AVX\omega\AVX-Omega-4217.data"
+        private static ObjectTable Create(string input) // e.g. "AVX-Omega-4217.data"
         {
             var obj = new ObjectTable.InternalObjectTable(input);
             return obj;
