@@ -19,22 +19,22 @@
         {
             bool same = modern.Length == 0;
 
-            ReverseLex[Keyify(search)] = key;
+            string kjvkey = Keyify(search);
+            string modkey = same ? kjvkey : Keyify(modern);
 
-            if (!same)
+            ReverseLex[kjvkey] = key;
+
+            if (ReverseLexModern.ContainsKey(modkey))
             {
-                var modkey = Keyify(modern);
-                if (ReverseLexModern.ContainsKey(modkey))
-                {
-                    if (!ReverseLexModern[modkey].Contains(key))
-                        ReverseLexModern[modkey].Add(key);
-                }
-                else
-                {
-                    var keys = new HashSet<UInt16>() { key };
-                    ReverseLexModern[modkey] = keys;
-                }
+                if (!ReverseLexModern[modkey].Contains(key))
+                    ReverseLexModern[modkey].Add(key);
             }
+            else
+            {
+                var keys = new HashSet<UInt16>() { key };
+                ReverseLexModern[modkey] = keys;
+            }
+
             return same;
         }
 
@@ -132,7 +132,7 @@
         }
         public string GetLexModern(UInt16 id, UInt16 lemma)
         {
-            ushort caps = (ushort)(id & WordKeyBits.CAPS);
+            UInt16 caps = (UInt16)(id & WordKeyBits.CAPS);
             int key = id & WordKeyBits.WordKey;
 
             if (key > 0 && key < this.Lex.Length)
@@ -156,7 +156,7 @@
         }
         private static UInt16 GetReverseLex(string text)
         {
-            var lookup = Keyify(text);
+            string lookup = Keyify(text);
             if (ReverseLex.ContainsKey(lookup))
             {
                 UInt16 key = ReverseLex[lookup];
@@ -166,23 +166,23 @@
         }
         private static HashSet<UInt16> GetReverseLexModern(string text)
         {
-            var lookup = Keyify(text);
+            string lookup = Keyify(text);
             if (ReverseLexModern.ContainsKey(lookup))
             {
-                var key = ReverseLexModern[lookup];
+                HashSet<UInt16> key = ReverseLexModern[lookup];
                 return key;
             }
             return null;
         }
         public static HashSet<UInt16> GetReverseLex(string text, bool useAV, bool useAVX)
         {
-            var keyified = Lexicon.Keyify(text);
+            string keyified = Lexicon.Keyify(text);
             HashSet<UInt16>? nullableLex = useAVX ? Lexicon.GetReverseLexModern(keyified) : new();
             HashSet<UInt16> lex = (nullableLex != null) ? nullableLex : new();
 
             if (useAV)
             {
-                var kjv = Lexicon.GetReverseLex(keyified);
+                UInt16 kjv = Lexicon.GetReverseLex(keyified);
                 if (kjv != 0)
                 {
                     if (!lex.Contains(kjv))
