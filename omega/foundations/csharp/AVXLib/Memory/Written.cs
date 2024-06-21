@@ -12,7 +12,9 @@ namespace AVXLib.Memory
         {
             this.elements = (UInt32)(b << 24 | c << 16 | v << 8 | wc);
         }
-        public UInt32 elements { get; private set; }
+        private UInt32 elements;
+        public UInt32 AsUInt32() => elements;
+        public string AsString() => elements.ToString();
 
         internal byte this[int idx]
         {
