@@ -1,6 +1,6 @@
 # Digital AV
 
-It's been over twenty-five years since the release of AV-Bible for Windows (also known as AV-1995). In its day, it was the first free bible software with a graphical user interface that ran on Microsoft Windows. This "FreeWare" was maintaineded for more than a decade (AV-1996, AV-1997, ...). Eventually, it evolved into a software development kit (SDK). Accordingly, it was renamed Digital-AV some years ago.
+It's been almost thirty years since the release of AV-Bible for Windows (also known as AV-1995). In its day, it was the first free bible software with a graphical user interface that ran on Microsoft Windows. This "FreeWare" was maintaineded for more than a decade (AV-1996, AV-1997, ...). Eventually, it evolved into a software development kit (SDK). Accordingly, it was renamed Digital-AV some years ago.
 
 You can rely on its foundation, with decades of deployments and text validation. Digital-AV has travelled the world and back with feedback from Christian missionaries. They used it in their ministries. In return, I recieved treasured quality-control feedback. By 2008, all of the textual bugs had been ironed out. Not coincidentally, 2008 was the first realease of the SDK. Never making a dime, and pouring a healthy chuck of my life into it: this has been a labor of love.
 
