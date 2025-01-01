@@ -17,10 +17,10 @@
         private TextWriter bomOmega;
         private TextReader bomZ32;
 
-        internal ManageOmega()
+        internal ManageOmega() // Do not modify ... the new Omega generator is in the omega folder (sibling of z-series folder)
         {
-            this.bomOmega_MD5 = AVXManager.OpenTextWriter("-Omega-3910", ".md5", "AVX");
-            this.bomOmega = AVXManager.OpenTextWriter("-Omega-3910", ".txt", "AVX");
+            this.bomOmega_MD5 = AVXManager.OpenTextWriter("-Omega-3910", ".md5", "AVX"); // Do not modify
+            this.bomOmega = AVXManager.OpenTextWriter("-Omega-3910", ".txt", "AVX");     // Do not modify
             this.bomZ32 = AVXManager.OpenTextReader(BOM.Z_32, ".bom");
         }
         private static char[] whitespace = new char[] { ' ', '\t' };
