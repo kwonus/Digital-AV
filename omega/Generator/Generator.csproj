@@ -9,4 +9,8 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" />
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\blueprint-blue\Blueprint-Blue-Lib\Blueprint-Blue-Lib.csproj" />
+  </ItemGroup>
+
 </Project>

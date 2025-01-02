@@ -6,14 +6,14 @@
 
     public abstract class AVXManager
     {
-        public static string omegaSDK { get; private set; } = @"C:\src\AVX\omega\";
+        public static string omegaSDK { get; private set; } = @"C:\src\Digital-AV\omega\";
 
         public static void Main()
         {
             // The global bom gets messed up when we build 3.1 and 3.2 at the same time.
             // Choose which one:
 
-            var omega = new ManageOmega("-3911".ToUpper(), "-4220".ToUpper());
+            var omega = new ManageOmega("-4220", "-5111");
             omega.Manage();
         }
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
