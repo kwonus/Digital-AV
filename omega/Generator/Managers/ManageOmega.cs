@@ -5,10 +5,25 @@
     using System.IO;
     using System.Text;
 
+    using YamlDotNet.Serialization.NamingConventions;
+    using YamlDotNet.Serialization;
+    using Blueprint.Blue;
+    using BlueprintBlue.Model;
+    using YamlDotNet.Core;
+    using System.Runtime.CompilerServices;
+
     public class ManageOmega
     {
         private TextWriter? bomOmega_MD5;
         private TextWriter? bomOmega;
+
+        private TextReader? yamlLexiconUpdates;
+        private TextWriter? yamlLexicon;
+        private TextWriter? yamlLexiconOriginal;
+
+        private YamlLexicon oldlex;
+        private YamlLexicon newlex;
+        private List<LexRecord> updatelex;
 
         // This was used to add NUPhone to the 3911 release // It is not needed for 4xyz releases
 #if REQUIRES_EXTERNAL_NUPHONE_BINARY
@@ -25,13 +40,21 @@
             this.bomOmega_MD5 = AVXManager.OpenTextWriter("AVX-Omega" + newSDK, ".md5");
             this.bomOmega = AVXManager.OpenTextWriter("AVX-Omega" + newSDK, ".txt");
 
+            this.yamlLexiconUpdates = AVXManager.OpenTextReader("AV-Lexicon" + "-Updates", ".yml");
+            this.yamlLexiconOriginal = AVXManager.OpenTextWriter("AV-Lexicon" + baseSDK, ".yml");
+            this.yamlLexicon = AVXManager.OpenTextWriter("AV-Lexicon" + newSDK, ".yml");
+
+            this.oldlex = new();
+            this.newlex = new();
+            this.updatelex = ManageOmega.ImportLexicon(this.yamlLexiconUpdates);
+
             this.sdkReader = AVXManager.OpenBinaryReader("AVX-Omega" + baseSDK);
             var sdk = AVXManager.CreateSDK("AVX-Omega" + newSDK);
             this.newWriter = sdk.writer;
             this.SDK = sdk.path;
             this.VERSION = new char[4];
 
-            // This was used to add NUPhone to the 3911 release // It is not needed for 4xyz releases
+            // This was used to add NUPhone to the 3911 release // It is not needed for subsequent releases
 #if REQUIRES_EXTERNAL_NUPHONE_BINARY
             this.phoneticReader = AVXManager.OpenBinaryReader("AV-Phonetics", ".binary");
 #endif
@@ -58,10 +81,25 @@
             if (this.newWriter != null)
                 this.newWriter.Close();
 
-            // This was used to add NUPhone to the 3911 release // It is not needed for 4xyz releases
+            if (this.yamlLexiconUpdates != null)
+                this.yamlLexiconUpdates.Close();
+            if (this.yamlLexicon != null)
+                this.yamlLexicon.Close();
+            if (this.yamlLexiconOriginal != null)
+                this.yamlLexiconOriginal.Close();
+
+            this.bomOmega = null;
+            this.sdkReader = null;
+            this.newWriter = null;
+            this.yamlLexicon = null;
+            this.yamlLexiconOriginal = null;
+            this.yamlLexiconUpdates = null;
+
+            // This was used to add NUPhone to the 3911 release // It is not needed for subsequent releases
 #if REQUIRES_EXTERNAL_NUPHONE_BINARY
             if (this.phoneticReader != null)
                 this.phoneticReader.Close();
+            this.newWriter = null;
 #endif
         }
         public void CloseMD5()
@@ -238,6 +276,47 @@
             toc.hash = CalculateMD5(data);
         }
 
+        public static List<LexRecord> ImportLexicon(TextReader? yaml)
+        {
+            if (yaml == null)
+                return new();
+
+            string text = yaml.ReadToEnd();
+            var deserializer = new DeserializerBuilder().Build();
+            List<LexRecord> lex = deserializer.Deserialize<List<LexRecord>>(text);
+
+            return lex;
+        }
+
+        private void ProcessLexicon(YamlLexicon lex)
+        {
+            if (this.sdkReader != null && this.newWriter != null)
+            {
+                var bom = BOM.Inventory[BOM.Lexicon];
+                this.sdkReader.BaseStream.Seek((int)bom.originalOffset, SeekOrigin.Begin);
+
+                for (UInt32 i = 0; i < bom.recordCount; i++)
+                {
+                    UInt16 entities = this.sdkReader.ReadUInt16();
+                    UInt16 size     = this.sdkReader.ReadUInt16();
+                    UInt32[] pos = new UInt32[size];
+                    for (int p = 0; p < size; p++)
+                        pos[p] = this.sdkReader.ReadUInt32();
+                    string[] text = new string[3];
+                    StringBuilder sb = new StringBuilder(16);
+                    for (int t = 0; t < 3; t++)
+                    {
+                        sb.Clear();
+                        for (char c = this.sdkReader.ReadChar(); c != 0; c = this.sdkReader.ReadChar())
+                            sb.Append(c);
+                        text[t] = sb.ToString();
+                    }
+                    lex.Add((UInt16)i, entities, pos, text);
+                }
+            }
+            if (this.yamlLexiconOriginal != null)
+                lex.WriteAll(this.yamlLexiconOriginal);
+        }
         private void FixBadModernTranslations()
         {
 //          byte[] art = new byte[] {   44,   17,   29,    4 }; // coordinates[] B C V W Acts 17:29 (4th to last word)
@@ -418,80 +497,15 @@
                 }
             }
         }
-        private void FixBookArtifact3911()
+        private void ExportLexiconAsYaml(TextWriter? writer)
         {
-            if (this.sdkReader != null && this.newWriter != null)
+            if (writer != null)
             {
-                using (var mem = new MemoryStream())
-                {
-                    var mwriter = new BinaryWriter(mem, Encoding.UTF8);
-
-                    (UInt32 idx, UInt16 cnt) previous = (0, 0);
-                    var bom = BOM.Inventory[BOM.Book];
-                    this.sdkReader.BaseStream.Seek((int)bom.originalOffset, SeekOrigin.Begin);
-
-                    for (byte b = 0; b < bom.recordCount; b++)
-                    {
-                        int len = 0;
-                        var bookNum = this.sdkReader.ReadByte(); len++;
-                        var chapterCnt = this.sdkReader.ReadByte(); len++;
-                        var chapterIdx = this.sdkReader.ReadUInt16(); len += 2;
-                        var writCnt = this.sdkReader.ReadUInt16(); len += 2;
-                        var writIdx = this.sdkReader.ReadUInt32(); len += 4;
-
-                        var name = this.sdkReader.ReadBytes(16); len += name.Length;
-                        var abbr = this.sdkReader.ReadBytes(22); len += abbr.Length;
-
-                        if (len != 48)
-                        {
-                            break;
-                        }
-                        if (b == 0)
-                        {
-
-                            writIdx = (UInt32) this.version;
-                            for (int i = 0; i < name.Length; i++) // 3.5.07 => 3.9.11
-                            {
-                                if (name[i] == 0)
-                                    break;
-                                if (name[i] == (byte)'5') // May
-                                    name[i] =  (byte)'9'; // September
-                                else if (name[i] == (byte)'0')
-                                    name[i] = (byte)'1';
-                                else if (name[i] == (byte)'7')
-                                    name[i] = (byte)'1';
-                            }
-                            for (int i = 0; i < abbr.Length; i++) // 35 => 39
-                            {
-                                if (abbr[i] == (byte)'5')  // May
-                                    abbr[i] =  (byte)'9';  // September
-                            }
-                        }
-                        else if (b == 1)
-                        {
-                            previous = (0, writCnt);
-                            writIdx = 0;
-                        }
-                        else
-                        {
-                            writIdx = previous.idx + previous.cnt;
-                            previous = (writIdx, writCnt);
-                        }
-                        mwriter.Write(bookNum);
-                        mwriter.Write(chapterCnt);
-                        mwriter.Write(chapterIdx);
-                        mwriter.Write(writCnt);
-                        mwriter.Write(writIdx);
-                        mwriter.Write(name);
-                        mwriter.Write(abbr);
-                    }
-                    var mreader = new BinaryReader(mwriter.BaseStream, Encoding.UTF8);
-                    mreader.BaseStream.Seek(0, SeekOrigin.Begin);
-                    var data = mreader.ReadBytes((int)bom.length);
-                    this.WriteBulkData(bom, data);
-                    mreader.Close();
-                }
             }
+        }
+        private void UpdateLexiconFromYaml()
+        {
+            ;
         }
         private void CreateExistingArtifact(byte order)
         {
@@ -530,11 +544,25 @@
                 else
 #endif
                 if (idx == BOM.Book)
+                {
                     this.FixBookArtifactWithCurrentVersion();
+                }
                 else if (idx == BOM.Written)
+                {
                     this.FixBadModernTranslations();
-                else
+                }
+                else if (idx == BOM.Lexicon)
+                {
+                    this.ProcessLexicon(this.oldlex);
+                    this.newlex.Clone(this.oldlex);
+                    this.newlex.Replace(this.updatelex);
+                    this.newlex.WriteAll(this.yamlLexicon);
                     this.CreateExistingArtifact(idx);
+                }
+                else
+                {
+                    this.CreateExistingArtifact(idx);
+                }
             }
             // This was used to add NUPhone to the 3911 release // It is not needed for 4xyz releases
 #if REQUIRES_EXTERNAL_NUPHONE_BINARY

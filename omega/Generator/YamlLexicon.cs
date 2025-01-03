@@ -9,11 +9,15 @@ namespace Generator
 {
     public class LexRecord
     {
-        private UInt16 Key;
+        public UInt16 Key;
         public UInt16 Entities;
         public UInt32[] POS;
         public string[] NUPOS;
         public string[] Text;
+
+        public LexRecord() // for deserialization
+        {
+        }
 
         public LexRecord(UInt16 key, UInt16 entities, UInt32[] pos, string[] text)
         {
@@ -118,29 +122,49 @@ namespace Generator
     }
     public class YamlLexicon: Dictionary<UInt16, LexRecord>
     {
-        internal static YamlLexicon Entries = new YamlLexicon();
-        public static void WriteAll(TextWriter writer)
+        public YamlLexicon() : base()
         {
-            LexRecord.WriteHeader(writer);
-            foreach (var entry in Entries.Values)
+            ;
+        }
+        public void WriteAll(TextWriter? writer)
+        {
+            if (writer != null)
             {
-                entry.WriteRecord(writer);
+                LexRecord.WriteHeader(writer);
+                foreach (var entry in this.Values)
+                {
+                    entry.WriteRecord(writer);
+                }
+            }
+        }
+        public void Clone(YamlLexicon originals)
+        {
+            foreach (var original in originals.Values)
+            {
+                this[original.Key] = original;
+            }
+        }
+        public void Replace(List<LexRecord> replacements)
+        {
+            foreach (var replacement in replacements)
+            {
+                this[replacement.Key] = replacement;
             }
         }
 
-        public static LexRecord Add(UInt16 key, UInt16 entities, UInt32[] pos, string search, string display, string modern)
+        public LexRecord Add(UInt16 key, UInt16 entities, UInt32[] pos, string search, string display, string modern)
         {
             string[] text = [ search, display, modern ];
             var record = new LexRecord(key, entities, pos, text);
-            YamlLexicon.Entries.Add(key, record);
+            this.Add(key, record);
             return record;
         }
-        public static LexRecord Add(UInt16 key, UInt16 entities, UInt32[] pos, string[] text)
+        public LexRecord Add(UInt16 key, UInt16 entities, UInt32[] pos, string[] text)
         {
             var record = new LexRecord(key, entities, pos, text);
-            YamlLexicon.Entries.Add(key, record);
+            this.Add(key, record);
             return record;
         }
-    }    
+    }  
 }        
          

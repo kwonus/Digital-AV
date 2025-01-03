@@ -1,575 +1,575 @@
-  - Key: 0x0585                                          #wist//
-    Text: [ wist, , knew ]                                   #wist//
-    Entities: 0x0000                                     #wist//
-    POS: [ 0x00005AC4 ]                                  #wist//
-    NUPOS: [ vvd ]                                       #wist//
-  - Key: 0x0CFE                                          #badest//
-    Text: [ badest, , bade ]                                 #badest//
-    Entities: 0x0000                                     #badest//
-    POS: [ 0x000B589D ]                                  #badest//
-    NUPOS: [ vvd2 ]                                      #badest//
-  - Key: 0x0D09                                          #barest//
-    Text: [ barest, , bore ]                                 #barest//
-    Entities: 0x0000                                     #barest//
-    POS: [ 0x00005ADD ]                                  #barest//
-    NUPOS: [ vv2 ]                                       #barest//
-  - Key: 0x0D11                                          #basest//
-    Text: [ basest, , 'most base' ]                                 #basest//
-    Entities: 0x0000                                     #basest//
-    POS: [ 0x00000153 ]                                  #basest//
-    NUPOS: [ js ]                                        #basest//
-  - Key: 0x1489                                          #whilst//
-    Text: [ whilst, , while ]                                 #whilst//
-    Entities: 0x0000                                     #whilst//
-    POS: [ 0x00000073 ]                                  #whilst//
-    NUPOS: [ cs ]                                        #whilst//
-  - Key: 0x1651                                          #closest//
-    Text: [ closest, , enclose ]                                #closest//
-    Entities: 0x0000                                     #closest//
-    POS: [  ]                                  #closest//
-    NUPOS: [  ]                                        #closest//
-  - Key: 0x17E3                                          #gaddest//
-    Text: [ gaddest, , roam ]                                #gaddest//
-    Entities: 0x0000                                     #gaddest//
-    POS: [ 0x00005ADD ]                                  #gaddest//
-    NUPOS: [ vv2 ]                                       #gaddest//
-  - Key: 0x192B                                          #layedst//
-    Text: [ layedst, , layed ]                                #layedst//
-    Entities: 0x0000                                     #layedst//
-    POS: [ 0x000B589D ]                                  #layedst//
-    NUPOS: [ vvd2 ]                                      #layedst//
-  - Key: 0x1C16                                          #smotest//
-    Text: [ smotest, , smote ]                                #smotest//
-    Entities: 0x0000                                     #smotest//
-    POS: [ 0x00000153 ]                                  #smotest//
-    NUPOS: [ js ]                                        #smotest//
-  - Key: 0x1C23                                          #sowedst//
-    Text: [ sowedst, , sowed ]                                #sowedst//
-    Entities: 0x0000                                     #sowedst//
-    POS: [ 0x000B589D ]                                  #sowedst//
-    NUPOS: [ vvd2 ]                                      #sowedst//
-  - Key: 0x1C24                                          #spakest//
-    Text: [ spakest, , spoke ]                                #spakest//
-    Entities: 0x0000                                     #spakest//
-    POS: [ 0x000B589D ]                                  #spakest//
-    NUPOS: [ vvd2 ]                                      #spakest//
-  - Key: 0x1C4A                                          #stonest//
-    Text: [ stonest, , stone ]                                #stonest//
-    Entities: 0x0000                                     #stonest//
-    POS: [ 0x80054D4E ]                                  #stonest//
-    NUPOS: [ js-jn ]                                     #stonest//
-  - Key: 0x1C71                                          #swarest//
-    Text: [ swarest, , sware ]                                #swarest//
-    Entities: 0x0000                                     #swarest//
-    POS: [ 0x000B589D ]                                  #swarest//
-    NUPOS: [ vvd2 ]                                      #swarest//
-  - Key: 0x1D05                                          #vowedst//
-    Text: [ vowedst, , vowed ]                                #vowedst//
-    Entities: 0x0000                                     #vowedst//
-    POS: [ 0x000B589D ]                                  #vowedst//
-    NUPOS: [ vvd2 ]                                      #vowedst//
-  - Key: 0x1E79                                          #castedst//
-    Text: [ castedst, , cast ]                               #castedst//
-    Entities: 0x0000                                     #castedst//
-    POS: [ 0x000B589D ]                                  #castedst//
-    NUPOS: [ vvd2 ]                                      #castedst//
-  - Key: 0x1EE5                                          #crownest//
-    Text: [ crownest, , crown ]                               #crownest//
-    Entities: 0x0000                                     #crownest//
-    POS: [ 0x00005ADD ]                                  #crownest//
-    NUPOS: [ vv2 ]                                       #crownest//
-  - Key: 0x1EFF                                          #deckedst//
-    Text: [ deckedst, , decked ]                               #deckedst//
-    Entities: 0x0000                                     #deckedst//
-    POS: [ 0x000B589D ]                                  #deckedst//
-    NUPOS: [ vvd2 ]                                      #deckedst//
-  - Key: 0x1F22                                          #diggedst//
-    Text: [ diggedst, , dug ]                               #diggedst//
-    Entities: 0x0000                                     #diggedst//
-    POS: [  ]                                  #diggedst//
-    NUPOS: [  ]                                        #diggedst//
-  - Key: 0x2018                                          #girdedst//
-    Text: [ girdedst, , girded ]                               #girdedst//
-    Entities: 0x0000                                     #girdedst//
-    POS: [ 0x000B589D ]                                  #girdedst//
-    NUPOS: [ vvd2 ]                                      #girdedst//
-  - Key: 0x201D                                          #gloriest//
-    Text: [ gloriest, , glory ]                               #gloriest//
-    Entities: 0x0000                                     #gloriest//
-    POS: [ 0x00005ADD ]                                  #gloriest//
-    NUPOS: [ vv2 ]                                       #gloriest//
-  - Key: 0x2315                                          #shewedst//
-    Text: [ shewedst, , showed ]                               #shewedst//
-    Entities: 0x0000                                     #shewedst//
-    POS: [ 0x000B589D ]                                  #shewedst//
-    NUPOS: [ vvd2 ]                                      #shewedst//
-  - Key: 0x25B5                                          #crownedst//
-    Text: [ crownedst, , crowned ]                              #crownedst//
-    Entities: 0x0000                                     #crownedst//
-    POS: [ 0x000B589D ]                                  #crownedst//
-    NUPOS: [ vvd2 ]                                      #crownedst//
-  - Key: 0x25D0                                          #defiledst//
-    Text: [ defiledst, , defiled ]                              #defiledst//
-    Entities: 0x0000                                     #defiledst//
-    POS: [ 0x000B589D ]                                  #defiledst//
-    NUPOS: [ vvd2 ]                                      #defiledst//
-  - Key: 0x262F                                          #enquirest//
-    Text: [ enquirest, , enquire ]                              #enquirest//
-    Entities: 0x0000                                     #enquirest//
-    POS: [ 0x00005ADD ]                                  #enquirest//
-    NUPOS: [ vv2 ]                                       #enquirest//
-  - Key: 0x264C                                          #excellest//
-    Text: [ excellest, , excel ]                              #excellest//
-    Entities: 0x0000                                     #excellest//
-    POS: [ 0x00005ADD ]                                  #excellest//
-    NUPOS: [ vv2 ]                                       #excellest//
-  - Key: 0x2666                                          #favourest//
-    Text: [ favourest, , favor ]                              #favourest//
-    Entities: 0x0000                                     #favourest//
-    POS: [ 0x00005ADD ]                                  #favourest//
-    NUPOS: [ vv2 ]                                       #favourest//
-  - Key: 0x2685                                          #forgavest//
-    Text: [ forgavest, , forgave ]                              #forgavest//
-    Entities: 0x0000                                     #forgavest//
-    POS: [ 0x00005ADD, 0x000B589D ]                      #forgavest//
-    NUPOS: [ vv2, vvd2 ]                                 #forgavest//
-  - Key: 0x26EA                                          #honourest//
-    Text: [ honourest, , honor ]                              #honourest//
-    Entities: 0x0000                                     #honourest//
-    POS: [ 0x00005ADD ]                                  #honourest//
-    NUPOS: [ vv2 ]                                       #honourest//
-  - Key: 0x276A                                          #marchedst//
-    Text: [ marchedst, , marched ]                              #marchedst//
-    Entities: 0x0000                                     #marchedst//
-    POS: [ 0x000B589D ]                                  #marchedst//
-    NUPOS: [ vvd2 ]                                      #marchedst//
-  - Key: 0x27B4                                          #numberest//
-    Text: [ numberest, , number ]                              #numberest//
-    Entities: 0x0000                                     #numberest//
-    POS: [ 0x00005ADD ]                                  #numberest//
-    NUPOS: [ vv2 ]                                       #numberest//
-  - Key: 0x2861                                          #rebellest//
-    Text: [ rebellest, , rebel ]                              #rebellest//
-    Entities: 0x0000                                     #rebellest//
-    POS: [ 0x00005ADD ]                                  #rebellest//
-    NUPOS: [ vv2 ]                                       #rebellest//
-  - Key: 0x28B2                                          #savourest//
-    Text: [ savourest, , savor ]                              #savourest//
-    Entities: 0x0000                                     #savourest//
-    POS: [ 0x00005ADD ]                                  #savourest//
-    NUPOS: [ vv2 ]                                       #savourest//
-  - Key: 0x28F4                                          #skippedst//
-    Text: [ skippedst, , skipped ]                              #skippedst//
-    Entities: 0x0000                                     #skippedst//
-    POS: [ 0x000B589D ]                                  #skippedst//
-    NUPOS: [ vvd2 ]                                      #skippedst//
-  - Key: 0x292C                                          #subduedst//
-    Text: [ subduedst, , subdued ]                              #subduedst//
-    Entities: 0x0000                                     #subduedst//
-    POS: [ 0x000B589D ]                                  #subduedst//
-    NUPOS: [ vvd2 ]                                      #subduedst//
-  - Key: 0x2A0B                                          #anointedst//
-    Text: [ anointedst, , anointed ]                             #anointedst//
-    Entities: 0x0000                                     #anointedst//
-    POS: [ 0x000B589D ]                                  #anointedst//
-    NUPOS: [ vvd2 ]                                      #anointedst//
-  - Key: 0x2A6B                                          #chastenest//
-    Text: [ chastenest, , chasten ]                             #chastenest//
-    Entities: 0x0000                                     #chastenest//
-    POS: [ 0x00005ADD ]                                  #chastenest//
-    NUPOS: [ vv2 ]                                       #chastenest//
-  - Key: 0x2A8D                                          #compassest//
-    Text: [ compassest, , compass ]                             #compassest//
-    Entities: 0x0000                                     #compassest//
-    POS: [ 0x00005ADD ]                                  #compassest//
-    NUPOS: [ vv2 ]                                       #compassest//
-  - Key: 0x2B2C                                          #executedst//
-    Text: [ executedst, , executed ]                             #executedst//
-    Entities: 0x0000                                     #executedst//
-    POS: [ 0x00000153 ]                                  #executedst//
-    NUPOS: [ js ]                                        #executedst//
-  - Key: 0x2B55                                          #forsookest//
-    Text: [ forsookest, , forsook ]                             #forsookest//
-    Entities: 0x0000                                     #forsookest//
-    POS: [ 0x00005ADD ]                                  #forsookest//
-    NUPOS: [ vv2 ]                                       #forsookest//
-  - Key: 0x2BBB                                          #inhabitest//
-    Text: [ inhabitest, , inhabit ]                             #inhabitest//
-    Entities: 0x0000                                     #inhabitest//
-    POS: [ 0x00005ADD ]                                  #inhabitest//
-    NUPOS: [ vv2 ]                                       #inhabitest//
-  - Key: 0x2CA3                                          #redeemedst//
-    Text: [ redeemedst, , redeemed ]                             #redeemedst//
-    Entities: 0x0000                                     #redeemedst//
-    POS: [ 0x000B589D ]                                  #redeemedst//
-    NUPOS: [ vvd2 ]                                      #redeemedst//
-  - Key: 0x2D70                                          #wroughtest//
-    Text: [ wroughtest, , wrought ]                             #wroughtest//
-    Entities: 0x0000                                     #wroughtest//
-    POS: [ 0x000B589D ]                                  #wroughtest//
-    NUPOS: [ vvd2 ]                                      #wroughtest//
-  - Key: 0x2DCF                                          #comfortedst//
-    Text: [ comfortedst, , comforted ]                            #comfortedst//
-    Entities: 0x0000                                     #comfortedst//
-    POS: [ 0x000B589D ]                                  #comfortedst//
-    NUPOS: [ vvd2 ]                                      #comfortedst//
-  - Key: 0x2DE1                                          #consentedst//
-    Text: [ consentedst, , consented ]                            #consentedst//
-    Entities: 0x0000                                     #consentedst//
-    POS: [ 0x000B589D ]                                  #consentedst//
-    NUPOS: [ vvd2 ]                                      #consentedst//
-  - Key: 0x2E5C                                          #hearkenedst//
-    Text: [ hearkenedst, , hearkened ]                            #hearkenedst//
-    Entities: 0x0000                                     #hearkenedst//
-    POS: [ 0x000B589D ]                                  #hearkenedst//
-    NUPOS: [ vvd2 ]                                      #hearkenedst//
-  - Key: 0x2FB8                                          #dishonourest//
-    Text: [ dishonourest, , dishonor ]                           #dishonourest//
-    Entities: 0x0000                                     #dishonourest//
-    POS: [ 0x00005ADD ]                                  #dishonourest//
-    NUPOS: [ vv2 ]                                       #dishonourest//
-  - Key: 0x302A                                          #sacrificedst//
-    Text: [ sacrificedst, , sacrificed ]                           #sacrificedst//
-    Entities: 0x0000                                     #sacrificedst//
-    POS: [ 0x000B589D ]                                  #sacrificedst//
-    NUPOS: [ vvd2 ]                                      #sacrificedst//
-  - Key: 0x30B6                                          #transgressest//
-    Text: [ transgressest, , transgress ]                          #transgressest//
-    Entities: 0x0000                                     #transgressest//
-    POS: [ 0x00005ADD ]                                  #transgressest//
-    NUPOS: [ vv2 ]                                       #transgressest//
-  - Key: 0x30EB                                          #strengthenedst//
-    Text: [ strengthenedst, , strengthened ]                         #strengthenedst//
-    Entities: 0x0000                                     #strengthenedst//
-    POS: [ 0x000B589D ]                                  #strengthenedst//
-    NUPOS: [ vvd2 ]                                      #strengthenedst//
-  - Key: 0x0516                                          #teth//
-    Text: [ teth, ,  ]                                   #teth//
-    Entities: 0x0000                                     #teth//
-    POS: [  ]                                  #teth//
-    NUPOS: [  ]                                       #teth//
-  - Key: 0x06E5                                          #cheth//
-    Text: [ cheth, ,  ]                                  #cheth//
-    Entities: 0x0000                                     #cheth//
-    POS: [  ]
-    NUPOS: [  ]
-  - Key: 0x0E71                                          #dureth//
-    Text: [ dureth, , endures ]                                 #dureth//
-    Entities: 0x0000                                     #dureth//
-    POS: [ 0x00005ADA ]                                  #dureth//
-    NUPOS: [ vvz ]                                       #dureth//
-  - Key: 0x1278                                          #remeth//
-    Text: [ remeth, ,  ]                                 #remeth//
-    Entities: 0x0000                                     #remeth//
-    POS: [ 0x00003A1C ]
-    NUPOS: [ np1 ]
-  - Key: 0x1514                                          #alameth//
-    Text: [ alameth, ,  ]                                #alameth//
-    Entities: 0x8000                                     
-    POS: [ 0x00003A1C ]
-    NUPOS: [ np1 ]
-  - Key: 0x1600                                          #calveth//keep archaic
-    Text: [ calveth, ,  ]                                #calveth//
-    Entities: 0x0000                                     #calveth//
-    POS: [ 0x00005ADA ]                                  #calveth//
-    NUPOS: [ vvz ]                                       #calveth//
-  - Key: 0x1840                                          #hasteth//
-    Text: [ hasteth, , hastens ]                                #hasteth//
-    Entities: 0x0000                                     #hasteth//
-    POS: [ 0x00005ADA ]                                  #hasteth//
-    NUPOS: [ vvz ]                                       #hasteth//
-  - Key: 0x196D                                          #lotheth//
-    Text: [ lotheth, , lothes ]                                #lotheth//
-    Entities: 0x0000                                     #lotheth//
-    POS: [ 0x00005ADA ]                                  #lotheth//
-    NUPOS: [ vvz ]                                       #lotheth//
-  - Key: 0x1973                                          #lusteth//
-    Text: [ lusteth, , lusts ]                                #lusteth//
-    Entities: 0x0000                                     #lusteth//
-    POS: [ 0x00005ADA ]                                  #lusteth//
-    NUPOS: [ vvz ]                                       #lusteth//
-  - Key: 0x1C8D                                          #tasteth//
-    Text: [ tasteth, , tastes ]                                #tasteth//
-    Entities: 0x0000                                     #tasteth//
-    POS: [ 0x00005ADA ]                                  #tasteth//
-    NUPOS: [ vvz ]                                       #tasteth//
-  - Key: 0x1CC8                                          #topheth//
-    Text: [ topheth, ,  ]                                #topheth//
-    Entities: 0x0000                                     #topheth//
-    POS: [ 0x00003A1C ]
-    NUPOS: [ np1 ]
-  - Key: 0x1D56                                          #wotteth//
-    Text: [ wotteth, , knows ]                                #wotteth//
-    Entities: 0x0000                                     #wotteth//
-    POS: [ 0x00005ADA ]                                  #wotteth//
-    NUPOS: [ vvz ]                                       #wotteth//
-  - Key: 0x1E4D                                          #bridleth//
-    Text: [ bridleth, , bridles ]                               #bridleth//
-    Entities: 0x0000                                     #bridleth//
-    POS: [ 0x00005ADA ]                                  #bridleth//
-    NUPOS: [ vvz ]                                       #bridleth//
-  - Key: 0x1EE6                                          #crowneth//
-    Text: [ crowneth, , crowns ]                               #crowneth//
-    Entities: 0x0000                                     #crowneth//
-    POS: [ 0x00005ADA ]                                  #crowneth//
-    NUPOS: [ vvz ]                                       #crowneth//
-  - Key: 0x1FD4                                          #fetcheth//
-    Text: [ fetcheth, , fetches ]                               #fetcheth//
-    Entities: 0x0000                                     #fetcheth//
-    POS: [ 0x00005ADA ]                                  #fetcheth//
-    NUPOS: [ vvz ]                                       #fetcheth//
-  - Key: 0x201E                                          #glorieth//
-    Text: [ glorieth, , glories ]                               #glorieth//
-    Entities: 0x0000                                     #glorieth//
-    POS: [ 0x00005ADA ]                                  #glorieth//
-    NUPOS: [ vvz ]                                       #glorieth//
-  - Key: 0x2021                                          #gnasheth//
-    Text: [ gnasheth, , gnashes ]                               #gnasheth//
-    Entities: 0x0000                                     #gnasheth//
-    POS: [ 0x00005ADA ]                                  #gnasheth//
-    NUPOS: [ vvz ]                                       #gnasheth//
-  - Key: 0x2032                                          #grieveth//
-    Text: [ grieveth, , grieves ]                               #grieveth//
-    Entities: 0x0000                                     #grieveth//
-    POS: [ 0x00005ADA ]                                  #grieveth//
-    NUPOS: [ vvz ]                                       #grieveth//
-  - Key: 0x205F                                          #hatcheth//
-    Text: [ hatcheth, , hatches ]                               #hatcheth//
-    Entities: 0x0000                                     #hatcheth//
-    POS: [ 0x00005ADA ]                                  #hatcheth//
-    NUPOS: [ vvz ]                                       #hatcheth//
-  - Key: 0x210E                                          #leannoth//
-    Text: [ leannoth, ,  ]                               #leannoth//
-    Entities: 0x0000                                     #leannoth//
-    POS: [ ]                                             #leannoth//
-    NUPOS: [ np1 ]                                            #leannoth//
-  - Key: 0x2122                                          #loatheth//
-    Text: [ loatheth, , loathes ]                               #loatheth//
-    Entities: 0x0000                                     #loatheth//
-    POS: [ 0x00005ADA ]                                  #loatheth//
-    NUPOS: [ vvz ]                                       #loatheth//
-  - Key: 0x2462                                          #wrongeth//
-    Text: [ wrongeth, , wrongs ]                               #wrongeth//
-    Entities: 0x0000                                     #wrongeth//
-    POS: [ 0x00005ADA ]                                  #wrongeth//
-    NUPOS: [ vvz ]                                       #wrongeth//
-  - Key: 0x25DE                                          #deserveth//
-    Text: [ deserveth, , deserves ]                              #deserveth//
-    Entities: 0x0000                                     #deserveth//
-    POS: [ 0x00005ADA ]                                  #deserveth//
-    NUPOS: [ vvz ]                                       #deserveth//
-  - Key: 0x263B                                          #escheweth//
-    Text: [ escheweth, , eschews ]                              #escheweth//
-    Entities: 0x0000                                     #escheweth//
-    POS: [ 0x00005ADA ]                                  #escheweth//
-    NUPOS: [ vvz ]                                       #escheweth//
-  - Key: 0x264D                                          #excelleth//
-    Text: [ excelleth, , excels ]                              #excelleth//
-    Entities: 0x0000                                     #excelleth//
-    POS: [ 0x00005ADA ]                                  #excelleth//
-    NUPOS: [ vvz ]                                       #excelleth//
-  - Key: 0x2667                                          #favoureth//
-    Text: [ favoureth, , favors ]                              #favoureth//
-    Entities: 0x0000                                     #favoureth//
-    POS: [ 0x00005ADA ]                                  #favoureth//
-    NUPOS: [ vvz ]                                       #favoureth//
-  - Key: 0x26EB                                          #honoureth//
-    Text: [ honoureth, , honors ]                              #honoureth//
-    Entities: 0x0000                                     #honoureth//
-    POS: [ 0x00005ADA ]                                  #honoureth//
-    NUPOS: [ vvz ]                                       #honoureth//
-  - Key: 0x2746                                          #laboureth//
-    Text: [ laboureth, , labors ]                              #laboureth//
-    Entities: 0x0000                                     #laboureth//
-    POS: [ 0x00005ADA ]                                  #laboureth//
-    NUPOS: [ vvz ]                                       #laboureth//
-  - Key: 0x278A                                          #mispereth//
-    Text: [ mispereth, ,  ]                              #mispereth//
-    Entities: 0x8000                                     #equivalent to mazzaroth//
-    POS: [ 0x00003A1C ]                                  #equivalent to mazzaroth//
-    NUPOS: [ np1 ]                                       #equivalent to mazzaroth//
-  - Key: 0x282A                                          #preacheth//
-    Text: [ preacheth, , preaches ]                              #preacheth//
-    Entities: 0x0000                                     #preacheth//
-    POS: [ 0x00005ADA ]                                  #preacheth//
-    NUPOS: [ vvz ]                                       #preacheth//
-  - Key: 0x283D                                          #profaneth//
-    Text: [ profaneth, , profanes ]                              #profaneth//
-    Entities: 0x0000                                     #profaneth//
-    POS: [ 0x00005ADA ]                                  #profaneth//
-    NUPOS: [ vvz ]                                       #profaneth//
-  - Key: 0x28B6                                          #scourgeth//
-    Text: [ scourgeth, , scourges ]                              #scourgeth//
-    Entities: 0x0000                                     #scourgeth//
-    POS: [ 0x00005ADA ]                                  #scourgeth//
-    NUPOS: [ vvz ]                                       #scourgeth//
-  - Key: 0x2906                                          #sorroweth//
-    Text: [ sorroweth, , sorrows ]                              #sorroweth//
-    Entities: 0x0000                                     #sorroweth//
-    POS: [ 0x00005ADA ]                                  #sorroweth//
-    NUPOS: [ vvz ]                                       #sorroweth//
-  - Key: 0x295E                                          #thresheth//
-    Text: [ thresheth, , threshes ]                              #thresheth//
-    Entities: 0x0000                                     #thresheth//
-    POS: [ 0x00005ADA ]                                  #thresheth//
-    NUPOS: [ vvz ]                                       #thresheth//
-  - Key: 0x2977                                          #trickleth//
-    Text: [ trickleth, , trickles ]                              #trickleth//
-    Entities: 0x0000                                     #trickleth//
-    POS: [ 0x00005ADA ]                                  #trickleth//
-    NUPOS: [ vvz ]                                       #trickleth//
-  - Key: 0x2B1D                                          #entangleth//
-    Text: [ entangleth, , entangles ]                             #entangleth//
-    Entities: 0x0000                                     #entangleth//
-    POS: [ 0x00005ADA ]                                  #entangleth//
-    NUPOS: [ vvz ]                                       #entangleth//
-  - Key: 0x2CA6                                          #refresheth//
-    Text: [ refresheth, , refreshes ]                             #refresheth//
-    Entities: 0x0000                                     #refresheth//
-    POS: [ 0x00005ADA ]                                  #refresheth//
-    NUPOS: [ vvz ]                                       #refresheth//
-  - Key: 0x2CE1                                          #signifieth//
-    Text: [ signifieth, , signifies ]                             #signifieth//
-    Entities: 0x0000                                     #signifieth//
-    POS: [ 0x00005ADA ]                                  #signifieth//
-    NUPOS: [ vvz ]                                       #signifieth//
-  - Key: 0x2CF3                                          #sprinkleth//
-    Text: [ sprinkleth, , sprinkles ]                             #sprinkleth//
-    Entities: 0x0000                                     #sprinkleth//
-    POS: [ 0x00005ADA ]                                  #sprinkleth//
-    NUPOS: [ vvz ]                                       #sprinkleth//
-  - Key: 0x2E37                                          #flourisheth//
-    Text: [ flourisheth, , flourishes ]                            #flourisheth//
-    Entities: 0x0000                                     #flourisheth//
-    POS: [ 0x00005ADA ]                                  #flourisheth//
-    NUPOS: [ vvz ]                                       #flourisheth//
-  - Key: 0x2E8C                                          #languisheth//
-    Text: [ languisheth, , languishes ]                            #languisheth//
-    Entities: 0x0000                                     #languisheth//
-    POS: [ 0x00005ADA ]                                  #languisheth//
-    NUPOS: [ vvz ]                                       #languisheth//
-  - Key: 0x2EEE                                          #reproacheth//
-    Text: [ reproacheth, , reproaches ]                            #reproacheth//
-    Entities: 0x0000                                     #reproacheth//
-    POS: [ 0x00005ADA ]                                  #reproacheth//
-    NUPOS: [ vvz ]                                       #reproacheth//
-  - Key: 0x2F1E                                          #stablisheth//
-    Text: [ stablisheth, , establishes ]                            #stablisheth//
-    Entities: 0x0000                                     #stablisheth//
-    POS: [ 0x00005ADA ]                                  #stablisheth//
-    NUPOS: [ vvz ]                                       #stablisheth//
-  - Key: 0x2FB3                                          #disannulleth//
-    Text: [ disannulleth, , disannuls ]                           #disannulleth//
-    Entities: 0x0000                                     #disannulleth//
-    POS: [ 0x00005ADA ]                                  #disannulleth//
-    NUPOS: [ vvz ]                                       #disannulleth//
-  - Key: 0x2FB9                                          #dishonoureth//
-    Text: [ dishonoureth, , dishonors ]                           #dishonoureth//
-    Entities: 0x0000                                     #dishonoureth//
-    POS: [ 0x00005ADA ]                                  #dishonoureth//
-    NUPOS: [ vvz ]                                       #dishonoureth//
-  - Key: 0x01C5                                          #bare//
-    Text: [ bare, , bore ]                                   #bare//
-    Entities: 0x0000                                     #bare//
-    POS: [ 0x0000000A, 0x00005AC4 ]                      #bare//
-    NUPOS: [ j, vvd ]                                    #bare//                                  
-  - Key: 0x09D9                                          #odour//
-    Text: [ odour, , odor ]                                  #odour//
-    Entities: 0x0000                                     #odour//
-    POS: [ 0x000001DC ]                                  #odour//
-    NUPOS: [ n1 ]                                        #odour//
-  - Key: 0x0CD0                                          #armour//
-    Text: [ armour, , armor ]                                 #armour//
-    Entities: 0x0000                                     #armour//
-    POS: [ 0x000001DC ]                                  #armour//
-    NUPOS: [ n1 ]                                        #armour//
-  - Key: 0x0DEA                                          #colour//
-    Text: [ colour, , color ]                                 #colour//
-    Entities: 0x0000                                     #colour//
-    POS: [ 0x000001DC ]                                  #colour//
-    NUPOS: [ n1 ]                                        #colour//
-  - Key: 0x0E4F                                          #devour//
-    Text: [ devour, ,  ]                                 #devour//
-    Entities: 0x0000                                     #devour//
-    POS: [ 0x00005AC2, 0x00005AC9 ]                      #devour//
-    NUPOS: [ vvb, vvi ]                                  #devour//
-  - Key: 0x0ED4                                          #favour//
-    Text: [ favour, , favor ]                                 #favour//
-    Entities: 0x0000                                     #favour//
-    POS: [ 0x000001DC, 0x00005AC2, 0x00005AC9 ]          #favour//
-    NUPOS: [ n1, vvb, vvi ]                              #favour//
-  - Key: 0x0FDE                                          #honour//
-    Text: [ honour, , honor ]                                 #honour//
-    Entities: 0x0000                                     #honour//
-    POS: [ 0x000001DC, 0x00005AC2, 0x00005AC9 ]          #honour//
-    NUPOS: [ n1, vvb, vvi ]                              #honour//
-  - Key: 0x1098                                          #labour//
-    Text: [ labour, , labor ]                                 #labour//
-    Entities: 0x0000                                     #labour//
-    POS: [ 0x000001DC, 0x00005AC2, 0x00005AC9 ]          #labour//
-    NUPOS: [ n1, vvb, vvi ]                              #labour//
-  - Key: 0x129C                                          #rigour//
-    Text: [ rigour, , rigor ]                                 #rigour//
-    Entities: 0x0000                                     #rigour//
-    POS: [ 0x000001DC ]                                  #rigour//
-    NUPOS: [ n1 ]                                        #rigour//
-  - Key: 0x12BB                                          #rumour//
-    Text: [ rumour, , rumor ]                                 #rumour//
-    Entities: 0x0000                                     #rumour//
-    POS: [ 0x000001DC ]                                  #rumour//
-    NUPOS: [ n1 ]                                        #rumour//
-  - Key: 0x12D9                                          #savour//
-    Text: [ savour, , savor ]                                 #savour//
-    Entities: 0x0000                                     #savour//
-    POS: [ 0x000001DC ]                                  #savour//
-    NUPOS: [ n1 ]                                        #savour//
-  - Key: 0x144C                                          #valour//
-    Text: [ valour, , valor ]                                 #valour//
-    Entities: 0x0000                                     #valour//
-    POS: [ 0x000001DC ]                                  #valour//
-    NUPOS: [ n1 ]                                        #valour//
-  - Key: 0x1451                                          #vapour//
-    Text: [ vapour, , vapor ]                                 #vapour//
-    Entities: 0x0000                                     #vapour//
-    POS: [ 0x000001DC ]                                  #vapour//
-    NUPOS: [ n1 ]                                        #vapour//
-  - Key: 0x1646                                          #clamour//
-    Text: [ clamour, , clamor ]                                #clamour//
-    Entities: 0x0000                                     #clamour//
-    POS: [ 0x000001DC ]                                  #clamour//
-    NUPOS: [ n1 ]                                        #clamour//
-  - Key: 0x1A43                                          #parlour//
-    Text: [ parlour, , parlor ]                                #parlour//
-    Entities: 0x0000                                     #parlour//
-    POS: [ 0x000001DC ]                                  #parlour//
-    NUPOS: [ n1 ]                                        #parlour//
-  - Key: 0x1B63                                          #saviour//
-    Text: [ saviour, , savior ]                                #saviour//
-    Entities: 0x0000                                     #saviour//
-    POS: [ 0x000001DC ]                                  #saviour//
-    NUPOS: [ n1 ]                                        #saviour//
-  - Key: 0x1C67                                          #succour//
-    Text: [ succour, , succor ]                                #succour//
-    Entities: 0x0000                                     #succour//
-    POS: [ 0x00005AC2, 0x00005AC9 ]                      #succour//
-    NUPOS: [ vvb, vvi ]                                  #succour//
-  - Key: 0x24FB                                          #behaviour//
-    Text: [ behaviour, , behavior ]                              #behaviour//
-    Entities: 0x0000                                     #behaviour//
-    POS: [ 0x000001DC ]                                  #behaviour//
-    NUPOS: [ n1 ]                                        #behaviour//
-  - Key: 0x25FF                                          #dishonour//
-    Text: [ dishonour, , dishonor ]                              #dishonour//
-    Entities: 0x0000                                     #dishonour//
-    POS: [ 0x000001DC, 0x00005AC9 ]                      #dishonour//
-    NUPOS: [ n1, vvi ]                                   #dishonour//
-  - Key: 0x2627                                          #endeavour//
-    Text: [ endeavour, , endeavor ]                              #endeavour//
-    Entities: 0x0000                                     #endeavour//
-    POS: [ 0x00005AC9 ]                                  #endeavour//
-    NUPOS: [ vvi ]                                       #endeavour//
-  - Key: 0x27A8                                          #neighbour//
-    Text: [ neighbour, , neighbor ]                              #neighbour//
-    Entities: 0x0000                                     #neighbour//
-    POS: [ 0x000001DC, 0x000038FC ]                      #neighbour//
-    NUPOS: [ n1, ng1 ]                                   #neighbour//
+- Key: 0x0585                                          #wist//
+  Text: [ wist, '', knew ]                                   #wist//
+  Entities: 0x0000                                     #wist//
+  POS: [ 0x00005AC4 ]                                  #wist//
+  NUPOS: [ vvd ]                                       #wist//
+- Key: 0x0CFE                                          #badest//
+  Text: [ badest, '', bade ]                                 #badest//
+  Entities: 0x0000                                     #badest//
+  POS: [ 0x000B589D ]                                  #badest//
+  NUPOS: [ vvd2 ]                                      #badest//
+- Key: 0x0D09                                          #barest//
+  Text: [ barest, '', bore ]                                 #barest//
+  Entities: 0x0000                                     #barest//
+  POS: [ 0x00005ADD ]                                  #barest//
+  NUPOS: [ vv2 ]                                       #barest//
+- Key: 0x0D11                                          #basest//
+  Text: [ basest, '', 'most base' ]                                 #basest//
+  Entities: 0x0000                                     #basest//
+  POS: [ 0x00000153 ]                                  #basest//
+  NUPOS: [ js ]                                        #basest//
+- Key: 0x1489                                          #whilst//
+  Text: [ whilst, '', while ]                                 #whilst//
+  Entities: 0x0000                                     #whilst//
+  POS: [ 0x00000073 ]                                  #whilst//
+  NUPOS: [ cs ]                                        #whilst//
+- Key: 0x1651                                          #closest//
+  Text: [ closest, '', enclose ]                                #closest//
+  Entities: 0x0000                                     #closest//
+  POS: [  ]                                  #closest//
+  NUPOS: [  ]                                        #closest//
+- Key: 0x17E3                                          #gaddest//
+  Text: [ gaddest, '', roam ]                                #gaddest//
+  Entities: 0x0000                                     #gaddest//
+  POS: [ 0x00005ADD ]                                  #gaddest//
+  NUPOS: [ vv2 ]                                       #gaddest//
+- Key: 0x192B                                          #layedst//
+  Text: [ layedst, '', layed ]                                #layedst//
+  Entities: 0x0000                                     #layedst//
+  POS: [ 0x000B589D ]                                  #layedst//
+  NUPOS: [ vvd2 ]                                      #layedst//
+- Key: 0x1C16                                          #smotest//
+  Text: [ smotest, '', smote ]                                #smotest//
+  Entities: 0x0000                                     #smotest//
+  POS: [ 0x00000153 ]                                  #smotest//
+  NUPOS: [ js ]                                        #smotest//
+- Key: 0x1C23                                          #sowedst//
+  Text: [ sowedst, '', sowed ]                                #sowedst//
+  Entities: 0x0000                                     #sowedst//
+  POS: [ 0x000B589D ]                                  #sowedst//
+  NUPOS: [ vvd2 ]                                      #sowedst//
+- Key: 0x1C24                                          #spakest//
+  Text: [ spakest, '', spoke ]                                #spakest//
+  Entities: 0x0000                                     #spakest//
+  POS: [ 0x000B589D ]                                  #spakest//
+  NUPOS: [ vvd2 ]                                      #spakest//
+- Key: 0x1C4A                                          #stonest//
+  Text: [ stonest, '', stone ]                                #stonest//
+  Entities: 0x0000                                     #stonest//
+  POS: [ 0x80054D4E ]                                  #stonest//
+  NUPOS: [ js-jn ]                                     #stonest//
+- Key: 0x1C71                                          #swarest//
+  Text: [ swarest, '', sware ]                                #swarest//
+  Entities: 0x0000                                     #swarest//
+  POS: [ 0x000B589D ]                                  #swarest//
+  NUPOS: [ vvd2 ]                                      #swarest//
+- Key: 0x1D05                                          #vowedst//
+  Text: [ vowedst, '', vowed ]                                #vowedst//
+  Entities: 0x0000                                     #vowedst//
+  POS: [ 0x000B589D ]                                  #vowedst//
+  NUPOS: [ vvd2 ]                                      #vowedst//
+- Key: 0x1E79                                          #castedst//
+  Text: [ castedst, '', cast ]                               #castedst//
+  Entities: 0x0000                                     #castedst//
+  POS: [ 0x000B589D ]                                  #castedst//
+  NUPOS: [ vvd2 ]                                      #castedst//
+- Key: 0x1EE5                                          #crownest//
+  Text: [ crownest, '', crown ]                               #crownest//
+  Entities: 0x0000                                     #crownest//
+  POS: [ 0x00005ADD ]                                  #crownest//
+  NUPOS: [ vv2 ]                                       #crownest//
+- Key: 0x1EFF                                          #deckedst//
+  Text: [ deckedst, '', decked ]                               #deckedst//
+  Entities: 0x0000                                     #deckedst//
+  POS: [ 0x000B589D ]                                  #deckedst//
+  NUPOS: [ vvd2 ]                                      #deckedst//
+- Key: 0x1F22                                          #diggedst//
+  Text: [ diggedst, '', dug ]                               #diggedst//
+  Entities: 0x0000                                     #diggedst//
+  POS: [  ]                                  #diggedst//
+  NUPOS: [  ]                                        #diggedst//
+- Key: 0x2018                                          #girdedst//
+  Text: [ girdedst, '', girded ]                               #girdedst//
+  Entities: 0x0000                                     #girdedst//
+  POS: [ 0x000B589D ]                                  #girdedst//
+  NUPOS: [ vvd2 ]                                      #girdedst//
+- Key: 0x201D                                          #gloriest//
+  Text: [ gloriest, '', glory ]                               #gloriest//
+  Entities: 0x0000                                     #gloriest//
+  POS: [ 0x00005ADD ]                                  #gloriest//
+  NUPOS: [ vv2 ]                                       #gloriest//
+- Key: 0x2315                                          #shewedst//
+  Text: [ shewedst, '', showed ]                               #shewedst//
+  Entities: 0x0000                                     #shewedst//
+  POS: [ 0x000B589D ]                                  #shewedst//
+  NUPOS: [ vvd2 ]                                      #shewedst//
+- Key: 0x25B5                                          #crownedst//
+  Text: [ crownedst, '', crowned ]                              #crownedst//
+  Entities: 0x0000                                     #crownedst//
+  POS: [ 0x000B589D ]                                  #crownedst//
+  NUPOS: [ vvd2 ]                                      #crownedst//
+- Key: 0x25D0                                          #defiledst//
+  Text: [ defiledst, '', defiled ]                              #defiledst//
+  Entities: 0x0000                                     #defiledst//
+  POS: [ 0x000B589D ]                                  #defiledst//
+  NUPOS: [ vvd2 ]                                      #defiledst//
+- Key: 0x262F                                          #enquirest//
+  Text: [ enquirest, '', enquire ]                              #enquirest//
+  Entities: 0x0000                                     #enquirest//
+  POS: [ 0x00005ADD ]                                  #enquirest//
+  NUPOS: [ vv2 ]                                       #enquirest//
+- Key: 0x264C                                          #excellest//
+  Text: [ excellest, '', excel ]                              #excellest//
+  Entities: 0x0000                                     #excellest//
+  POS: [ 0x00005ADD ]                                  #excellest//
+  NUPOS: [ vv2 ]                                       #excellest//
+- Key: 0x2666                                          #favourest//
+  Text: [ favourest, '', favor ]                              #favourest//
+  Entities: 0x0000                                     #favourest//
+  POS: [ 0x00005ADD ]                                  #favourest//
+  NUPOS: [ vv2 ]                                       #favourest//
+- Key: 0x2685                                          #forgavest//
+  Text: [ forgavest, '', forgave ]                              #forgavest//
+  Entities: 0x0000                                     #forgavest//
+  POS: [ 0x00005ADD, 0x000B589D ]                      #forgavest//
+  NUPOS: [ vv2, vvd2 ]                                 #forgavest//
+- Key: 0x26EA                                          #honourest//
+  Text: [ honourest, '', honor ]                              #honourest//
+  Entities: 0x0000                                     #honourest//
+  POS: [ 0x00005ADD ]                                  #honourest//
+  NUPOS: [ vv2 ]                                       #honourest//
+- Key: 0x276A                                          #marchedst//
+  Text: [ marchedst, '', marched ]                              #marchedst//
+  Entities: 0x0000                                     #marchedst//
+  POS: [ 0x000B589D ]                                  #marchedst//
+  NUPOS: [ vvd2 ]                                      #marchedst//
+- Key: 0x27B4                                          #numberest//
+  Text: [ numberest, '', number ]                              #numberest//
+  Entities: 0x0000                                     #numberest//
+  POS: [ 0x00005ADD ]                                  #numberest//
+  NUPOS: [ vv2 ]                                       #numberest//
+- Key: 0x2861                                          #rebellest//
+  Text: [ rebellest, '', rebel ]                              #rebellest//
+  Entities: 0x0000                                     #rebellest//
+  POS: [ 0x00005ADD ]                                  #rebellest//
+  NUPOS: [ vv2 ]                                       #rebellest//
+- Key: 0x28B2                                          #savourest//
+  Text: [ savourest, '', savor ]                              #savourest//
+  Entities: 0x0000                                     #savourest//
+  POS: [ 0x00005ADD ]                                  #savourest//
+  NUPOS: [ vv2 ]                                       #savourest//
+- Key: 0x28F4                                          #skippedst//
+  Text: [ skippedst, '', skipped ]                              #skippedst//
+  Entities: 0x0000                                     #skippedst//
+  POS: [ 0x000B589D ]                                  #skippedst//
+  NUPOS: [ vvd2 ]                                      #skippedst//
+- Key: 0x292C                                          #subduedst//
+  Text: [ subduedst, '', subdued ]                              #subduedst//
+  Entities: 0x0000                                     #subduedst//
+  POS: [ 0x000B589D ]                                  #subduedst//
+  NUPOS: [ vvd2 ]                                      #subduedst//
+- Key: 0x2A0B                                          #anointedst//
+  Text: [ anointedst, '', anointed ]                             #anointedst//
+  Entities: 0x0000                                     #anointedst//
+  POS: [ 0x000B589D ]                                  #anointedst//
+  NUPOS: [ vvd2 ]                                      #anointedst//
+- Key: 0x2A6B                                          #chastenest//
+  Text: [ chastenest, '', chasten ]                             #chastenest//
+  Entities: 0x0000                                     #chastenest//
+  POS: [ 0x00005ADD ]                                  #chastenest//
+  NUPOS: [ vv2 ]                                       #chastenest//
+- Key: 0x2A8D                                          #compassest//
+  Text: [ compassest, '', compass ]                             #compassest//
+  Entities: 0x0000                                     #compassest//
+  POS: [ 0x00005ADD ]                                  #compassest//
+  NUPOS: [ vv2 ]                                       #compassest//
+- Key: 0x2B2C                                          #executedst//
+  Text: [ executedst, '', executed ]                             #executedst//
+  Entities: 0x0000                                     #executedst//
+  POS: [ 0x00000153 ]                                  #executedst//
+  NUPOS: [ js ]                                        #executedst//
+- Key: 0x2B55                                          #forsookest//
+  Text: [ forsookest, '', forsook ]                             #forsookest//
+  Entities: 0x0000                                     #forsookest//
+  POS: [ 0x00005ADD ]                                  #forsookest//
+  NUPOS: [ vv2 ]                                       #forsookest//
+- Key: 0x2BBB                                          #inhabitest//
+  Text: [ inhabitest, '', inhabit ]                             #inhabitest//
+  Entities: 0x0000                                     #inhabitest//
+  POS: [ 0x00005ADD ]                                  #inhabitest//
+  NUPOS: [ vv2 ]                                       #inhabitest//
+- Key: 0x2CA3                                          #redeemedst//
+  Text: [ redeemedst, '', redeemed ]                             #redeemedst//
+  Entities: 0x0000                                     #redeemedst//
+  POS: [ 0x000B589D ]                                  #redeemedst//
+  NUPOS: [ vvd2 ]                                      #redeemedst//
+- Key: 0x2D70                                          #wroughtest//
+  Text: [ wroughtest, '', wrought ]                             #wroughtest//
+  Entities: 0x0000                                     #wroughtest//
+  POS: [ 0x000B589D ]                                  #wroughtest//
+  NUPOS: [ vvd2 ]                                      #wroughtest//
+- Key: 0x2DCF                                          #comfortedst//
+  Text: [ comfortedst, '', comforted ]                            #comfortedst//
+  Entities: 0x0000                                     #comfortedst//
+  POS: [ 0x000B589D ]                                  #comfortedst//
+  NUPOS: [ vvd2 ]                                      #comfortedst//
+- Key: 0x2DE1                                          #consentedst//
+  Text: [ consentedst, '', consented ]                            #consentedst//
+  Entities: 0x0000                                     #consentedst//
+  POS: [ 0x000B589D ]                                  #consentedst//
+  NUPOS: [ vvd2 ]                                      #consentedst//
+- Key: 0x2E5C                                          #hearkenedst//
+  Text: [ hearkenedst, '', hearkened ]                            #hearkenedst//
+  Entities: 0x0000                                     #hearkenedst//
+  POS: [ 0x000B589D ]                                  #hearkenedst//
+  NUPOS: [ vvd2 ]                                      #hearkenedst//
+- Key: 0x2FB8                                          #dishonourest//
+  Text: [ dishonourest, '', dishonor ]                           #dishonourest//
+  Entities: 0x0000                                     #dishonourest//
+  POS: [ 0x00005ADD ]                                  #dishonourest//
+  NUPOS: [ vv2 ]                                       #dishonourest//
+- Key: 0x302A                                          #sacrificedst//
+  Text: [ sacrificedst, '', sacrificed ]                           #sacrificedst//
+  Entities: 0x0000                                     #sacrificedst//
+  POS: [ 0x000B589D ]                                  #sacrificedst//
+  NUPOS: [ vvd2 ]                                      #sacrificedst//
+- Key: 0x30B6                                          #transgressest//
+  Text: [ transgressest, '', transgress ]                          #transgressest//
+  Entities: 0x0000                                     #transgressest//
+  POS: [ 0x00005ADD ]                                  #transgressest//
+  NUPOS: [ vv2 ]                                       #transgressest//
+- Key: 0x30EB                                          #strengthenedst//
+  Text: [ strengthenedst, '', strengthened ]                         #strengthenedst//
+  Entities: 0x0000                                     #strengthenedst//
+  POS: [ 0x000B589D ]                                  #strengthenedst//
+  NUPOS: [ vvd2 ]                                      #strengthenedst//
+- Key: 0x0516                                          #teth//
+  Text: [ teth, '', '' ]                                   #teth//
+  Entities: 0x0000                                     #teth//
+  POS: [  ]                                  #teth//
+  NUPOS: [  ]                                       #teth//
+- Key: 0x06E5                                          #cheth//
+  Text: [ cheth, '', '' ]                                  #cheth//
+  Entities: 0x0000                                     #cheth//
+  POS: [  ]
+  NUPOS: [  ]
+- Key: 0x0E71                                          #dureth//
+  Text: [ dureth, '', endures ]                                 #dureth//
+  Entities: 0x0000                                     #dureth//
+  POS: [ 0x00005ADA ]                                  #dureth//
+  NUPOS: [ vvz ]                                       #dureth//
+- Key: 0x1278                                          #remeth//
+  Text: [ remeth, '', '' ]                                 #remeth//
+  Entities: 0x0000                                     #remeth//
+  POS: [ 0x00003A1C ]
+  NUPOS: [ np1 ]
+- Key: 0x1514                                          #alameth//
+  Text: [ alameth, '', '' ]                                #alameth//
+  Entities: 0x8000                                     
+  POS: [ 0x00003A1C ]
+  NUPOS: [ np1 ]
+- Key: 0x1600                                          #calveth//keep archaic
+  Text: [ calveth, '', '' ]                                #calveth//
+  Entities: 0x0000                                     #calveth//
+  POS: [ 0x00005ADA ]                                  #calveth//
+  NUPOS: [ vvz ]                                       #calveth//
+- Key: 0x1840                                          #hasteth//
+  Text: [ hasteth, '', hastens ]                                #hasteth//
+  Entities: 0x0000                                     #hasteth//
+  POS: [ 0x00005ADA ]                                  #hasteth//
+  NUPOS: [ vvz ]                                       #hasteth//
+- Key: 0x196D                                          #lotheth//
+  Text: [ lotheth, '', lothes ]                                #lotheth//
+  Entities: 0x0000                                     #lotheth//
+  POS: [ 0x00005ADA ]                                  #lotheth//
+  NUPOS: [ vvz ]                                       #lotheth//
+- Key: 0x1973                                          #lusteth//
+  Text: [ lusteth, '', lusts ]                                #lusteth//
+  Entities: 0x0000                                     #lusteth//
+  POS: [ 0x00005ADA ]                                  #lusteth//
+  NUPOS: [ vvz ]                                       #lusteth//
+- Key: 0x1C8D                                          #tasteth//
+  Text: [ tasteth, '', tastes ]                                #tasteth//
+  Entities: 0x0000                                     #tasteth//
+  POS: [ 0x00005ADA ]                                  #tasteth//
+  NUPOS: [ vvz ]                                       #tasteth//
+- Key: 0x1CC8                                          #topheth//
+  Text: [ topheth, '', '' ]                                #topheth//
+  Entities: 0x0000                                     #topheth//
+  POS: [ 0x00003A1C ]
+  NUPOS: [ np1 ]
+- Key: 0x1D56                                          #wotteth//
+  Text: [ wotteth, '', knows ]                                #wotteth//
+  Entities: 0x0000                                     #wotteth//
+  POS: [ 0x00005ADA ]                                  #wotteth//
+  NUPOS: [ vvz ]                                       #wotteth//
+- Key: 0x1E4D                                          #bridleth//
+  Text: [ bridleth, '', bridles ]                               #bridleth//
+  Entities: 0x0000                                     #bridleth//
+  POS: [ 0x00005ADA ]                                  #bridleth//
+  NUPOS: [ vvz ]                                       #bridleth//
+- Key: 0x1EE6                                          #crowneth//
+  Text: [ crowneth, '', crowns ]                               #crowneth//
+  Entities: 0x0000                                     #crowneth//
+  POS: [ 0x00005ADA ]                                  #crowneth//
+  NUPOS: [ vvz ]                                       #crowneth//
+- Key: 0x1FD4                                          #fetcheth//
+  Text: [ fetcheth, '', fetches ]                               #fetcheth//
+  Entities: 0x0000                                     #fetcheth//
+  POS: [ 0x00005ADA ]                                  #fetcheth//
+  NUPOS: [ vvz ]                                       #fetcheth//
+- Key: 0x201E                                          #glorieth//
+  Text: [ glorieth, '', glories ]                               #glorieth//
+  Entities: 0x0000                                     #glorieth//
+  POS: [ 0x00005ADA ]                                  #glorieth//
+  NUPOS: [ vvz ]                                       #glorieth//
+- Key: 0x2021                                          #gnasheth//
+  Text: [ gnasheth, '', gnashes ]                               #gnasheth//
+  Entities: 0x0000                                     #gnasheth//
+  POS: [ 0x00005ADA ]                                  #gnasheth//
+  NUPOS: [ vvz ]                                       #gnasheth//
+- Key: 0x2032                                          #grieveth//
+  Text: [ grieveth, '', grieves ]                               #grieveth//
+  Entities: 0x0000                                     #grieveth//
+  POS: [ 0x00005ADA ]                                  #grieveth//
+  NUPOS: [ vvz ]                                       #grieveth//
+- Key: 0x205F                                          #hatcheth//
+  Text: [ hatcheth, '', hatches ]                               #hatcheth//
+  Entities: 0x0000                                     #hatcheth//
+  POS: [ 0x00005ADA ]                                  #hatcheth//
+  NUPOS: [ vvz ]                                       #hatcheth//
+- Key: 0x210E                                          #leannoth//
+  Text: [ leannoth, '', '' ]                               #leannoth//
+  Entities: 0x0000                                     #leannoth//
+  POS: [ ]                                             #leannoth//
+  NUPOS: [ np1 ]                                            #leannoth//
+- Key: 0x2122                                          #loatheth//
+  Text: [ loatheth, '', loathes ]                               #loatheth//
+  Entities: 0x0000                                     #loatheth//
+  POS: [ 0x00005ADA ]                                  #loatheth//
+  NUPOS: [ vvz ]                                       #loatheth//
+- Key: 0x2462                                          #wrongeth//
+  Text: [ wrongeth, '', wrongs ]                               #wrongeth//
+  Entities: 0x0000                                     #wrongeth//
+  POS: [ 0x00005ADA ]                                  #wrongeth//
+  NUPOS: [ vvz ]                                       #wrongeth//
+- Key: 0x25DE                                          #deserveth//
+  Text: [ deserveth, '', deserves ]                              #deserveth//
+  Entities: 0x0000                                     #deserveth//
+  POS: [ 0x00005ADA ]                                  #deserveth//
+  NUPOS: [ vvz ]                                       #deserveth//
+- Key: 0x263B                                          #escheweth//
+  Text: [ escheweth, '', eschews ]                              #escheweth//
+  Entities: 0x0000                                     #escheweth//
+  POS: [ 0x00005ADA ]                                  #escheweth//
+  NUPOS: [ vvz ]                                       #escheweth//
+- Key: 0x264D                                          #excelleth//
+  Text: [ excelleth, '', excels ]                              #excelleth//
+  Entities: 0x0000                                     #excelleth//
+  POS: [ 0x00005ADA ]                                  #excelleth//
+  NUPOS: [ vvz ]                                       #excelleth//
+- Key: 0x2667                                          #favoureth//
+  Text: [ favoureth, '', favors ]                              #favoureth//
+  Entities: 0x0000                                     #favoureth//
+  POS: [ 0x00005ADA ]                                  #favoureth//
+  NUPOS: [ vvz ]                                       #favoureth//
+- Key: 0x26EB                                          #honoureth//
+  Text: [ honoureth, '', honors ]                              #honoureth//
+  Entities: 0x0000                                     #honoureth//
+  POS: [ 0x00005ADA ]                                  #honoureth//
+  NUPOS: [ vvz ]                                       #honoureth//
+- Key: 0x2746                                          #laboureth//
+  Text: [ laboureth, '', labors ]                              #laboureth//
+  Entities: 0x0000                                     #laboureth//
+  POS: [ 0x00005ADA ]                                  #laboureth//
+  NUPOS: [ vvz ]                                       #laboureth//
+- Key: 0x278A                                          #mispereth//
+  Text: [ mispereth, '', '' ]                              #mispereth//
+  Entities: 0x8000                                     #equivalent to mazzaroth//
+  POS: [ 0x00003A1C ]                                  #equivalent to mazzaroth//
+  NUPOS: [ np1 ]                                       #equivalent to mazzaroth//
+- Key: 0x282A                                          #preacheth//
+  Text: [ preacheth, '', preaches ]                              #preacheth//
+  Entities: 0x0000                                     #preacheth//
+  POS: [ 0x00005ADA ]                                  #preacheth//
+  NUPOS: [ vvz ]                                       #preacheth//
+- Key: 0x283D                                          #profaneth//
+  Text: [ profaneth, '', profanes ]                              #profaneth//
+  Entities: 0x0000                                     #profaneth//
+  POS: [ 0x00005ADA ]                                  #profaneth//
+  NUPOS: [ vvz ]                                       #profaneth//
+- Key: 0x28B6                                          #scourgeth//
+  Text: [ scourgeth, '', scourges ]                              #scourgeth//
+  Entities: 0x0000                                     #scourgeth//
+  POS: [ 0x00005ADA ]                                  #scourgeth//
+  NUPOS: [ vvz ]                                       #scourgeth//
+- Key: 0x2906                                          #sorroweth//
+  Text: [ sorroweth, '', sorrows ]                              #sorroweth//
+  Entities: 0x0000                                     #sorroweth//
+  POS: [ 0x00005ADA ]                                  #sorroweth//
+  NUPOS: [ vvz ]                                       #sorroweth//
+- Key: 0x295E                                          #thresheth//
+  Text: [ thresheth, '', threshes ]                              #thresheth//
+  Entities: 0x0000                                     #thresheth//
+  POS: [ 0x00005ADA ]                                  #thresheth//
+  NUPOS: [ vvz ]                                       #thresheth//
+- Key: 0x2977                                          #trickleth//
+  Text: [ trickleth, '', trickles ]                              #trickleth//
+  Entities: 0x0000                                     #trickleth//
+  POS: [ 0x00005ADA ]                                  #trickleth//
+  NUPOS: [ vvz ]                                       #trickleth//
+- Key: 0x2B1D                                          #entangleth//
+  Text: [ entangleth, '', entangles ]                             #entangleth//
+  Entities: 0x0000                                     #entangleth//
+  POS: [ 0x00005ADA ]                                  #entangleth//
+  NUPOS: [ vvz ]                                       #entangleth//
+- Key: 0x2CA6                                          #refresheth//
+  Text: [ refresheth, '', refreshes ]                             #refresheth//
+  Entities: 0x0000                                     #refresheth//
+  POS: [ 0x00005ADA ]                                  #refresheth//
+  NUPOS: [ vvz ]                                       #refresheth//
+- Key: 0x2CE1                                          #signifieth//
+  Text: [ signifieth, '', signifies ]                             #signifieth//
+  Entities: 0x0000                                     #signifieth//
+  POS: [ 0x00005ADA ]                                  #signifieth//
+  NUPOS: [ vvz ]                                       #signifieth//
+- Key: 0x2CF3                                          #sprinkleth//
+  Text: [ sprinkleth, '', sprinkles ]                             #sprinkleth//
+  Entities: 0x0000                                     #sprinkleth//
+  POS: [ 0x00005ADA ]                                  #sprinkleth//
+  NUPOS: [ vvz ]                                       #sprinkleth//
+- Key: 0x2E37                                          #flourisheth//
+  Text: [ flourisheth, '', flourishes ]                            #flourisheth//
+  Entities: 0x0000                                     #flourisheth//
+  POS: [ 0x00005ADA ]                                  #flourisheth//
+  NUPOS: [ vvz ]                                       #flourisheth//
+- Key: 0x2E8C                                          #languisheth//
+  Text: [ languisheth, '', languishes ]                            #languisheth//
+  Entities: 0x0000                                     #languisheth//
+  POS: [ 0x00005ADA ]                                  #languisheth//
+  NUPOS: [ vvz ]                                       #languisheth//
+- Key: 0x2EEE                                          #reproacheth//
+  Text: [ reproacheth, '', reproaches ]                            #reproacheth//
+  Entities: 0x0000                                     #reproacheth//
+  POS: [ 0x00005ADA ]                                  #reproacheth//
+  NUPOS: [ vvz ]                                       #reproacheth//
+- Key: 0x2F1E                                          #stablisheth//
+  Text: [ stablisheth, '', establishes ]                            #stablisheth//
+  Entities: 0x0000                                     #stablisheth//
+  POS: [ 0x00005ADA ]                                  #stablisheth//
+  NUPOS: [ vvz ]                                       #stablisheth//
+- Key: 0x2FB3                                          #disannulleth//
+  Text: [ disannulleth, '', disannuls ]                           #disannulleth//
+  Entities: 0x0000                                     #disannulleth//
+  POS: [ 0x00005ADA ]                                  #disannulleth//
+  NUPOS: [ vvz ]                                       #disannulleth//
+- Key: 0x2FB9                                          #dishonoureth//
+  Text: [ dishonoureth, '', dishonors ]                           #dishonoureth//
+  Entities: 0x0000                                     #dishonoureth//
+  POS: [ 0x00005ADA ]                                  #dishonoureth//
+  NUPOS: [ vvz ]                                       #dishonoureth//
+- Key: 0x01C5                                          #bare//
+  Text: [ bare, '', bore ]                                   #bare//
+  Entities: 0x0000                                     #bare//
+  POS: [ 0x0000000A, 0x00005AC4 ]                      #bare//
+  NUPOS: [ j, vvd ]                                    #bare//                                  
+- Key: 0x09D9                                          #odour//
+  Text: [ odour, '', odor ]                                  #odour//
+  Entities: 0x0000                                     #odour//
+  POS: [ 0x000001DC ]                                  #odour//
+  NUPOS: [ n1 ]                                        #odour//
+- Key: 0x0CD0                                          #armour//
+  Text: [ armour, '', armor ]                                 #armour//
+  Entities: 0x0000                                     #armour//
+  POS: [ 0x000001DC ]                                  #armour//
+  NUPOS: [ n1 ]                                        #armour//
+- Key: 0x0DEA                                          #colour//
+  Text: [ colour, '', color ]                                 #colour//
+  Entities: 0x0000                                     #colour//
+  POS: [ 0x000001DC ]                                  #colour//
+  NUPOS: [ n1 ]                                        #colour//
+- Key: 0x0E4F                                          #devour//
+  Text: [ devour, '', '' ]                                 #devour//
+  Entities: 0x0000                                     #devour//
+  POS: [ 0x00005AC2, 0x00005AC9 ]                      #devour//
+  NUPOS: [ vvb, vvi ]                                  #devour//
+- Key: 0x0ED4                                          #favour//
+  Text: [ favour, '', favor ]                                 #favour//
+  Entities: 0x0000                                     #favour//
+  POS: [ 0x000001DC, 0x00005AC2, 0x00005AC9 ]          #favour//
+  NUPOS: [ n1, vvb, vvi ]                              #favour//
+- Key: 0x0FDE                                          #honour//
+  Text: [ honour, '', honor ]                                 #honour//
+  Entities: 0x0000                                     #honour//
+  POS: [ 0x000001DC, 0x00005AC2, 0x00005AC9 ]          #honour//
+  NUPOS: [ n1, vvb, vvi ]                              #honour//
+- Key: 0x1098                                          #labour//
+  Text: [ labour, '', labor ]                                 #labour//
+  Entities: 0x0000                                     #labour//
+  POS: [ 0x000001DC, 0x00005AC2, 0x00005AC9 ]          #labour//
+  NUPOS: [ n1, vvb, vvi ]                              #labour//
+- Key: 0x129C                                          #rigour//
+  Text: [ rigour, '', rigor ]                                 #rigour//
+  Entities: 0x0000                                     #rigour//
+  POS: [ 0x000001DC ]                                  #rigour//
+  NUPOS: [ n1 ]                                        #rigour//
+- Key: 0x12BB                                          #rumour//
+  Text: [ rumour, '', rumor ]                                 #rumour//
+  Entities: 0x0000                                     #rumour//
+  POS: [ 0x000001DC ]                                  #rumour//
+  NUPOS: [ n1 ]                                        #rumour//
+- Key: 0x12D9                                          #savour//
+  Text: [ savour, '', savor ]                                 #savour//
+  Entities: 0x0000                                     #savour//
+  POS: [ 0x000001DC ]                                  #savour//
+  NUPOS: [ n1 ]                                        #savour//
+- Key: 0x144C                                          #valour//
+  Text: [ valour, '', valor ]                                 #valour//
+  Entities: 0x0000                                     #valour//
+  POS: [ 0x000001DC ]                                  #valour//
+  NUPOS: [ n1 ]                                        #valour//
+- Key: 0x1451                                          #vapour//
+  Text: [ vapour, '', vapor ]                                 #vapour//
+  Entities: 0x0000                                     #vapour//
+  POS: [ 0x000001DC ]                                  #vapour//
+  NUPOS: [ n1 ]                                        #vapour//
+- Key: 0x1646                                          #clamour//
+  Text: [ clamour, '', clamor ]                                #clamour//
+  Entities: 0x0000                                     #clamour//
+  POS: [ 0x000001DC ]                                  #clamour//
+  NUPOS: [ n1 ]                                        #clamour//
+- Key: 0x1A43                                          #parlour//
+  Text: [ parlour, '', parlor ]                                #parlour//
+  Entities: 0x0000                                     #parlour//
+  POS: [ 0x000001DC ]                                  #parlour//
+  NUPOS: [ n1 ]                                        #parlour//
+- Key: 0x1B63                                          #saviour//
+  Text: [ saviour, '', savior ]                                #saviour//
+  Entities: 0x0000                                     #saviour//
+  POS: [ 0x000001DC ]                                  #saviour//
+  NUPOS: [ n1 ]                                        #saviour//
+- Key: 0x1C67                                          #succour//
+  Text: [ succour, '', succor ]                                #succour//
+  Entities: 0x0000                                     #succour//
+  POS: [ 0x00005AC2, 0x00005AC9 ]                      #succour//
+  NUPOS: [ vvb, vvi ]                                  #succour//
+- Key: 0x24FB                                          #behaviour//
+  Text: [ behaviour, '', behavior ]                              #behaviour//
+  Entities: 0x0000                                     #behaviour//
+  POS: [ 0x000001DC ]                                  #behaviour//
+  NUPOS: [ n1 ]                                        #behaviour//
+- Key: 0x25FF                                          #dishonour//
+  Text: [ dishonour, '', dishonor ]                              #dishonour//
+  Entities: 0x0000                                     #dishonour//
+  POS: [ 0x000001DC, 0x00005AC9 ]                      #dishonour//
+  NUPOS: [ n1, vvi ]                                   #dishonour//
+- Key: 0x2627                                          #endeavour//
+  Text: [ endeavour, '', endeavor ]                              #endeavour//
+  Entities: 0x0000                                     #endeavour//
+  POS: [ 0x00005AC9 ]                                  #endeavour//
+  NUPOS: [ vvi ]                                       #endeavour//
+- Key: 0x27A8                                          #neighbour//
+  Text: [ neighbour, '', neighbor ]                              #neighbour//
+  Entities: 0x0000                                     #neighbour//
+  POS: [ 0x000001DC, 0x000038FC ]                      #neighbour//
+  NUPOS: [ n1, ng1 ]                                   #neighbour//
