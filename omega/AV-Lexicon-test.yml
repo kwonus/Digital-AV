@@ -1,0 +1,575 @@
+- Key: 0x0585                                          
+  Text: [ 'wist', '', 'knew' ]                               
+  Entities: 0x0000                                     
+  POS: [ 0x00005AC4 ]                                  
+  NUPOS: [ vvd ]                                       
+- Key: 0x0CFE                                          
+  Text: [ badest, '', bade ]                             
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x0D09                                          
+  Text: [ barest, '', bore ]                             
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x0D11                                          
+  Text: [ basest, '', 'most base' ]                      
+  Entities: 0x0000                                     
+  POS: [ 0x00000153 ]                                  
+  NUPOS: [ js ]                                        
+- Key: 0x1489                                          
+  Text: [ whilst, '', while ]                            
+  Entities: 0x0000                                     
+  POS: [ 0x00000073 ]                                  
+  NUPOS: [ cs ]                                        
+- Key: 0x1651                                          
+  Text: [ closest, '', enclose ]                         
+  Entities: 0x0000                                     
+  POS: [  ]                                  
+  NUPOS: [  ]                                        
+- Key: 0x17E3                                          
+  Text: [ gaddest, '', roam ]                            
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x192B                                          
+  Text: [ layedst, '', layed ]                           
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x1C16                                          
+  Text: [ smotest, '', smote ]                           
+  Entities: 0x0000                                     
+  POS: [ 0x00000153 ]                                  
+  NUPOS: [ js ]                                        
+- Key: 0x1C23                                          
+  Text: [ sowedst, '', sowed ]                           
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x1C24                                          
+  Text: [ spakest, '', spoke ]                           
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x1C4A                                          
+  Text: [ stonest, '', stone ]                           
+  Entities: 0x0000                                     
+  POS: [ 0x80054D4E ]                                  
+  NUPOS: [ js-jn ]                                     
+- Key: 0x1C71                                          
+  Text: [ swarest, '', sware ]                           
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x1D05                                          
+  Text: [ vowedst, '', vowed ]                           
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x1E79                                          
+  Text: [ castedst, '', cast ]                           
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x1EE5                                          
+  Text: [ crownest, '', crown ]                          
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x1EFF                                          
+  Text: [ deckedst, '', decked ]                         
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x1F22                                          
+  Text: [ diggedst, '', dug ]                            
+  Entities: 0x0000                                     
+  POS: [  ]                                  
+  NUPOS: [  ]                                        
+- Key: 0x2018                                          
+  Text: [ girdedst, '', girded ]                         
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x201D                                          
+  Text: [ gloriest, '', glory ]                          
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x2315                                          
+  Text: [ shewedst, '', showed ]                         
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x25B5                                          
+  Text: [ crownedst, '', crowned ]                       
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x25D0                                          
+  Text: [ defiledst, '', defiled ]                       
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x262F                                          
+  Text: [ enquirest, '', enquire ]                       
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x264C                                          
+  Text: [ excellest, '', excel ]                         
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x2666                                          
+  Text: [ favourest, '', favor ]                         
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x2685                                          
+  Text: [ forgavest, '', forgave ]                       
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD, 0x000B589D ]                      
+  NUPOS: [ vv2, vvd2 ]                                 
+- Key: 0x26EA                                          
+  Text: [ honourest, '', honor ]                         
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x276A                                          
+  Text: [ marchedst, '', marched ]                       
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x27B4                                          
+  Text: [ numberest, '', number ]                        
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x2861                                          
+  Text: [ rebellest, '', rebel ]                         
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x28B2                                          
+  Text: [ savourest, '', savor ]                         
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x28F4                                          
+  Text: [ skippedst, '', skipped ]                       
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x292C                                          
+  Text: [ subduedst, '', subdued ]                       
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x2A0B                                          
+  Text: [ anointedst, '', anointed ]                     
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x2A6B                                          
+  Text: [ chastenest, '', chasten ]                      
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x2A8D                                          
+  Text: [ compassest, '', compass ]                      
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x2B2C                                          
+  Text: [ executedst, '', executed ]                     
+  Entities: 0x0000                                     
+  POS: [ 0x00000153 ]                                  
+  NUPOS: [ js ]                                        
+- Key: 0x2B55                                          
+  Text: [ forsookest, '', forsook ]                      
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x2BBB                                          
+  Text: [ inhabitest, '', inhabit ]                      
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x2CA3                                          
+  Text: [ redeemedst, '', redeemed ]                     
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x2D70                                          
+  Text: [ wroughtest, '', wrought ]                      
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x2DCF                                          
+  Text: [ comfortedst, '', comforted ]                   
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x2DE1                                          
+  Text: [ consentedst, '', consented ]                   
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x2E5C                                          
+  Text: [ hearkenedst, '', hearkened ]                   
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x2FB8                                          
+  Text: [ dishonourest, '', dishonor ]                   
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x302A                                          
+  Text: [ sacrificedst, '', sacrificed ]                 
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x30B6                                          
+  Text: [ transgressest, '', transgress ]                
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADD ]                                  
+  NUPOS: [ vv2 ]                                       
+- Key: 0x30EB                                          
+  Text: [ strengthenedst, '', strengthened ]             
+  Entities: 0x0000                                     
+  POS: [ 0x000B589D ]                                  
+  NUPOS: [ vvd2 ]                                      
+- Key: 0x0516                                          
+  Text: [ teth, '',  ]                                   
+  Entities: 0x0000                                     
+  POS: [  ]                                  
+  NUPOS: [  ]                                       
+- Key: 0x06E5                                          
+  Text: [ cheth, '',  ]                                  
+  Entities: 0x0000                                     
+  POS: [  ]
+  NUPOS: [  ]
+- Key: 0x0E71                                          
+  Text: [ dureth, '', endures ]                          
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x1278                                          
+  Text: [ remeth, '',  ]                                 
+  Entities: 0x0000                                     
+  POS: [ 0x00003A1C ]
+  NUPOS: [ np1 ]
+- Key: 0x1514                                          
+  Text: [ alameth, '',  ]                                
+  Entities: 0x8000                                     
+  POS: [ 0x00003A1C ]
+  NUPOS: [ np1 ]
+- Key: 0x1600                                          
+  Text: [ calveth, '',  ]                                
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x1840                                          
+  Text: [ hasteth, '', hastens ]                         
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x196D                                          
+  Text: [ lotheth, '', lothes ]                          
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x1973                                          
+  Text: [ lusteth, '', lusts ]                           
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x1C8D                                          
+  Text: [ tasteth, '', tastes ]                          
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x1CC8                                          
+  Text: [ topheth, '',  ]                                
+  Entities: 0x0000                                     
+  POS: [ 0x00003A1C ]
+  NUPOS: [ np1 ]
+- Key: 0x1D56                                          
+  Text: [ wotteth, '', knows ]                           
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x1E4D                                          
+  Text: [ bridleth, '', bridles ]                        
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x1EE6                                          
+  Text: [ crowneth, '', crowns ]                         
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x1FD4                                          
+  Text: [ fetcheth, '', fetches ]                        
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x201E                                          
+  Text: [ glorieth, '', glories ]                        
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2021                                          
+  Text: [ gnasheth, '', gnashes ]                        
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2032                                          
+  Text: [ grieveth, '', grieves ]                        
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x205F                                          
+  Text: [ hatcheth, '', hatches ]                        
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x210E                                          
+  Text: [ leannoth, '',  ]                               
+  Entities: 0x0000                                     
+  POS: [ ]                                             
+  NUPOS: [ np1 ]                                       
+- Key: 0x2122                                          
+  Text: [ loatheth, '', loathes ]                        
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2462                                          
+  Text: [ wrongeth, '', wrongs ]                         
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x25DE                                          
+  Text: [ deserveth, '', deserves ]                      
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x263B                                          
+  Text: [ escheweth, '', eschews ]                       
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x264D                                          
+  Text: [ excelleth, '', excels ]                        
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2667                                          
+  Text: [ favoureth, '', favors ]                        
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x26EB                                          
+  Text: [ honoureth, '', honors ]                        
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2746                                          
+  Text: [ laboureth, '', labors ]                        
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x278A                                          
+  Text: [ mispereth, '',  ]                              
+  Entities: 0x8000                                     
+  POS: [ 0x00003A1C ]                                  
+  NUPOS: [ np1 ]                                       
+- Key: 0x282A                                          
+  Text: [ preacheth, '', preaches ]                      
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x283D                                          
+  Text: [ profaneth, '', profanes ]                      
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x28B6                                          
+  Text: [ scourgeth, '', scourges ]                      
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2906                                          
+  Text: [ sorroweth, '', sorrows ]                       
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x295E                                          
+  Text: [ thresheth, '', threshes ]                      
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2977                                          
+  Text: [ trickleth, '', trickles ]                      
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2B1D                                          
+  Text: [ entangleth, '', entangles ]                    
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2CA6                                          
+  Text: [ refresheth, '', refreshes ]                    
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2CE1                                          
+  Text: [ signifieth, '', signifies ]                    
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2CF3                                          
+  Text: [ sprinkleth, '', sprinkles ]                    
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2E37                                          
+  Text: [ flourisheth, '', flourishes ]                  
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2E8C                                          
+  Text: [ languisheth, '', languishes ]                  
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2EEE                                          
+  Text: [ reproacheth, '', reproaches ]                  
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2F1E                                          
+  Text: [ stablisheth, '', establishes ]                 
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2FB3                                          
+  Text: [ disannulleth, '', disannuls ]                  
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x2FB9                                          
+  Text: [ dishonoureth, '', dishonors ]                  
+  Entities: 0x0000                                     
+  POS: [ 0x00005ADA ]                                  
+  NUPOS: [ vvz ]                                       
+- Key: 0x01C5                                          
+  Text: [ bare, '', bore ]                               
+  Entities: 0x0000                                     
+  POS: [ 0x0000000A, 0x00005AC4 ]                      
+  NUPOS: [ j, vvd ]                                                 
+- Key: 0x09D9                                          
+  Text: [ odour, '', odor ]                              
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC ]                                  
+  NUPOS: [ n1 ]                                        
+- Key: 0x0CD0                                          
+  Text: [ armour, '', armor ]                            
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC ]                                  
+  NUPOS: [ n1 ]                                        
+- Key: 0x0DEA                                          
+  Text: [ colour, '', color ]                            
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC ]                                  
+  NUPOS: [ n1 ]                                        
+- Key: 0x0E4F                                          
+  Text: [ devour, '',  ]                                 
+  Entities: 0x0000                                     
+  POS: [ 0x00005AC2, 0x00005AC9 ]                      
+  NUPOS: [ vvb, vvi ]                                  
+- Key: 0x0ED4                                          
+  Text: [ favour, '', favor ]                            
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC, 0x00005AC2, 0x00005AC9 ]          
+  NUPOS: [ n1, vvb, vvi ]                              
+- Key: 0x0FDE                                          
+  Text: [ honour, '', honor ]                            
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC, 0x00005AC2, 0x00005AC9 ]          
+  NUPOS: [ n1, vvb, vvi ]                              
+- Key: 0x1098                                          
+  Text: [ labour, '', labor ]                            
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC, 0x00005AC2, 0x00005AC9 ]          
+  NUPOS: [ n1, vvb, vvi ]                              
+- Key: 0x129C                                          
+  Text: [ rigour, '', rigor ]                            
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC ]                                  
+  NUPOS: [ n1 ]                                        
+- Key: 0x12BB                                          
+  Text: [ rumour, '', rumor ]                            
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC ]                                  
+  NUPOS: [ n1 ]                                        
+- Key: 0x12D9                                          
+  Text: [ savour, '', savor ]                            
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC ]                                  
+  NUPOS: [ n1 ]                                        
+- Key: 0x144C                                          
+  Text: [ valour, '', valor ]                            
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC ]                                  
+  NUPOS: [ n1 ]                                        
+- Key: 0x1451                                          
+  Text: [ vapour, '', vapor ]                            
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC ]                                  
+  NUPOS: [ n1 ]                                        
+- Key: 0x1646                                          
+  Text: [ clamour, '', clamor ]                          
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC ]                                  
+  NUPOS: [ n1 ]                                        
+- Key: 0x1A43                                          
+  Text: [ parlour, '', parlor ]                          
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC ]                                  
+  NUPOS: [ n1 ]                                        
+- Key: 0x1B63                                          
+  Text: [ saviour, '', savior ]                          
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC ]                                  
+  NUPOS: [ n1 ]                                        
+- Key: 0x1C67                                          
+  Text: [ succour, '', succor ]                          
+  Entities: 0x0000                                     
+  POS: [ 0x00005AC2, 0x00005AC9 ]                      
+  NUPOS: [ vvb, vvi ]                                  
+- Key: 0x24FB                                          
+  Text: [ behaviour, '', behavior ]                      
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC ]                                  
+  NUPOS: [ n1 ]                                        
+- Key: 0x25FF                                          
+  Text: [ dishonour, '', dishonor ]                      
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC, 0x00005AC9 ]                      
+  NUPOS: [ n1, vvi ]                                   
+- Key: 0x2627                                          
+  Text: [ endeavour, '', endeavor ]                      
+  Entities: 0x0000                                     
+  POS: [ 0x00005AC9 ]                                  
+  NUPOS: [ vvi ]                                       
+- Key: 0x27A8                                          
+  Text: [ neighbour, '', neighbor ]                      
+  Entities: 0x0000                                     
+  POS: [ 0x000001DC, 0x000038FC ]                      
+  NUPOS: [ n1, ng1 ]                                   
