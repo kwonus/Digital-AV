@@ -11,6 +11,7 @@
     using BlueprintBlue.Model;
     using YamlDotNet.Core;
     using System.Runtime.CompilerServices;
+    using System.Xml;
 
     public class ManageOmega
     {
@@ -288,7 +289,7 @@
             return lex;
         }
 
-        private void ProcessLexicon(YamlLexicon lex)
+        private void ReadLexiconFromSDK(YamlLexicon lex)
         {
             if (this.sdkReader != null && this.newWriter != null)
             {
@@ -317,6 +318,39 @@
             if (this.yamlLexiconOriginal != null)
                 lex.WriteAll(this.yamlLexiconOriginal);
         }
+        private uint WriteLexiconForSDK(YamlLexicon lex, MemoryStream output)
+        {
+            output.Seek(0, SeekOrigin.Begin);
+
+            var bom = BOM.Inventory[BOM.Lexicon];
+            var outstream = new BinaryWriter(output, Encoding.UTF8);
+
+            for (UInt16 i = 0; i < bom.recordCount; i++)
+            {
+                LexRecord record = lex[i];
+
+                outstream.Write(record.Entities);
+                outstream.Write((UInt16) record.POS.Length);
+                for (int p = 0; p < record.POS.Length; p++)
+                {
+                    outstream.Write(record.POS[p]);
+                }
+                for (int t = 0; t < 3; t++)
+                {
+                    if (t < record.Text.Length && record.Text[t].Length > 0)
+                    {
+                        foreach (char c in record.Text[t])
+                        {
+                            outstream.Write(c);
+                        }
+                    }
+                    outstream.Write((byte) 0);
+                }
+            }
+            output.Seek(0, SeekOrigin.Begin);
+            return (uint) output.Length;
+        }
+
         private void FixBadModernTranslations()
         {
 //          byte[] art = new byte[] {   44,   17,   29,    4 }; // coordinates[] B C V W Acts 17:29 (4th to last word)
@@ -518,11 +552,13 @@
                 this.newWriter.Write(bytes);
             }
         }
-        private void CreateNewArtifact(byte order, BinaryReader? reader)
+        private void CreateNewArtifact(byte order, BinaryReader? reader, uint? newlen = null)
         {
             if (reader != null && this.newWriter != null)
             {
                 var bom = BOM.Inventory[(byte)order];
+                if (newlen.HasValue)
+                    bom.length = newlen.Value;
                 reader.BaseStream.Seek(0, SeekOrigin.Begin);
                 var bytes = reader.ReadBytes((int)bom.length);
 
@@ -553,11 +589,23 @@
                 }
                 else if (idx == BOM.Lexicon)
                 {
-                    this.ProcessLexicon(this.oldlex);
+                    var bom = BOM.Inventory[idx];
+
+                    this.ReadLexiconFromSDK(this.oldlex);
                     this.newlex.Clone(this.oldlex);
                     this.newlex.Replace(this.updatelex);
                     this.newlex.WriteAll(this.yamlLexicon);
-                    this.CreateExistingArtifact(idx);
+
+                    using (MemoryStream output = new())
+                    {
+                        uint length = WriteLexiconForSDK(this.newlex, output);
+                        using (BinaryReader reader = new(output, Encoding.UTF8))
+                        {
+                            reader.BaseStream.Seek(0, SeekOrigin.Begin);
+                            var data = reader.ReadBytes((int)length);
+                            this.WriteBulkData(bom, data);
+                        }
+                    }
                 }
                 else
                 {
@@ -568,13 +616,13 @@
 #if REQUIRES_EXTERNAL_NUPHONE_BINARY
             this.CreateNewArtifact(BOM.Phonetics, this.phoneticReader);
 #endif
+            this.RewriteDirectory();
+
             for (byte idx = 0; idx <= BOM.Phonetics; idx++)
             {
                 var bom = BOM.Inventory[idx];
                 this.WriteTextBOM(bom);
             }
-
-            this.RewriteDirectory();
             this.CloseAllButMD5();
 
             if (this.bomOmega_MD5 != null)

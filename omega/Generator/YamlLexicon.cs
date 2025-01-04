@@ -33,17 +33,16 @@ namespace Generator
             }
         }
         /*
-         * Lexicon:
-         *   - Key: 123
-         *     Entities: 456
-         *     POS: [1, 2, 3]
-         *     Text: ["example", "sample", "test"]
-         *     NUPOS: ["noun", "verb", "adjective"]
-         *   - Key: 789
-         *     Entities: 101
-         *     POS: [4, 5, 6]
-         *     Text: ["hello", "world", "test"]
-         *     NUPOS: ["greeting", "noun", "adjective"]
+         * - Key: 123
+         *   Entities: 456
+         *   POS: [1, 2, 3]
+         *   Text: ["example", "sample", "test"]
+         *   NUPOS: ["noun", "verb", "adjective"]
+         * - Key: 789
+         *   Entities: 101
+         *   POS: [4, 5, 6]
+         *   Text: ["hello", "world", "test"]
+         *   NUPOS: ["greeting", "noun", "adjective"]
          */
         internal void InsertSpaces(TextWriter writer, int cnt)
         {
@@ -106,18 +105,14 @@ namespace Generator
             writer.Write(this.Text[2]);
             writer.WriteLine("/");
         }
-        internal static void WriteHeader(TextWriter writer)
-        {
-            writer.WriteLine("Lexicon:");
-        }
         internal void WriteRecord(TextWriter writer)
         {
             int len;
-            writer.Write("  - Key: ");       writer.Write("0x" + this.Key.     ToString("X4")); InsertSpaces(writer, 3 + 2+4); AppendLabel(writer);
-            writer.Write("    Text: ");      len = LexRecord.AppendArray(writer, this.Text);    InsertSpaces(writer, 4 + len); AppendLabel(writer);
-            writer.Write("    Entities: ");  writer.Write("0x" + this.Entities.ToString("X4")); InsertSpaces(writer, 8 + 2+4); AppendLabel(writer);
-            writer.Write("    POS: ");       len = LexRecord.AppendArray(writer, this.POS);     InsertSpaces(writer, 3 + len); AppendLabel(writer);
-            writer.Write("    NUPOS: ");     len = LexRecord.AppendArray(writer, this.NUPOS);   InsertSpaces(writer, 5 + len); AppendLabel(writer);
+            writer.Write("- Key: ");       writer.Write("0x" + this.Key.     ToString("X4")); InsertSpaces(writer, 3 + 2+4); AppendLabel(writer);
+            writer.Write("  Text: ");      len = LexRecord.AppendArray(writer, this.Text);    InsertSpaces(writer, 4 + len); AppendLabel(writer);
+            writer.Write("  Entities: ");  writer.Write("0x" + this.Entities.ToString("X4")); InsertSpaces(writer, 8 + 2+4); AppendLabel(writer);
+            writer.Write("  POS: ");       len = LexRecord.AppendArray(writer, this.POS);     InsertSpaces(writer, 3 + len); AppendLabel(writer);
+            writer.Write("  NUPOS: ");     len = LexRecord.AppendArray(writer, this.NUPOS);   InsertSpaces(writer, 5 + len); AppendLabel(writer);
         }
     }
     public class YamlLexicon: Dictionary<UInt16, LexRecord>
@@ -130,7 +125,6 @@ namespace Generator
         {
             if (writer != null)
             {
-                LexRecord.WriteHeader(writer);
                 foreach (var entry in this.Values)
                 {
                     entry.WriteRecord(writer);
