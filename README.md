@@ -13,7 +13,7 @@ Each revision of the SDK can be found in this repository. Current releases can b
 The Digital-AV SDK is a single 19mb file that can be used to manifest the entire text of the bible, including Strong's numbers, Lemmatizations, Part-of-Speech tags, and other linguistic features. But even with all of that, it's still the KJV Bible at the core.
 
 The new SDK documentation can be found here:
-https://github.com/kwonus/Digital-AV/blob/master/omega/Digital-AV-Ω39.pdf
+https://github.com/kwonus/Digital-AV/blob/master/omega/Digital-AV-Ω51.pdf
 
 The SDK now includes a foundations folder, with language-specific implementations of SDK artifacts. Initially, these include C++ and Rust. If you poke around in the repo, you will find the source generators in the /z-series/generation folder. However, the generated source itself can be found in /omega/foundations
 
