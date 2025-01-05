@@ -440,8 +440,8 @@
                         var writCnt = this.sdkReader.ReadUInt16(); len += 2;
                         var writIdx = this.sdkReader.ReadUInt32(); len += 4;
 
-                        var name = this.sdkReader.ReadBytes(16); len += name.Length;
-                        var abbr = this.sdkReader.ReadBytes(22); len += abbr.Length;
+                        byte[] name = this.sdkReader.ReadBytes(16); len += name.Length;
+                        byte[] abbr = this.sdkReader.ReadBytes(22); len += abbr.Length;
 
                         if (len != 48)
                         {
@@ -450,60 +450,42 @@
                         if (b == 0)
                         {
                             writIdx = (UInt32)this.version;
-                            for (int i = "Omega ".Length; i < name.Length; i++) // map version to new one; e.g. 3.9.11 => 4.2.17
-                            {
-                                if (this.VERSION.Length == 4)
-                                {
-                                    switch (i)
-                                    {
-                                        case 0: name[i] = (byte)this.VERSION[0]; break;
-                                        case 2: name[i] = (byte)this.VERSION[1]; break;
-                                        case 4: name[i] = (byte)this.VERSION[2]; break;
-                                        case 5: name[i] = (byte)this.VERSION[3]; break;
-                                    }
-                                }
-                                else
-                                {
-                                    switch (i)
-                                    {
-                                        case 0: name[i] = (byte)'X'; break;
-                                        case 2: name[i] = (byte)'X'; break;
-                                        case 4: name[i] = (byte)'X'; break;
-                                        case 5: name[i] = (byte)'X'; break;
-                                    }                                }
-                                if (i >= 5)
-                                    break;
-                            }
-                            char major = this.VERSION.Length >= 1 ? this.VERSION[0] : 'X';
-                            char minor = this.VERSION.Length >= 2 ? this.VERSION[1] : 'X';
-                            int cnt = 0;
-                            int two = 0;
-                            for (int i = 0; i < abbr.Length; i++) // 35 => 39
-                            {
-                                if (two == 2)
-                                {
-                                    two = 0;
-                                    cnt++;
-                                }
-                                if (cnt == 3)
-                                {
-                                    break;
-                                }
-                                byte c = abbr[i];
+                            byte[] NAME = Encoding.UTF8.GetBytes("Omega 5.1.04");
+                            NAME[6] = (byte) this.VERSION[0];
+                            NAME[8] = (byte) this.VERSION[1];
+                            NAME[10] = (byte)this.VERSION[2];
+                            NAME[11] = (byte)this.VERSION[3];
+                            byte[] OMEGA = Encoding.UTF8.GetBytes("Ω");
 
-                                // if it's a numeric, it needs to be replaced
-                                if ( (c >= (byte)'0' && c <= (byte)'9') 
-                                ||   (c >= (byte)'A' && c <= (byte)'F')
-                                ||   (c >= (byte)'a' && c <= (byte)'f') )
-                                {
-                                    switch(two)
-                                    {
-                                        case 0: abbr[i] = (byte) major; break;
-                                        case 1: abbr[i] = (byte) minor; break;
-                                    }
-                                    two++;
-                                }
-                            }
+                            int i;
+                            for (i = 0; i < NAME.Length; i++)
+                                name[i] = NAME[i];
+                            for (/* */; i < name.Length; i++)
+                                name[i] = (byte)0;
+
+                            // Abbreviations:
+                            // "51" + '\0' + "o51" + '\0' + "Ω5104";
+                            i = 0;
+                            abbr[i++] = (byte)this.VERSION[0];
+                            abbr[i++] = (byte)this.VERSION[1];
+                            abbr[i++] = (byte)0; // len==2
+                            abbr[i++] = (byte)this.VERSION[0];
+                            abbr[i++] = (byte)this.VERSION[1];
+                            abbr[i++] = (byte)0;
+                            abbr[i++] = (byte)0; // len==3
+                            abbr[i++] = (byte)this.VERSION[0];
+                            abbr[i++] = (byte)this.VERSION[1];
+                            abbr[i++] = (byte)this.VERSION[2];
+                            abbr[i++] = (byte)this.VERSION[3];
+                            abbr[i++] = (byte)0; // len==4
+                            for (int o = 0; o < OMEGA.Length; o++, i++)
+                                abbr[i] = (byte)OMEGA[o];
+                            abbr[i++] = (byte)this.VERSION[0];
+                            abbr[i++] = (byte)this.VERSION[1];
+                            abbr[i++] = (byte)this.VERSION[2];
+                            abbr[i++] = (byte)this.VERSION[3];
+                            for (/**/; i < abbr.Length; i++)
+                                abbr[i] = (byte)0;
                         }
                         else if (b == 1)
                         {
