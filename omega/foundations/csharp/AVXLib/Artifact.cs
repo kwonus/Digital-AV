@@ -55,9 +55,9 @@
                             break;
                         }
                     }
-                UInt64 hash1 = reader.ReadUInt64(); len += 8;
-                UInt64 hash2 = reader.ReadUInt64(); len += 8;
-                this.hash = hash1.ToString("X016") + hash2.ToString("X016");
+                this.hash_1 = reader.ReadUInt64(); len += 8;
+                this.hash_2 = reader.ReadUInt64(); len += 8;
+                this.hash = this.hash_1.ToString("X016") + this.hash_2.ToString("X016");
                 this.ERROR = dir != null && len != dir.recordLength;
 
                 directory[this.label] = this;
@@ -72,6 +72,8 @@
         public string label;
         public UInt32 offset;
         public UInt32 length;
+        public UInt64 hash_1;
+        public UInt64 hash_2;
         public string hash;
         public UInt32 recordLength;
         public UInt32 recordCount;

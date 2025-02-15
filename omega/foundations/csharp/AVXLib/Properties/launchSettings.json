@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AVXLib": {
+      "commandName": "Project",
+      "commandLineArgs": "Gen 1:2"
+    }
+  }
+}
