@@ -10,3 +10,11 @@ itoa = "1.0"
 
 [lib]
 crate-type = ["cdylib"]
+
+# Configuration for Windows GNU target
+[target.x86_64-pc-windows-gnu]
+rustflags = ["-C", "target-feature=+crt-static"]
+
+# cargo build --target=x86_64-pc-windows-msvc --release
+# cargo build --target=x86_64-pc-windows-msvc --debug
+# cargo build --target=x86_64-pc-windows-gnu --release
