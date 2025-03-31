@@ -21,117 +21,72 @@ namespace avx
     class directory
     {
     private:
-        XVMem<byte> &memory;
+        XVMem<byte> memory;
 
     public:
-        directory(XVMem<byte>& xvmem);
+        directory(const char path[]);
         ~directory();
 
         const artifact* get_artifact(const char label[]);
+        const byte* get_data(const char label[], artifact* details = nullptr);
 
-        inline const byte* get_directory_data()
+        inline const byte* get_directory_data(artifact* details = nullptr)
         {
-            auto entry = get_artifact(DIRECTORY);
-            return (entry != nullptr) ? memory.GetData() + entry->offset : nullptr;
+            return this->get_data(DIRECTORY, details);
         }
-        inline const byte* get_book_data()
+        inline const byte* get_book_data(artifact* details = nullptr)
         {
-            auto entry = get_artifact(DIR_BOOK);
-            return (entry != nullptr) ? memory.GetData() + entry->offset : nullptr;
+            return this->get_data(DIR_BOOK, details);
         }
-        inline const byte* get_chapter_data()
+        inline const byte* get_chapter_data(artifact* details = nullptr)
         {
-            auto entry = get_artifact(DIR_CHAPTER);
-            return (entry != nullptr) ? memory.GetData() + entry->offset : nullptr;
+            return this->get_data(DIR_CHAPTER, details);
         }
-        inline const byte* get_written_data()
+        inline const byte* get_written_data(artifact* details = nullptr)
         {
-            auto entry = get_artifact(DIR_WRITTEN);
-            return (entry != nullptr) ? memory.GetData() + entry->offset : nullptr;
+            return this->get_data(DIR_WRITTEN, details);
         }
-        inline const byte* get_lexicon_data()
+        inline const byte* get_lexicon_data(artifact* details = nullptr)
         {
-            auto entry = get_artifact(DIR_LEXICON);
-            return (entry != nullptr) ? memory.GetData() + entry->offset : nullptr;
+            return this->get_data(DIR_LEXICON, details);
         }
-        inline const byte* get_lemmata_data()
+        inline const byte* get_lemmata_data(artifact* details = nullptr)
         {
-            auto entry = get_artifact(DIR_LEMMATA);
-            return (entry != nullptr) ? memory.GetData() + entry->offset : nullptr;
+            return this->get_data(DIR_LEMMATA, details);
         }
-        inline const byte* get_oov_data()
+        inline const byte* get_oov_data(artifact* details = nullptr)
         {
-            auto entry = get_artifact(DIR_OOV);
-            return (entry != nullptr) ? memory.GetData() + entry->offset : nullptr;
+            return this->get_data(DIR_OOV, details);
         }
-        inline const byte* get_names_data()
+        inline const byte* get_names_data(artifact* details = nullptr)
         {
-            auto entry = get_artifact(DIR_NAMES);
-            return (entry != nullptr) ? memory.GetData() + entry->offset : nullptr;
+            return this->get_data(DIR_NAMES, details);
         }
-        inline const byte* get_phonetic_data()
+        inline const byte* get_phonetic_data(artifact* details = nullptr)
         {
-            auto entry = get_artifact(DIR_PHONETIC);
-            return (entry != nullptr) ? memory.GetData() + entry->offset : nullptr;
+            return this->get_data(DIR_PHONETIC, details);
         }
 
-        // For fixed length records, we have additional inlines
+        // For fixed length records, we have additional methods
         //
-        inline const artifact* get_directory()
+        inline const artifact* get_directory(artifact* details = nullptr)
         {
-            return (artifact*) get_directory_data();
+            return (artifact*) get_directory_data(details);
         }
-        inline const Book* get_books()
+        inline const Book* get_books(artifact* details = nullptr)
         {
-            return (Book*) get_book_data();
+            return (Book*) get_book_data(details);
         }
-        inline const Book* get_book(byte num)
-        {
-            auto books = (Book*) get_book_data();
-            auto entry = (artifact*)get_artifact(DIR_BOOK);
+        const Book* get_book(byte num, artifact* details = nullptr);
+        const Book* get_book(const char name[], artifact* details = nullptr);
 
-            return (books != nullptr && entry != nullptr && num < entry->record_cnt)
-                ? books + num
-                : nullptr;
-        }
-        inline const Book* get_book(const char name[])
+        inline const Chapter* get_chapter(artifact* details = nullptr)
         {
-            auto books = (Book*)get_book_data();
-            auto entry = (artifact*)get_artifact(DIR_BOOK);
-
-            if (books != nullptr && entry != nullptr && name != nullptr)
-            {
-                for (int num = 1; num < entry->record_cnt; num++)
-                {
-                    if (Strnicmp(name, books[num].name, sizeof(Book::name) - 1) == 0)
-                        return books + num;
-                    if (Strnicmp(name, books[num].abbr, 2) == 0)
-                        return books + num;
-                    if (Strnicmp(name, books[num].abbr+3, 3) == 0)
-                        return books + num;
-                    if (Strnicmp(name, books[num].abbr + 7, 4) == 0)
-                        return books + num;
-
-                    int size = sizeof(Book::alts) - 1;
-                    int len = Strnlen(books[num].alts, size);
-                    for (char* alt = books[num].alts; len > 0 && size > 0; alt += len)
-                    {
-                        if (Strnicmp(name, alt, len) == 0)
-                            return books + num;
-                        size -= (len+1);
-                        len = Strnlen(alt, size);
-                    }
-                }
-            }
-            return nullptr;
+            return (Chapter*) get_chapter_data(details);
         }
-        inline const Chapter* get_chapter()
+        inline const Written* get_written(artifact* details = nullptr)
         {
-            return (Chapter*) get_chapter_data();
-        }
-        inline const Written* get_written()
-        {
-            return (Written*)get_written_data();
+            return (Written*)get_written_data(details);
         }
     };
 }

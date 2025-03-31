@@ -12,9 +12,6 @@
     <Filter Include="Framework">
       <UniqueIdentifier>{4ebc0893-15ce-4e72-afb0-e5d44b69f33f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Framework\Headers">
-      <UniqueIdentifier>{60e175d0-55dc-4f34-a760-b3db604d759b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="XVMem">
       <UniqueIdentifier>{289825ae-19bc-40a0-ae05-73955fd76d5a}</UniqueIdentifier>
     </Filter>
@@ -49,21 +46,6 @@
   <ItemGroup>
     <ClInclude Include="Headers\avx_chapter_range.h">
       <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Headers\Framework\lemmata.h">
-      <Filter>Framework\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Headers\Framework\lexicon.h">
-      <Filter>Framework\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Headers\Framework\numerics.h">
-      <Filter>Framework\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Headers\Framework\oov.h">
-      <Filter>Framework\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Headers\Framework\written.h">
-      <Filter>Framework\Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\XVMem\XVMem.h">
       <Filter>XVMem</Filter>

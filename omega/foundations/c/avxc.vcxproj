@@ -164,11 +164,6 @@
     <ClInclude Include="Headers\book.h" />
     <ClInclude Include="Headers\chapter.h" />
     <ClInclude Include="Headers\directory.h" />
-    <ClInclude Include="Headers\Framework\lemmata.h" />
-    <ClInclude Include="Headers\Framework\lexicon.h" />
-    <ClInclude Include="Headers\Framework\numerics.h" />
-    <ClInclude Include="Headers\Framework\oov.h" />
-    <ClInclude Include="Headers\Framework\written.h" />
     <ClInclude Include="Headers\lemmata.h" />
     <ClInclude Include="Headers\lexicon.h" />
     <ClInclude Include="Headers\names.h" />
