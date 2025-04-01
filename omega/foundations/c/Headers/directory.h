@@ -89,4 +89,6 @@ namespace avx
             return (Written*)get_written_data(details);
         }
     };
+    extern avx::directory* global_instance;
+
 }

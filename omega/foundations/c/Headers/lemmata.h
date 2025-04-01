@@ -8,6 +8,6 @@ namespace avx
         u16 word_key;
         u16 pn_pos12;
         u16 lemma_cnt;
-        u16* lemmas;
+        //u16* lemmas;
     };
 }

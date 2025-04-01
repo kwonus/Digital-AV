@@ -1,12 +1,13 @@
 #include <directory.h>
 
-static avx::directory* instance = nullptr;
+avx::directory* avx::global_instance;
+
 extern "C" int release()
 {
-    if (instance != nullptr)
+    if (avx::global_instance != nullptr)
     {
-        delete instance;
-        instance = nullptr;
+        delete avx::global_instance;
+        avx::global_instance = nullptr;
         return 0;
     }
     return -1;
@@ -14,60 +15,60 @@ extern "C" int release()
 extern "C" int acquire(const char* path)
 {
     release();
-    instance = new avx::directory(path);
-    return instance->get_directory_data() != nullptr ? 0 : -1;
+    avx::global_instance = new avx::directory(path);
+    return avx::global_instance->get_directory_data() != nullptr ? 0 : -1;
 }
 
 extern "C" const avx::artifact* get_artifact(const char label[]) {
-    return instance != nullptr ? instance->get_artifact(label) : nullptr;
+    return avx::global_instance != nullptr ? avx::global_instance->get_artifact(label) : nullptr;
 }
 extern "C" const byte* get_data(const char label[], avx::artifact* details) {
-    return instance != nullptr ? instance->get_data(label, details) : nullptr;
+    return avx::global_instance != nullptr ? avx::global_instance->get_data(label, details) : nullptr;
 }
 extern "C" const byte* get_directory_data(avx::artifact* details) {
-    return instance != nullptr ? instance->get_directory_data(details) : nullptr;
+    return avx::global_instance != nullptr ? avx::global_instance->get_directory_data(details) : nullptr;
 }
 extern "C" const byte* get_book_data(avx::artifact* details) {
-    return instance != nullptr ? instance->get_book_data(details) : nullptr;
+    return avx::global_instance != nullptr ? avx::global_instance->get_book_data(details) : nullptr;
 }
 extern "C" const byte* get_chapter_data(avx::artifact* details) {
-    return instance != nullptr ? instance->get_chapter_data(details) : nullptr;
+    return avx::global_instance != nullptr ? avx::global_instance->get_chapter_data(details) : nullptr;
 }
 extern "C" const byte* get_written_data(avx::artifact* details) {
-    return instance != nullptr ? instance->get_written_data(details) : nullptr;
+    return avx::global_instance != nullptr ? avx::global_instance->get_written_data(details) : nullptr;
 }
 extern "C" const byte* get_lexicon_data(avx::artifact* details) {
-    return instance != nullptr ? instance->get_lexicon_data(details) : nullptr;
+    return avx::global_instance != nullptr ? avx::global_instance->get_lexicon_data(details) : nullptr;
 }
-extern "C" const byte* get_lemmata_data(avx::artifact* details = nullptr) {
-    return instance != nullptr ? instance->get_lemmata_data(details) : nullptr;
+extern "C" const byte* get_lemmata_data(avx::artifact* details) {
+    return avx::global_instance != nullptr ? avx::global_instance->get_lemmata_data(details) : nullptr;
 }
 extern "C" const byte* get_oov_data(avx::artifact* details) {
-    return instance != nullptr ? instance->get_oov_data(details) : nullptr;
+    return avx::global_instance != nullptr ? avx::global_instance->get_oov_data(details) : nullptr;
 }
 extern "C" const byte* get_names_data(avx::artifact* details) {
-    return instance != nullptr ? instance->get_names_data(details) : nullptr;
+    return avx::global_instance != nullptr ? avx::global_instance->get_names_data(details) : nullptr;
 }
 extern "C" const byte* get_phonetic_data(avx::artifact* details) {
-    return instance != nullptr ? instance->get_phonetic_data(details) : nullptr;
+    return avx::global_instance != nullptr ? avx::global_instance->get_phonetic_data(details) : nullptr;
 }
 extern "C" const avx::artifact* get_directory(avx::artifact* details) {
-    return instance != nullptr ? instance->get_directory(details) : nullptr;
+    return avx::global_instance != nullptr ? avx::global_instance->get_directory(details) : nullptr;
 }
 extern "C" const avx::Book* get_books(avx::artifact* details) {
-    return instance != nullptr ? instance->get_books(details) : nullptr;
+    return avx::global_instance != nullptr ? avx::global_instance->get_books(details) : nullptr;
 }
 extern "C" const avx::Book* get_book(byte num, avx::artifact* details) {
-    return instance != nullptr ? instance->get_book(num, details) : nullptr;
+    return avx::global_instance != nullptr ? avx::global_instance->get_book(num, details) : nullptr;
 }
 extern "C" const avx::Book* get_book_ex(const char name[], avx::artifact* details) {
-    return instance != nullptr ? instance->get_book(name, details) : nullptr;
+    return avx::global_instance != nullptr ? avx::global_instance->get_book(name, details) : nullptr;
 }
 extern "C" const avx::Chapter* get_chapter(avx::artifact* details) {
-    return instance != nullptr ? instance->get_chapter(details) : nullptr;
+    return avx::global_instance != nullptr ? avx::global_instance->get_chapter(details) : nullptr;
 }
 extern "C" const avx::Written* get_written(avx::artifact* details) {
-    return instance != nullptr ? instance->get_written(details) : nullptr;
+    return avx::global_instance != nullptr ? avx::global_instance->get_written(details) : nullptr;
 }
 
 namespace avx
