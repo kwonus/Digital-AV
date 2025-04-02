@@ -1,3 +1,4 @@
+#pragma once
 #include <avx.h>
 #include <string>
 #include <artifact.h>

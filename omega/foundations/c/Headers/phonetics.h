@@ -1,45 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#include <avx.h>
+#include <directory.h>
+#include <map>
+#include <vector>
+#include <string>
 
-namespace AVXLib.Memory
+namespace avx
 {
-    public class Phonetics
+    struct Phonetics
     {
-        public ushort key;
-        public ReadOnlyMemory<char> phonetics;
-        private static Dictionary<ushort, ReadOnlyMemory<char>> map = new();
-
-        public static (Dictionary<ushort, ReadOnlyMemory<char>> result, bool okay, string message) Read(BinaryReader reader, Dictionary<string, Artifact> directory)
-        {
-            if (!directory.ContainsKey("Phonetic"))
-                return (map, false, "Phonetics is missing from directory");
-            Artifact artifact = directory["Phonetic"];
-            if (artifact.SKIP)
-                return (map, true, "Phonetics is explicitly skipped by request");
-
-            Span<byte> buffer = stackalloc byte[1024];
-
-            var needed = artifact.offset + artifact.length;
-
-            if (reader.BaseStream.Length < needed)
-                return (map, false, "Input stream has insufficient data");
-
-            reader.BaseStream.Seek(artifact.offset, SeekOrigin.Begin);
-
-            for (int o = 0; o < artifact.recordCount; o++)
-            {
-                var key = reader.ReadUInt16();
-                var val = Deserialization.ReadDelimitedMemory(reader, '\0', buffer);
-                if (val.length > 0 && key > 0 && !val.overflow)
-                {
-                    map[key] = val.text;
-                }
-            }
-            return (map, true, "");
-        }
-    }
-
+        const u16 word_key;
+        const char* ipa;
+    };
+    class PhoneticsCursor
+    {
+    private:
+        std::map<u16, std::vector<std::string>> ipa;        // one or more ipa strings delimited by '/' (one record per word_key)
+        std::map<std::string, std::vector<u16>> ipa_lookup; // reverse lookup of a single ipa string (multiple word_keys are possible, but not common; e.g. there + their) 
+        artifact details;
+        void add(const u16 word_key, const char* word_ipa);
+        const std::vector<u16> EMPTY_KEYS;
+        const std::vector<std::string> EMPTY_IPA;
+    public:
+        PhoneticsCursor();
+        const std::vector<std::string> get_ipa(const u16 word_key);
+        const std::vector<u16> get_keys(const char* ipa);
+    };
 }

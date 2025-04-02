@@ -178,7 +178,11 @@
     <ClCompile Include="avx.cpp" />
     <ClCompile Include="avx_lib.cpp" />
     <ClCompile Include="directory.cpp" />
+    <ClCompile Include="Framework\lemmata.cpp" />
     <ClCompile Include="Framework\lexicon.cpp" />
+    <ClCompile Include="Framework\names.cpp" />
+    <ClCompile Include="Framework\oov.cpp" />
+    <ClCompile Include="Framework\phonetics.cpp" />
     <ClCompile Include="Framework\written.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

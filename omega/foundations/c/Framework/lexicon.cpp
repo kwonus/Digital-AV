@@ -41,16 +41,32 @@ namespace avx
             this->record_cursor = (u16*)global_instance->get_lexicon_data(&details);
             this->record_index = 0;
         }
+        for (u16 key = 0; key <= AV_LEX_CNT; key++)
+        {
+            this->cache[key] = nullptr;
+        }
+        return this->get_next();
+    }
+    const Lexicon* LexiconCursor::get(const u16 key)
+    {
+        this->record_index = key;
         return this->get_next();
     }
     const Lexicon* LexiconCursor::get_next()
     {
-        Lexicon* record = nullptr;
+        Lexicon* record = this->record_index <= AV_LEX_CNT ? this->cache[this->record_index] : nullptr;
 
-        if (this->record_cursor != nullptr && details.record_cnt > 0 && this->record_index < this->details.record_cnt)
+        if (record != nullptr)
+        {
+            this->record_index++;
+        }
+        else if (this->record_cursor != nullptr && details.record_cnt > 0 && this->record_index < this->details.record_cnt)
         {
             byte* address = (byte*) this->record_cursor;
+
             record = (Lexicon*)this->record_cursor;
+            if (this->record_index <= AV_LEX_CNT)
+                this->cache[this->record_index] = record;
 
             address += (2 * sizeof(u16));
             address += (record->pos_cnt * sizeof(u32));
@@ -60,6 +76,7 @@ namespace avx
             address += 3; // three null terminators on the three strings
 
             this->record_cursor = (u16*)address;
+
             this->record_index ++;
         }
         return record;
