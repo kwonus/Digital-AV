@@ -168,8 +168,8 @@ implementation
 
  var
    avx: Thandle;
-   avx_acquire:        function (omega: PChar): Integer; cdecl;
-   avx_release:        function (): Integer; cdecl;
+   acquire:            function (const omega: PChar): Integer; cdecl;
+   release:            function (): Integer; cdecl;
    get_artifact:       function (const section: PChar): PArtifact; cdecl;
    get_data:           function (const section: PChar; artifact: PArtifact): PChar; cdecl;
    get_directory_data: function (artifact: PArtifact): PChar; cdecl;
@@ -205,8 +205,8 @@ implementation
 
    if avx >= 32
    then begin
-     avx_acquire       := GetProcAddress(avx, 'acquire');
-     avx_release       := GetProcAddress(avx, 'release');
+     acquire           := GetProcAddress(avx, 'acquire');
+     release           := GetProcAddress(avx, 'release');
      get_artifact      := GetProcAddress(avx, 'get_artifact');
      get_data          := GetProcAddress(avx, 'get_data');
      get_directory_data:= GetProcAddress(avx, 'get_directory_data');
