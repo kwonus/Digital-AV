@@ -1,3 +1,6 @@
+#ifndef AVX_ARTIFACT
+#define AVX_ARTIFACT
+
 #include <avx.h>
 #include <string>
 
@@ -15,3 +18,5 @@ namespace avx
         u32 record_cnt;
     };
 }
+
+#endif

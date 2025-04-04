@@ -1,9 +1,10 @@
-﻿#include <avx.h>
-#include <directory.h>
+﻿#ifndef AVX_LEXICON
+#define AVX_LEXICON
+#include <avx.h>
+#include <artifact.h>
 
-#define AV_LEX_CNT      12567   // from AV-Inventory-Z31.bom; consistant with Release Version 5.1 (+1 for metadata)
-#define AV_LEX_FILE_LEN 246249  // from AV-Inventory-Z31.bom; consistant with Release Version 5.1
-
+static const u16 AV_LEX_CNT      =  12567;  // from AV-Inventory-Z31.bom; consistant with Release Version 5.1 (+1 for metadata)
+static const u32 AV_LEX_FILE_LEN = 246249;  // from AV-Inventory-Z31.bom; consistant with Release Version 5.1
 
 namespace avx
 {
@@ -41,14 +42,17 @@ namespace avx
         u16  record_index;
         artifact details;
         Lexicon*  cache[AV_LEX_CNT+1];                  // +1 to hold metadata in position 0;
-
-    public:
-        const u16 AV_Lexicon_RecordCnt = AV_LEX_CNT;    // consistant with Release Version 5.1
-        const u32 AV_Lexicon_FileLen = AV_LEX_FILE_LEN; // consistant with Release Version 5.1
-
-        LexiconCursor();
         const Lexicon* get_first();
         const Lexicon* get_next();
+        bool init();
+        void quit();
+
+    public:
+        friend class directory;
+        LexiconCursor();
         const Lexicon* get(const u16 key);
     };
 }
+extern "C" const avx::Lexicon* lexicon_get(const u16 key);
+
+#endif

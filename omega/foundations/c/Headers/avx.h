@@ -1,3 +1,5 @@
+#ifndef AVX_HEADER
+#define AVX_HEADER
 #include <XVMem.h>
 
 #include <stdint.h>
@@ -38,3 +40,5 @@ public:
 extern AVX_API int navxc;
 AVX_API int fnavxc(void);
 #endif
+
+#endif //AVX_HEADER

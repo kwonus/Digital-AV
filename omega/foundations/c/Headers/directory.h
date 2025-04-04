@@ -1,21 +1,27 @@
-#pragma once
+#ifndef AVX_DIRECTORY
+#define AVX_DIRECTORY
 #include <avx.h>
 #include <string>
 #include <artifact.h>
 #include <book.h>
 #include <chapter.h>
 #include <written.h>
+#include <lexicon.h>
+#include <names.h>
+#include <oov.h>
+#include <lemmata.h>
+#include <phonetics.h>
 #include <cassert>
 
-#define DIRECTORY   "Directory"
-#define DIR_BOOK     "Book"
-#define DIR_CHAPTER  "Chapter"
-#define DIR_WRITTEN  "Written"
-#define DIR_LEXICON  "Lexicon"
-#define DIR_LEMMATA  "Lemmata"
-#define DIR_OOV      "OOV-Lemmata"
-#define DIR_NAMES    "Names"
-#define DIR_PHONETIC "Phonetic"
+static const char DIRECTORY[]    = "Directory";
+static const char DIR_BOOK[]     = "Book";
+static const char DIR_CHAPTER[]  = "Chapter";
+static const char DIR_WRITTEN[]  = "Written";
+static const char DIR_LEXICON[]  = "Lexicon";
+static const char DIR_LEMMATA[]  = "Lemmata";
+static const char DIR_OOV[]      = "OOV-Lemmata";
+static const char DIR_NAMES[]    = "Names";
+static const char DIR_PHONETIC[] = "Phonetic";
 
 namespace avx
 {
@@ -25,11 +31,29 @@ namespace avx
         XVMem<byte> memory;
 
     public:
-        directory(const char path[]);
+        directory();
         ~directory();
+
+        LemmataCursor lemmata;
+        LexiconCursor lexicon;
+        NamesCursor names;
+        PhoneticsCursor phonetics;
+        oov_lemmata_cursor oov;
 
         const artifact* get_artifact(const char label[]);
         const byte* get_data(const char label[], artifact* details = nullptr);
+
+        inline bool acquire(const char path[])
+        {
+            this->release();
+            bool ok = (this->memory.Acquire(const_cast<char*>(path), false, true) != nullptr) && directory::lexicon.init();
+
+            return ok;
+        }
+        inline void release()
+        {
+            this->memory.Release();
+        }
 
         inline const byte* get_directory_data(artifact* details = nullptr)
         {
@@ -90,6 +114,26 @@ namespace avx
             return (Written*)get_written_data(details);
         }
     };
-    extern avx::directory* global_instance;
-
+    extern directory instance;
 }
+extern "C" void release();
+extern "C" int acquire(const char* path);
+extern "C" const avx::artifact* get_artifact(const char label[]);
+extern "C" const byte* get_data(const char label[], avx::artifact* details);
+extern "C" const byte* get_directory_data(avx::artifact* details);
+extern "C" const byte* get_book_data(avx::artifact* details);
+extern "C" const byte* get_chapter_data(avx::artifact* details);
+extern "C" const byte* get_written_data(avx::artifact* details);
+extern "C" const byte* get_lexicon_data(avx::artifact* details);
+extern "C" const byte* get_lemmata_data(avx::artifact* details);
+extern "C" const byte* get_oov_data(avx::artifact* details);
+extern "C" const byte* get_names_data(avx::artifact* details);
+extern "C" const byte* get_phonetic_data(avx::artifact* details);
+extern "C" const avx::artifact* get_directory(avx::artifact* details);
+extern "C" const avx::Book* get_books(avx::artifact* details);
+extern "C" const avx::Book* get_book(byte num, avx::artifact* details);
+extern "C" const avx::Book* get_book_ex(const char name[], avx::artifact* details);
+extern "C" const avx::Chapter* get_chapter(avx::artifact* details);
+extern "C" const avx::Written* get_written(avx::artifact* details);
+
+#endif

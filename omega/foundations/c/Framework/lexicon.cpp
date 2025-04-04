@@ -1,4 +1,10 @@
 ﻿#include <lexicon.h>
+#include <directory.h>
+
+extern "C" const avx::Lexicon* lexicon_get(const u16 key)
+{
+    avx::instance.lexicon.get(key);
+}
 
 namespace avx
 {
@@ -33,18 +39,30 @@ namespace avx
     LexiconCursor::LexiconCursor()
     {
         this->record_cursor = nullptr;
+        this->quit();
     }
-    const Lexicon* LexiconCursor::get_first()
+    void LexiconCursor::quit()
     {
-        if (global_instance != nullptr)
-        {
-            this->record_cursor = (u16*)global_instance->get_lexicon_data(&details);
-            this->record_index = 0;
-        }
         for (u16 key = 0; key <= AV_LEX_CNT; key++)
         {
             this->cache[key] = nullptr;
         }
+    }
+    bool LexiconCursor::init()
+    {
+        int cnt = 0;
+        this->quit();
+
+        for (const avx::Lexicon* lex = avx::instance.lexicon.get_first(); lex != nullptr; lex = avx::instance.lexicon.get_next())
+            cnt++;
+
+        return cnt - 1 == AV_LEX_CNT;
+    }
+    const Lexicon* LexiconCursor::get_first()
+    {
+        this->record_cursor = (u16*)instance.get_lexicon_data(&details);
+        this->record_index = 0;
+
         return this->get_next();
     }
     const Lexicon* LexiconCursor::get(const u16 key)
