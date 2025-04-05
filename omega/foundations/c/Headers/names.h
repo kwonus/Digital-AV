@@ -27,8 +27,8 @@ namespace avx
         const char* get_meanings(const u16 word_key);
     };
 }
-extern "C" bool names_init();
-extern "C" void names_free();
-extern "C" const char* names_get_meaning(const u16 key);
+extern "C" AVX_API bool names_init();
+extern "C" AVX_API void names_free();
+extern "C" AVX_API const char* names_get_meaning(const u16 key);
 
 #endif

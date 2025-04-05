@@ -2,64 +2,61 @@
 
 avx::directory avx::instance;
 
-extern "C" void release()
-{
+extern "C" AVX_API void avx_release() {
     avx::instance.release();
 }
-extern "C" int acquire(const char* path)
-{
+extern "C" AVX_API int avx_acquire(const char* path) {
     return avx::instance.acquire(const_cast<char*>(path)) ? 0 : -1;
 }
-
-extern "C" const avx::artifact* get_artifact(const char label[]) {
+extern "C" AVX_API const avx::artifact* get_artifact(const char label[]) {
     return avx::instance.get_artifact(label);
 }
-extern "C" const byte* get_data(const char label[], avx::artifact* details) {
+extern "C" AVX_API const byte* get_data(const char label[], avx::artifact* details) {
     return avx::instance.get_data(label, details);
 }
-extern "C" const byte* get_directory_data(avx::artifact* details) {
+extern "C" AVX_API const byte* get_directory_data(avx::artifact* details) {
     return avx::instance.get_directory_data(details);
 }
-extern "C" const byte* get_book_data(avx::artifact* details) {
+extern "C" AVX_API const byte* get_book_data(avx::artifact* details) {
     return avx::instance.get_book_data(details);
 }
-extern "C" const byte* get_chapter_data(avx::artifact* details) {
+extern "C" AVX_API const byte* get_chapter_data(avx::artifact* details) {
     return avx::instance.get_chapter_data(details);
 }
-extern "C" const byte* get_written_data(avx::artifact* details) {
+extern "C" AVX_API const byte* get_written_data(avx::artifact* details) {
     return avx::instance.get_written_data(details);
 }
-extern "C" const byte* get_lexicon_data(avx::artifact* details) {
+extern "C" AVX_API const byte* get_lexicon_data(avx::artifact* details) {
     return avx::instance.get_lexicon_data(details);
 }
-extern "C" const byte* get_lemmata_data(avx::artifact* details) {
+extern "C" AVX_API const byte* get_lemmata_data(avx::artifact* details) {
     return avx::instance.get_lemmata_data(details);
 }
-extern "C" const byte* get_oov_data(avx::artifact* details) {
+extern "C" AVX_API const byte* get_oov_data(avx::artifact* details) {
     return avx::instance.get_oov_data(details);
 }
-extern "C" const byte* get_names_data(avx::artifact* details) {
+extern "C" AVX_API const byte* get_names_data(avx::artifact* details) {
     return avx::instance.get_names_data(details);
 }
-extern "C" const byte* get_phonetic_data(avx::artifact* details) {
+extern "C" AVX_API const byte* get_phonetic_data(avx::artifact* details) {
     return avx::instance.get_phonetic_data(details);
 }
-extern "C" const avx::artifact* get_directory(avx::artifact* details) {
+extern "C" AVX_API const avx::artifact* get_directory(avx::artifact* details) {
     return avx::instance.get_directory(details);
 }
-extern "C" const avx::Book* get_books(avx::artifact* details) {
+extern "C" AVX_API const avx::Book* get_books(avx::artifact* details) {
     return avx::instance.get_books(details);
 }
-extern "C" const avx::Book* get_book(byte num, avx::artifact* details) {
+extern "C" AVX_API const avx::Book* get_book(byte num, avx::artifact* details) {
     return avx::instance.get_book(num, details);
 }
-extern "C" const avx::Book* get_book_ex(const char name[], avx::artifact* details) {
+extern "C" AVX_API const avx::Book* get_book_ex(const char name[], avx::artifact* details) {
     return avx::instance.get_book(name, details);
 }
-extern "C" const avx::Chapter* get_chapter(avx::artifact* details) {
+extern "C" AVX_API const avx::Chapter* get_chapter(avx::artifact* details) {
     return avx::instance.get_chapter(details);
 }
-extern "C" const avx::Written* get_written(avx::artifact* details) {
+extern "C" AVX_API const avx::Written* get_written(avx::artifact* details) {
     return avx::instance.get_written(details);
 }
 

@@ -116,24 +116,24 @@ namespace avx
     };
     extern directory instance;
 }
-extern "C" void release();
-extern "C" int acquire(const char* path);
-extern "C" const avx::artifact* get_artifact(const char label[]);
-extern "C" const byte* get_data(const char label[], avx::artifact* details);
-extern "C" const byte* get_directory_data(avx::artifact* details);
-extern "C" const byte* get_book_data(avx::artifact* details);
-extern "C" const byte* get_chapter_data(avx::artifact* details);
-extern "C" const byte* get_written_data(avx::artifact* details);
-extern "C" const byte* get_lexicon_data(avx::artifact* details);
-extern "C" const byte* get_lemmata_data(avx::artifact* details);
-extern "C" const byte* get_oov_data(avx::artifact* details);
-extern "C" const byte* get_names_data(avx::artifact* details);
-extern "C" const byte* get_phonetic_data(avx::artifact* details);
-extern "C" const avx::artifact* get_directory(avx::artifact* details);
-extern "C" const avx::Book* get_books(avx::artifact* details);
-extern "C" const avx::Book* get_book(byte num, avx::artifact* details);
-extern "C" const avx::Book* get_book_ex(const char name[], avx::artifact* details);
-extern "C" const avx::Chapter* get_chapter(avx::artifact* details);
-extern "C" const avx::Written* get_written(avx::artifact* details);
+extern "C" AVX_API void avx_release();
+extern "C" AVX_API int avx_acquire(const char* path);
+extern "C" AVX_API const avx::artifact* get_artifact(const char label[]);
+extern "C" AVX_API const byte* get_data(const char label[], avx::artifact* details);
+extern "C" AVX_API const byte* get_directory_data(avx::artifact* details);
+extern "C" AVX_API const byte* get_book_data(avx::artifact* details);
+extern "C" AVX_API const byte* get_chapter_data(avx::artifact* details);
+extern "C" AVX_API const byte* get_written_data(avx::artifact* details);
+extern "C" AVX_API const byte* get_lexicon_data(avx::artifact* details);
+extern "C" AVX_API const byte* get_lemmata_data(avx::artifact* details);
+extern "C" AVX_API const byte* get_oov_data(avx::artifact* details);
+extern "C" AVX_API const byte* get_names_data(avx::artifact* details);
+extern "C" AVX_API const byte* get_phonetic_data(avx::artifact* details);
+extern "C" AVX_API const avx::artifact* get_directory(avx::artifact* details);
+extern "C" AVX_API const avx::Book* get_books(avx::artifact* details);
+extern "C" AVX_API const avx::Book* get_book(byte num, avx::artifact* details);
+extern "C" AVX_API const avx::Book* get_book_ex(const char name[], avx::artifact* details);
+extern "C" AVX_API const avx::Chapter* get_chapter(avx::artifact* details);
+extern "C" AVX_API const avx::Written* get_written(avx::artifact* details);
 
 #endif

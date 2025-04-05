@@ -1,19 +1,19 @@
 #include <oov.h>
 #include <directory.h>
 
-extern "C" bool oov_init()
+extern "C" AVX_API bool oov_init()
 {
     return avx::instance.oov.init();
 }
-extern "C" void oov_free()
+extern "C" AVX_API void oov_free()
 {
     avx::instance.oov.free();
 }
-extern "C" const char* oov_get_text(u16 oov_key)
+extern "C" AVX_API const char* oov_get_text(u16 oov_key)
 {
     return avx::instance.oov.get_text(oov_key);
 }
-extern "C" const u16 oov_get_key(const char* oov_txt)
+extern "C" AVX_API const u16 oov_get_key(const char* oov_txt)
 {
     return avx::instance.oov.get_key(oov_txt);
 }

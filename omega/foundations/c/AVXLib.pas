@@ -2,7 +2,7 @@ unit AVXLib;
 
 interface
 
-uses Windows;
+uses Windows, SysUtils;
 
 procedure Release;
 function Acquire(path: PChar): Integer;
@@ -168,8 +168,8 @@ implementation
 
  var
    avx: Thandle;
-   acquire:            function (const omega: PChar): Integer; cdecl;
-   release:            function (): Integer; cdecl;
+   avx_acquire:        function (const omega: PChar): Integer; cdecl;
+   avx_release:        function (): Integer; cdecl;
    get_artifact:       function (const section: PChar): PArtifact; cdecl;
    get_data:           function (const section: PChar; artifact: PArtifact): PChar; cdecl;
    get_directory_data: function (artifact: PArtifact): PChar; cdecl;
@@ -205,8 +205,8 @@ implementation
 
    if avx >= 32
    then begin
-     acquire           := GetProcAddress(avx, 'acquire');
-     release           := GetProcAddress(avx, 'release');
+     avx_acquire       := GetProcAddress(avx, 'avx_acquire');
+     avx_release       := GetProcAddress(avx, 'avx_release');
      get_artifact      := GetProcAddress(avx, 'get_artifact');
      get_data          := GetProcAddress(avx, 'get_data');
      get_directory_data:= GetProcAddress(avx, 'get_directory_data');
@@ -225,7 +225,11 @@ implementation
      get_chapter       := GetProcAddress(avx, 'get_chapter');
      get_written       := GetProcAddress(avx, 'get_written');
 
-     result := avx_acquire(path);
+     try
+       result := avx_acquire(path);
+       except on E: Exception do
+         MessageBox(0, PChar(E.Message), 'Exception', 0);
+       end;
    end
    else begin
      result := -100;
@@ -234,5 +238,4 @@ implementation
 
 Initialization
   avx := 0;
-
 end.

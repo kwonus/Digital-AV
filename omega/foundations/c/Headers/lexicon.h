@@ -53,6 +53,6 @@ namespace avx
         const Lexicon* get(const u16 key);
     };
 }
-extern "C" const avx::Lexicon* lexicon_get(const u16 key);
+extern "C" AVX_API const avx::Lexicon* lexicon_get(const u16 key);
 
 #endif

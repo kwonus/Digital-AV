@@ -29,7 +29,7 @@ namespace avx
         const u16 get_key(const char* oov_txt);
     };
 }
-extern "C" const char* get_oov_text(u16 oov_key);
-extern "C" const u16 get_oov_key(const char* oov_txt);
+extern "C" AVX_API const char* get_oov_text(u16 oov_key);
+extern "C" AVX_API const u16 get_oov_key(const char* oov_txt);
 
 #endif

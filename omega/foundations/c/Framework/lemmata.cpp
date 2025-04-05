@@ -3,11 +3,11 @@
 
 avx::LemmataCursor lemmata_instance;
 
-extern "C" const avx::Lemmata** lemmata_create_match_array(u16 word_key, u16 word_pos_bits, u32 word_nupos)
+extern "C" AVX_API const avx::Lemmata** lemmata_create_match_array(u16 word_key, u16 word_pos_bits, u32 word_nupos)
 {
     return lemmata_instance.create_match_array(word_key, word_pos_bits, word_nupos);
 }
-extern "C" bool lemmata_delete_match_array(const avx::Lemmata** array)
+extern "C" AVX_API bool lemmata_delete_match_array(const avx::Lemmata** array)
 {
     return lemmata_instance.delete_match_array(array);
 }
@@ -75,6 +75,7 @@ namespace avx
                 results.push_back(record);
             }
         }
+        return true;
     }
     const avx::Lemmata** LemmataCursor::create_match_array (u16 word_key, u16 word_pos_bits, u32 word_nupos)
     {

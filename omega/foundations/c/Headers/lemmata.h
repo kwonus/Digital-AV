@@ -42,7 +42,7 @@ namespace avx
         bool delete_match_array(const Lemmata** array);
     };
 }
-extern "C" const avx::Lemmata** lemmata_create_match_array(u16 word_key, u16 word_pos_bits, u32 word_nupos);
-extern "C" bool lemmata_delete_match_array(const avx::Lemmata** array);
+extern "C" AVX_API const avx::Lemmata** lemmata_create_match_array(u16 word_key, u16 word_pos_bits, u32 word_nupos);
+extern "C" AVX_API bool lemmata_delete_match_array(const avx::Lemmata** array);
 
 #endif

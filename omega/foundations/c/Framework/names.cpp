@@ -1,17 +1,17 @@
 #include <names.h>
 #include <directory.h>
 
-extern "C" bool names_init()
+extern "C" AVX_API bool names_init()
 {
     return avx::instance.names.init();
 }
-extern "C" void names_free()
+extern "C" AVX_API void names_free()
 {
     avx::instance.names.free();
 }
-extern "C" const char* names_get_meaning(const u16 key)
+extern "C" AVX_API const char* names_get_meaning(const u16 key)
 {
-    avx::instance.names.get_meanings(key);
+    return avx::instance.names.get_meanings(key);
 }
 
 namespace avx

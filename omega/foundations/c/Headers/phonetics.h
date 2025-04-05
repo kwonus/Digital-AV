@@ -36,10 +36,10 @@ namespace avx
 #endif
     };
 }
-extern "C" bool phonetics_init();
-extern "C" void phonetics_free();
-extern "C" const char* phonetics_get_ipa(const u16 key);
+extern "C" AVX_API bool phonetics_init();
+extern "C" AVX_API void phonetics_free();
+extern "C" AVX_API const char* phonetics_get_ipa(const u16 key);
 #ifdef AVX_IPA_REVERSE_LOOKUP
-extern "C" const std::vector<u16> phonetics_get_keys(const char* ipa);
+extern "C" AVX_API const std::vector<u16> phonetics_get_keys(const char* ipa);
 #endif
 #endif

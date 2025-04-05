@@ -1,9 +1,9 @@
 ﻿#include <lexicon.h>
 #include <directory.h>
 
-extern "C" const avx::Lexicon* lexicon_get(const u16 key)
+extern "C" AVX_API const avx::Lexicon* lexicon_get(const u16 key)
 {
-    avx::instance.lexicon.get(key);
+    return avx::instance.lexicon.get(key);
 }
 
 namespace avx
